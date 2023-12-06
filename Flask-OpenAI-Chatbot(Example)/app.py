@@ -3,13 +3,19 @@ from flask import Flask, render_template, request, redirect
 import openai
 import os
 import time
+import sys
+sys.path.append('../')
+import sensitiveData
+
+# setting path
+
 #from urllib.parse import quote as url_quote
 
 # Set the OpenAI API key
 
 #J's api key
 #DONT ABUSE
-openai.api_key = "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"
+openai.api_key = sensitiveData.apiKey
 
 # Define the name of the bot
 name = 'BOT'
