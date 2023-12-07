@@ -1,2 +1,4 @@
 Flask==3.0.0
 openai==0.27.2
+speechrecognition==3.10.0
+pyttsx3==2.90
