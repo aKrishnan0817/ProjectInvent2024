@@ -6,20 +6,28 @@
 #brew install PyAudio
 #brew install flac
 
+from openai import OpenAI
+
 import speech_recognition as sr
-import pyttsx3
+#import pyttsx3
 
 # Initialize the recognizer
+import sys
+sys.path.append('/')
+import sensitiveData
+
+client = OpenAI(api_key=sensitiveData.apiKey)
+
 r = sr.Recognizer()
 
 # Function to convert text to
 # speech
-def SpeakText(command):
+'''def SpeakText(command):
 
 	# Initialize the engine
 	engine = pyttsx3.init()
 	engine.say(command)
-	engine.runAndWait()
+	engine.runAndWait()'''
 
 
 # Loop infinitely for user to
@@ -43,11 +51,20 @@ while(1):
 			audio2 = r.listen(source2)
 
 			# Using google to recognize audio
-			MyText = r.recognize_google(audio2)
-			MyText = MyText.lower()
+			#audio_file= open("audio.m4a", "rb")
+			audio_file=audio2
+			transcript = client.audio.transcriptions.create(
+			  model="whisper-1",
+			  file=audio_file
+			)
+			print(transcript.text)
+
+
+		#	MyText = r.recognize_google(audio2)
+		#	MyText = MyText.lower()
 
 			print("Did you say ",MyText)
-			SpeakText(MyText)
+		#	SpeakText(MyText)
 
 	except sr.RequestError as e:
 		print("Could not request results; {0}".format(e))
