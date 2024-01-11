@@ -2,6 +2,8 @@ import openai
 from gtts import gTTS
 import os
 import sys
+import elevenlabs
+
 
 sys.path.append('../')
 import sensitiveData
@@ -47,3 +49,10 @@ while(True):
     text=response["choices"][0]["message"]["content"] #response in JSON
 
     print("ChatGPT response:",text)
+
+    audio = elevenlabs.generate(
+        text = text,
+        voice = "Adam"
+    )
+
+    elevenlabs.play(audio)
