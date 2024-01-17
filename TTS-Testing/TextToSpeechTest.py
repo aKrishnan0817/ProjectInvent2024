@@ -13,7 +13,7 @@ import speech_recognition as sr
 
 # Initialize the recognizer
 import sys
-sys.path.append('/')
+sys.path.append('../')
 import sensitiveData
 
 client = OpenAI(api_key=sensitiveData.apiKey)
