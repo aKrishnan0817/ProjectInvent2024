@@ -19,6 +19,7 @@ load_dotenv()
 
 def main():
     try:
+        # Make a free account at deepgram.com to get an API key 
         # Create a Deepgram client using the API key from environment variables
         # (ie export DEEPGRAM_API_KEY="YOUR_API_KEY")
         deepgram = DeepgramClient()
