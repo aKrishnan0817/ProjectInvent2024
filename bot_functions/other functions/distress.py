@@ -3,11 +3,11 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 import ssl
 
-sender_email = "pptprojectinvent@hotmail.com"
-sender_password = "bgrjaxgjfhrfodex" #app password bgrjaxgjfhrfodex
+sender_email = "pptprojectinvent@gmail.com"
+sender_password = "tnms trfx seki wukx" #app password bgrjaxgjfhrfodex for 365, tnms trfx seki wukx for google
 recipient_email = 'pptprojectinvent@gmail.com' #temporary
 
-smtp_server = "smtp.office365.com"
+smtp_server = "smtp.gmail.com"
 smtp_port = 587
 
 def send_email(subject,body):
