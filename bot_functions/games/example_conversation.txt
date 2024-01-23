@@ -1,0 +1,9 @@
+Bot: You find yourself standing in an open field. To your right is a house, and to your left is a path leading into a forest.
+User: hmmm, I'd like to go right (chatgpt interprets this as "go right")
+
+Bot: You turn right and walk up to the house. Surprisingly, the front door is unlocked, so you go in.
+Bot: You stand in the entrance hallway. In front of you, there is a flight of stairs leading to the second floor, and there are two doors to your left and to your right.
+    User: Let's go upstairs (chatgpt interprets this as "go up")
+OR  User: Let's go forwards (chatgpt interprets this as "go forwards") (either way, the user should go upstairs)
+
+Bot: ... (to be continued)
