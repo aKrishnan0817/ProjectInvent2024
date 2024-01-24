@@ -1,7 +1,6 @@
 import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
-import ssl
 
 sender_email = "pptprojectinvent@gmail.com"
 sender_password = "tnms trfx seki wukx" #app password bgrjaxgjfhrfodex for 365, tnms trfx seki wukx for google
