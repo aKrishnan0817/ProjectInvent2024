@@ -53,7 +53,7 @@ def prepare_message(iprompt):
   '''print("Enter a request and press ENTER:")
   uinput = input("")'''
 
-  
+
 
   #preparing the prompt for OpenAI
   role="user"
@@ -72,7 +72,7 @@ while(True):
 
     iprompt=prepare_message(iprompt) #preparing the messages for ChatGPT
 
-    response=client.chat.completions.create(model="gpt-3.5-turbo",messages=iprompt) #ChatGPT dialog
+    response=client.chat.completions.create(model="gpt-4",messages=iprompt) #ChatGPT dialog
 
     text = response.choices[0].message.content
 

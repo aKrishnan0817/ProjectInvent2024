@@ -1,6 +1,12 @@
 import requests
-import other_functions.distress 
+import other_functions.distress
 import games.adventure_game_test
+import sys
+sys.path.append('/')
+import sensitiveData
+
+#client = OpenAI(api_key=sensitiveData.apiKey)
+apiKey= sensitiveData.apiKey
 
 def distress():
     distress.main()
@@ -13,7 +19,7 @@ def perform_calculation():
 
 def get_chatgpt_function_choice(input_text):
     api_url = "https://api.openai.com/v1/chat/completions"
-    api_key = "" #NEVER UPDATE TO GITHUB
+    api_key = apiKey #NEVER UPDATE TO GITHUB
 
     payload = {
         "model": "gpt-3.5-turbo",
@@ -43,8 +49,8 @@ def get_chatgpt_function_choice(input_text):
         if keyword in suggested_content:
             # Call the mapped function
             return keyword_mappings[keyword]()
-        
-    
+
+
 
 # Main function to handle input and call appropriate function
 def main():
