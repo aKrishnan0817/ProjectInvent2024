@@ -13,7 +13,7 @@ def perform_calculation():
 
 def get_chatgpt_function_choice(input_text):
     api_url = "https://api.openai.com/v1/chat/completions"
-    api_key = "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" #NEVER UPDATE TO GITHUB
+    api_key = "" #NEVER UPDATE TO GITHUB
 
     payload = {
         "model": "gpt-3.5-turbo",
