@@ -27,4 +27,7 @@ def send_email(subject,body):
     except Exception as e:
         print(f"Error: {e}")
 
+def main():
+    return
+
 send_email('test','hello world')
