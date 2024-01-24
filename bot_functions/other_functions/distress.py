@@ -37,4 +37,4 @@ def main():
 
     prompt = "You are now operating as a therapist who is consoling and helping a child in a moment of severe distress. We already contacted his mother who is on her way."
     #return a new prompt for operating 
-    return prompt 
+    return prompt
