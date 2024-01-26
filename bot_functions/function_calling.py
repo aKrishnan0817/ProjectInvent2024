@@ -2,29 +2,35 @@ import requests
 import other_functions.distress
 import games.adventure_game_test
 import sys
+
 sys.path.append('/')
 import sensitiveData
 
-#client = OpenAI(api_key=sensitiveData.apiKey)
-apiKey= sensitiveData.apiKey
+# client = OpenAI(api_key=sensitiveData.apiKey)
+apiKey = sensitiveData.apiKey
+
 
 def distress():
     other_functions.distress.main()
 
+
 def game():
     games.adventure_game_test.main()
+
 
 def perform_calculation():
     print("Performing calculation...")
 
+
 def get_chatgpt_function_choice(input_text):
     api_url = "https://api.openai.com/v1/chat/completions"
-    api_key = apiKey #NEVER UPDATE TO GITHUB
+    api_key = apiKey  # NEVER UPDATE TO GITHUB
 
     payload = {
         "model": "gpt-3.5-turbo",
         "messages": [
-            {"role": "system", "content": "choose from the given functions what to call:, 'hello', 'goodbye', and 'calculate'. Only handle it yourself if the user asks about pudding."},
+            {"role": "system",
+             "content": "choose from the given functions what to call:, 'hello', 'goodbye', and 'calculate'. Only handle it yourself if the user asks about pudding."},
             {"role": "user", "content": input_text}
         ]
     }
@@ -51,12 +57,16 @@ def get_chatgpt_function_choice(input_text):
             return keyword_mappings[keyword]()
 
 
-
 # Main function to handle input and call appropriate function
 def main():
     get_chatgpt_function_choice('Please calculate this: 2 + 2')
 
-    #example things that jonah might say and its corresponding fucntion
-    messages_from_jonah = {"I'm feeling very nervous and scared. What should I do?": 'distress', "I want to play a game" : "game"}
+    # example things that jonah might say and its corresponding fucntion
+    messages_from_jonah = {"I'm feeling very nervous and scared. What should I do?": 'distress',
+                           "I want to play a game": "game"}
+
+
 # Call the main function
-main()
+
+if __name__ == "__main__":
+    main()
