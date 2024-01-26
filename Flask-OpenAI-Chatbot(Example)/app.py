@@ -6,17 +6,18 @@ client = OpenAI(api_key=sensitiveData.apiKey)
 import os
 import time
 import sys
+
 sys.path.append('../')
 import sensitiveData
 
 # setting path
 
-#from urllib.parse import quote as url_quote
+# from urllib.parse import quote as url_quote
 
 # Set the OpenAI API key
 
-#J's api key
-#DONT ABUSE
+# J's api key
+# DONT ABUSE
 
 # Define the name of the bot
 name = 'BOT'
@@ -54,22 +55,25 @@ chat_history = ''
 # Create a Flask web application
 app = Flask(__name__)
 
+
 # Function to complete chat input using OpenAI's GPT-3.5 Turbo
 def chatcompletion(user_input, impersonated_role, explicit_input, chat_history):
     output = client.chat.completions.create(model="gpt-3.5-turbo-0301",
-    temperature=1,
-    presence_penalty=0,
-    frequency_penalty=0,
-    max_tokens=2000,
-    messages=[
-        {"role": "system", "content": f"{impersonated_role}. Conversation history: {chat_history}"},
-        {"role": "user", "content": f"{user_input}. {explicit_input}"},
-    ])
+                                            temperature=1,
+                                            presence_penalty=0,
+                                            frequency_penalty=0,
+                                            max_tokens=2000,
+                                            messages=[
+                                                {"role": "system",
+                                                 "content": f"{impersonated_role}. Conversation history: {chat_history}"},
+                                                {"role": "user", "content": f"{user_input}. {explicit_input}"},
+                                            ])
 
     for item in output['choices']:
         chatgpt_output = item['message']['content']
 
     return chatgpt_output
+
 
 # Function to handle user chat input
 def chat(user_input):
@@ -77,22 +81,27 @@ def chat(user_input):
     current_day = time.strftime("%d/%m", time.localtime())
     current_time = time.strftime("%H:%M:%S", time.localtime())
     chat_history += f'\nUser: {user_input}\n'
-    chatgpt_raw_output = chatcompletion(user_input, impersonated_role, explicit_input, chat_history).replace(f'{name}:', '')
+    chatgpt_raw_output = chatcompletion(user_input, impersonated_role, explicit_input, chat_history).replace(f'{name}:',
+                                                                                                             '')
     chatgpt_output = f'{name}: {chatgpt_raw_output}'
     chat_history += chatgpt_output + '\n'
     with open(history_file, 'a') as f:
-        f.write('\n'+ current_day+ ' '+ current_time+ ' User: ' +user_input +' \n' + current_day+ ' ' + current_time+  ' ' +  chatgpt_output + '\n')
+        f.write(
+            '\n' + current_day + ' ' + current_time + ' User: ' + user_input + ' \n' + current_day + ' ' + current_time + ' ' + chatgpt_output + '\n')
         f.close()
     return chatgpt_raw_output
+
 
 # Function to get a response from the chatbot
 def get_response(userText):
     return chat(userText)
 
+
 # Define app routes
 @app.route("/")
 def index():
     return render_template("index.html")
+
 
 @app.route("/get")
 # Function for the bot response
@@ -100,10 +109,12 @@ def get_bot_response():
     userText = request.args.get('msg')
     return str(get_response(userText))
 
+
 @app.route('/refresh')
 def refresh():
-    time.sleep(600) # Wait for 10 minutes
+    time.sleep(600)  # Wait for 10 minutes
     return redirect('/refresh')
+
 
 # Run the Flask app
 if __name__ == "__main__":

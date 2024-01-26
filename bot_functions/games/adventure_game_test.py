@@ -21,7 +21,7 @@ def main():
         },
 
         "crossroads": {
-            "initial_description": "You are at the crossroads, and will only see this message the first time you enter this area",
+            "initial_description": "You are at the crossroads, and will onl y see this message the first time you enter this area",
             "description": "You are at the crossroads",
             "visited": False,
             "choices":
