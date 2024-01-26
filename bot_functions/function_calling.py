@@ -9,10 +9,10 @@ import sensitiveData
 apiKey= sensitiveData.apiKey
 
 def distress():
-    distress.main()
+    other_functions.distress.main()
 
 def game():
-    adventure_game_test.main()
+    games.adventure_game_test.main()
 
 def perform_calculation():
     print("Performing calculation...")
