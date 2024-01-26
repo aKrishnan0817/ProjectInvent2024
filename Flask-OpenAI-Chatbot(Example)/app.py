@@ -81,8 +81,7 @@ def chat(user_input):
     current_day = time.strftime("%d/%m", time.localtime())
     current_time = time.strftime("%H:%M:%S", time.localtime())
     chat_history += f'\nUser: {user_input}\n'
-    chatgpt_raw_output = chatcompletion(user_input, impersonated_role, explicit_input, chat_history).replace(f'{name}:',
-                                                                                                             '')
+    chatgpt_raw_output = chatcompletion(user_input, impersonated_role, explicit_input, chat_history).replace(f'{name}:','')
     chatgpt_output = f'{name}: {chatgpt_raw_output}'
     chat_history += chatgpt_output + '\n'
     with open(history_file, 'a') as f:
