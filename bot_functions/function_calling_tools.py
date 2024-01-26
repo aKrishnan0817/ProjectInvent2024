@@ -4,35 +4,56 @@ import games.adventure_game_test
 
 
 def distress():
-    distress.main()
+    #distress.main()
+    
+    #Example string for testing
+    print("Informing Parents...")
 
 def game():
-    adventure_game_test.main()
+    #adventure_game_test.main()
+    
+    #Example string for testing
+    print("Playing Game...")
 
-def perform_calculation():
-    print("Performing calculation...")
 
 def get_chatgpt_function_choice(input_text):
     api_url = "https://api.openai.com/v1/chat/completions"
-    api_key = "" #NEVER UPDATE TO GITHUB
+    api_key = "" #Paste API Key
 
-
+    #Define tools, commented-out attributes are not used by example but could be useful for the actual functionality
     tools = [
         {
             "type": "function",
             "function": {
-                "name": "perform_calculation",
-                "description": "Get the current weather in a given location",
+                "name": "distress",
+                "description": "notify caregivers that user is distressed",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "location": {
                             "type": "string",
-                            "description": "The city and state, e.g. San Francisco, CA",
+                            "description": "Example return",
                         },
-                        "unit": {"type": "string", "enum": ["celsius", "fahrenheit"]},
+                        #"unit": {"type": "string", "enum": ["celsius", "fahrenheit"]},
                     },
-                    "required": ["location"],
+                    
+                    #"required": ["location"],
+                },
+            }
+        },
+        {
+            "type": "function",
+            "function": {
+                "name": "game",
+                "description": "plays a game with the user",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "location": {
+                            "type": "string",
+                            "description": "Example return",
+                        },
+                    },
                 },
             }
         }
@@ -59,10 +80,8 @@ def get_chatgpt_function_choice(input_text):
 
 # Main function to handle input and call appropriate function
 def main():
-    get_chatgpt_function_choice('Please calculate this: 2 + 2')
-
-    #example things that jonah might say and its corresponding fucntion
-    messages_from_jonah = {"I'm feeling very nervous and scared. What should I do?": 'distress', "I want to play a game" : "game"}
+    get_chatgpt_function_choice('I want to play a game')
+    
 # Call the main function
 main()
 
