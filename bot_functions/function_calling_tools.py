@@ -1,11 +1,12 @@
 import requests
-import other_functions.distress 
-import games.adventure_game_test
+import bot_functions.other_functions.distress 
+import bot_functions.games.adventure_game_test
+import sensitiveData
 
 
 def distress():
     #distress.main()
-    
+    distress.main()
     #Example string for testing
     print("Informing Parents...")
 
@@ -18,7 +19,7 @@ def game():
 
 def get_chatgpt_function_choice(input_text):
     api_url = "https://api.openai.com/v1/chat/completions"
-    api_key = "" #Paste API Key
+    api_key = sensitiveData.apiKey
 
     #Define tools, commented-out attributes are not used by example but could be useful for the actual functionality
     tools = [
