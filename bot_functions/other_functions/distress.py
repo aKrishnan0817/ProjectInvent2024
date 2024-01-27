@@ -1,10 +1,11 @@
 import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
+import sensitiveData #this is a local file that I have in my gitignore. It is in the parent directory "ProjectInvent2024". If you want this file text me (zach)
 
-sender_email = "pptprojectinvent@gmail.com"
-sender_password = "tnms trfx seki wukx"  # app password bgrjaxgjfhrfodex for 365, tnms trfx seki wukx for google
-recipient_email = 'pptprojectinvent@gmail.com'  # temporary
+sender_email = sensitiveData.emailAddress
+sender_password = sensitiveData.emailPassword 
+recipient_email = 'pptprojectinvent@gmail.com'
 
 smtp_server = "smtp.gmail.com"
 smtp_port = 587

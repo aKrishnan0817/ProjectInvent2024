@@ -21,18 +21,56 @@ def game():
 def perform_calculation():
     print("Performing calculation...")
 
-
 def get_chatgpt_function_choice(input_text):
     api_url = "https://api.openai.com/v1/chat/completions"
-    api_key = apiKey  # NEVER UPDATE TO GITHUB
+    api_key = sensitiveData.apiKey
 
+    #Define tools, commented-out attributes are not used by example but could be useful for the actual functionality
+    tools = [
+        {
+            "type": "function",
+            "function": {
+                "name": "distress",
+                "description": "notify caregivers that user is distressed",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "location": {
+                            "type": "string",
+                            "description": "Example return",
+                        },
+                        #"unit": {"type": "string", "enum": ["celsius", "fahrenheit"]},
+                    },
+                    
+                    #"required": ["location"],
+                },
+            }
+        },
+        {
+            "type": "function",
+            "function": {
+                "name": "game",
+                "description": "plays a game with the user",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "location": {
+                            "type": "string",
+                            "description": "Example return",
+                        },
+                    },
+                },
+            }
+        }
+    ]
+    
     payload = {
         "model": "gpt-3.5-turbo",
         "messages": [
-            {"role": "system",
-             "content": "choose from the given functions what to call:, 'hello', 'goodbye', and 'calculate'. Only handle it yourself if the user asks about pudding."},
             {"role": "user", "content": input_text}
-        ]
+        ],
+        "tools": tools,
+        "tool_choice": "auto"
     }
 
     headers = {
@@ -42,19 +80,8 @@ def get_chatgpt_function_choice(input_text):
 
     response = requests.post(api_url, json=payload, headers=headers)
     response_data = response.json()
-
-    keyword_mappings = {
-        'distress': distress,
-        'game': game,
-        'calculate': perform_calculation
-        # Add more keyword mappings as needed
-    }
-
-    suggested_content = response_data['choices'][0]['message']['content'].strip().lower()
-    for keyword in keyword_mappings:
-        if keyword in suggested_content:
-            # Call the mapped function
-            return keyword_mappings[keyword]()
+    print(response)
+    print(response_data)
 
 
 # Main function to handle input and call appropriate function
@@ -64,6 +91,11 @@ def main():
     # example things that jonah might say and its corresponding fucntion
     messages_from_jonah = {"I'm feeling very nervous and scared. What should I do?": 'distress',
                            "I want to play a game": "game"}
+    
+    #main loop - main in function calling should be the primary method that is always running, and can decide what to do from there. 
+    while True:
+        #placeholder
+        return
 
 
 # Call the main function
