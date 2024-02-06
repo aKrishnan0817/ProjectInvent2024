@@ -45,7 +45,7 @@ def main():
     while True:
         if player_data["location"] == "start":
             print("Start")
-
+            print('hello')
         input()
 
 
