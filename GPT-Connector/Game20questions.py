@@ -1,6 +1,8 @@
 
 from openai import OpenAI
 import random
+from TTS import ttsPlay
+
 
 def play20Questions(client):
     secretObjectType = random.choice(["animal", "plant", "inanimate object", "historical person"])
@@ -10,7 +12,11 @@ def play20Questions(client):
     iprompt = []
     assert1={"role": "system", "content": "You are still waiting to decide what your secret object is."}
     assert2={"role": "assistant", "content": secretObjectQuestion}
-    print("Lets play 20 questions. I've thought of a word and you need to guess it.")
+
+
+    firstMessage = "Lets play 20 questions. I've thought of a word and you need to guess it."
+    print(firstMessage)
+    ttsPlay(firstMessage)
 
     iprompt.append(assert1)
     iprompt.append(assert2)
@@ -19,15 +25,9 @@ def play20Questions(client):
         print("Write a guess and press ENTER:")
         uinput = input("")
 
-
-
-        role="user"
-        line = {"role": "user", "content": uinput}
-
-        assert3=line
-
-        iprompt.append(assert3)
+        iprompt.append({"role": "user", "content": uinput})
 
         response=client.chat.completions.create(model="gpt-4",messages=iprompt)
-
-        print(response.choices[0].message.content)
+        
+        print("ChatGPT response:",response.choices[0].message.content)
+        ttsPlay(response.choices[0].message.content)

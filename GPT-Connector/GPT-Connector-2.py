@@ -7,6 +7,8 @@ import elevenlabs
 import speech_recognition as sr
 import tools
 from Game20questions import play20Questions
+from TTS import ttsPlay
+
 
 sys.path.append('../')
 import sensitiveData
@@ -29,11 +31,8 @@ iprompt.append(assert2)
 
 def prepare_message(iprompt):
   #enter the request with a microphone or type it if you wish
-
   print("Enter a request and press ENTER:")
   uinput = input("")
-
-
 
   #preparing the prompt for OpenAI
   role="user"
@@ -53,17 +52,18 @@ while(True):
     iprompt=prepare_message(iprompt) #preparing the messages for ChatGPT
 
     response=client.chat.completions.create(model="gpt-4",messages=iprompt,tools=tools.tools, tool_choice="auto" ) #ChatGPT dialog
+    text = response.choices[0].message.content
 
     try:
         functionCalled = response.choices[0].message.tool_calls[0].function.name
         #response=client.chat.completions.create(model="gpt-4",messages=iprompt)
     except:
         functionCalled = None
-
-    text = response.choices[0].message.content
+        ttsPlay(text)
 
     print("Function called:", functionCalled)
     print("ChatGPT response:",text)
+
 
     if functionCalled == "game":
         response=client.chat.completions.create(model="gpt-4",messages=iprompt)
