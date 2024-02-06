@@ -3,6 +3,7 @@ import sys
 from openai import OpenAI
 import tools
 from TTS import ttsPlay
+from speech_to_text import speech_to_text, speech_to_text_button
 
 
 sys.path.append('../')
