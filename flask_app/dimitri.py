@@ -56,7 +56,7 @@ def get_chatgpt_function_choice(input_text, client):
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "location": {
+                        "type": {
                             "type": "string",
                             "description": "Example return",
                         },
