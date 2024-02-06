@@ -14,7 +14,6 @@ def play20Questions(inputType):
     assert1={"role": "system", "content": "You are still waiting to decide what your secret object is."}
     assert2={"role": "assistant", "content": secretObjectQuestion}
 
-
     firstMessage = "Lets play 20 questions. I've thought of a word and you need to guess it."
     print(firstMessage)
     ttsPlay(firstMessage)

@@ -10,7 +10,7 @@ iprompt.append(assert1)
 iprompt.append(assert2)
 
 #1 for typing 0 for speaking
-inputType = 0
+inputType = 1
 
 while(True):
 

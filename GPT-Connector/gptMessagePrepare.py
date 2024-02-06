@@ -3,7 +3,7 @@ import sys
 from openai import OpenAI
 import tools
 from TTS import ttsPlay
-from speech_to_text import speech_to_text, speech_to_text_button
+from speech_to_text import speech_to_text
 
 
 sys.path.append('../')
@@ -12,17 +12,12 @@ import sensitiveData
 API_KEY = sensitiveData.apiKey
 client = OpenAI(api_key=API_KEY)
 
-
-
-
-
 #inputType 1 for text, 0 for speech
 def prepare_message(iprompt,inputType):
   #enter the request with a microphone or type it if you wish
   if inputType:
       print("Enter a request and press ENTER:")
       uinput = input("")
-
   else:
       uinput = speech_to_text()
 
