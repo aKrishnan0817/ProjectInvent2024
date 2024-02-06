@@ -9,13 +9,15 @@ assert2={"role": "assistant", "content": "You are to act and talk the way a youn
 iprompt.append(assert1)
 iprompt.append(assert2)
 
+#1 for typing 0 for speaking
+inputType = 1
 
 while(True):
 
-    iprompt,text,functionCalled=prepare_message(iprompt,1) #preparing the messages for ChatGPT
+    iprompt,text,functionCalled=prepare_message(iprompt,inputType) #preparing the messages for ChatGPT
     print("Function called:", functionCalled)
     print("ChatGPT response:",text)
 
 
     if functionCalled == "game":
-        play20Questions(1)
+        play20Questions(inputType)
