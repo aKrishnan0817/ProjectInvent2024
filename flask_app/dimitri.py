@@ -4,7 +4,7 @@ def get_dimitri_bot_response(client, **kwargs):
     #system = kwargs["system"]
     #chat_history = kwargs["chat_history"]
     user_input = kwargs["user_input"]
-    return get_chatgpt_function_choice(user_input)
+    return get_chatgpt_function_choice(user_input, client)
     #output = client.chat.completions.create(model="gpt-3.5-turbo-0301",
     #                                        temperature=1,
     #                                        presence_penalty=0,
@@ -22,10 +22,10 @@ def get_dimitri_bot_response(client, **kwargs):
 
     #return chatgpt_output
 
-def get_chatgpt_function_choice(input_text):
+def get_chatgpt_function_choice(input_text, client):
     print("running get_chatgpt_function_choice")
     api_url = "https://api.openai.com/v1/chat/completions"
-    api_key = "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"
+    api_key = client.api_key
 
     #Define tools, commented-out attributes are not used by example but could be useful for the actual functionality
     tools = [
