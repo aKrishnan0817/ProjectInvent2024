@@ -2,6 +2,10 @@ import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 import sensitiveData #this is a local file that I have in my gitignore. It is in the parent directory "ProjectInvent2024". If you want this file text me (zach)
+import imaplib
+import email
+import time
+
 
 sender_email = sensitiveData.emailAddress
 sender_password = sensitiveData.emailPassword 
@@ -39,6 +43,8 @@ def main():
     prompt = "You are now operating as a therapist who is consoling and helping a child in a moment of severe distress. We already contacted his mother who is on her way."
     # return a new prompt for operating
     return prompt
+
+    #NEXT STEP, IMPLEMENT THE EMAIL CONFRIMATION (WHICH NOW WORKS) INTO THE PROGRAM FLOW
 
 
 
@@ -95,3 +101,49 @@ if __name__ == "__main__":
 
 ''' '''
 
+# Function to check email inbox for confirmation
+def check_inbox(username, password, keyword, sender):
+    try:
+        # Connect to the IMAP server
+        mail = imaplib.IMAP4_SSL('imap.gmail.com')
+        mail.login(username, password)
+        mail.select('inbox')
+
+        # Search for unseen emails
+        result, data = mail.search(None, 'UNSEEN')
+        ids = data[0].split()
+
+        for email_id in ids:
+            result, data = mail.fetch(email_id, '(RFC822)')
+            raw_email = data[0][1]
+            msg = email.message_from_bytes(raw_email)
+
+            # Extract sender's email address
+            sender_email = msg['From']
+
+            email_str = raw_email.decode('utf-8')
+            message = email.message_from_string(email_str)
+           
+            # Check if the email is from the expected sender and contains the confirmation keyword
+            if sender in sender_email and keyword in extract_plain_text(message):
+                print("Confirmation received from", sender_email)
+                # Take appropriate action here
+            else:
+                print('Confirmation not yet received')
+
+
+        mail.logout()
+    except Exception as e:
+        print("Error:", e)
+
+def extract_plain_text(msg):
+    if msg.is_multipart():
+        # If the message is multipart, iterate over its parts
+        for part in msg.get_payload():
+            # Recursively call extract_plain_text on each part
+            text = extract_plain_text(part)
+            if text:
+                return text
+    elif msg.get_content_type() == 'text/plain':
+        # If the message is plain text, return its payload
+        return msg.get_payload()
