@@ -45,7 +45,7 @@ def main():
 '''
 this is for checking the email inbox for a confirmation from hope before returning to the GPT connector. So I think what we need to do is actually have the chatGPT set up in this 
 file so that it can operate as a standalone companion without returning to GPTConnector
-
+'''
 import imaplib
 import email
 import time
@@ -54,7 +54,7 @@ import time
 def check_inbox(username, password, keyword, sender):
     try:
         # Connect to the IMAP server
-        mail = imaplib.IMAP4_SSL('imap.example.com')
+        mail = imaplib.IMAP4_SSL('imap.gmail.com')
         mail.login(username, password)
         mail.select('inbox')
 
@@ -69,6 +69,7 @@ def check_inbox(username, password, keyword, sender):
 
             # Extract sender's email address
             sender_email = msg['From']
+            print(sender_email)
 
             # Check if the email is from the expected sender and contains the confirmation keyword
             if sender_email == sender and keyword in msg.get_payload():
@@ -90,4 +91,7 @@ if __name__ == "__main__":
     while True:
         check_inbox(email_username, email_password, confirmation_keyword, expected_sender)
         # Check inbox every 60 seconds
-        time.sleep(60)'''
+        time.sleep(60)
+
+''' '''
+
