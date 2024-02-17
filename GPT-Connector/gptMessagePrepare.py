@@ -13,7 +13,7 @@ API_KEY = sensitiveData.apiKey
 client = OpenAI(api_key=API_KEY)
 
 #inputType 1 for text, 0 for speech
-def prepare_message(iprompt,inputType):
+def prepare_message(iprompt,inputType, functionCalling = tools.tools):
   #enter the request with a microphone or type it if you wish
   if inputType:
       print("Enter a request and press ENTER:")
@@ -23,7 +23,7 @@ def prepare_message(iprompt,inputType):
 
   iprompt.append({"role": "user", "content": uinput})
 
-  response=client.chat.completions.create(model="gpt-4",messages=iprompt,tools=tools.tools, tool_choice="auto" ) #ChatGPT dialog
+  response=client.chat.completions.create(model="gpt-4",messages=iprompt,tools=functionCalling, tool_choice="auto" ) #ChatGPT dialog
   text = response.choices[0].message.content
 
   try:
