@@ -1,6 +1,10 @@
 
 from openai import OpenAI
 import random
+import sys
+
+sys.path.append('../')
+
 from TTS import ttsPlay
 from gptMessagePrepare import prepare_message
 

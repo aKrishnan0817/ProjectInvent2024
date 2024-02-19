@@ -1,4 +1,6 @@
-from Game20questions import play20Questions
+from Modes.Game20questions import play20Questions
+from Modes.storyMode import storyMode
+
 from TTS import ttsPlay
 from speech_to_text import speech_to_text
 from gptMessagePrepare import prepare_message
@@ -21,3 +23,5 @@ while(True):
 
     if functionCalled == "game":
         play20Questions(inputType)
+    if functionCalled == "story":
+        storyMode(inputType)
