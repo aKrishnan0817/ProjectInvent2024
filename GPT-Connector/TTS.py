@@ -10,7 +10,7 @@ TTSapiKey=sensitiveData.TTSapiKey
 elevenlabs.set_api_key(TTSapiKey)
 
 def ttsPlay(text):
-    voice = elevenlabs.Voice(
+    """voice = elevenlabs.Voice(
         voice_id = "eXc59clrDTZyQAX35P0w",
         settings = elevenlabs.VoiceSettings(
             stability = 0,
@@ -23,4 +23,4 @@ def ttsPlay(text):
         voice = voice
     )
 
-    elevenlabs.play(audio)
+    elevenlabs.play(audio)"""

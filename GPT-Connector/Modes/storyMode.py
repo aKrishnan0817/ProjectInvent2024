@@ -21,8 +21,7 @@ def play_audio(audio_file):
         continue
 
     print("--finished")
-    pygame.mixer.music.stop()
-    pygame.quit()
+
 
 
 def listen_for_stop():
@@ -32,10 +31,16 @@ def listen_for_stop():
     pygame.quit()
 
 def chooseStory(inputType):
+    message = "What is the name or type of story you'd like to listen to?"
+    print(message)
+    ttsPlay(message)
     iprompt = []
     assert1={"role": "system", "content": "You are an audio book app"}
     assert2={"role": "assistant", "content": "You are attempting to find out what story the user would like to listen to based on the name and description"}
-    _,_,storyName = prepare_message(iprompt, inputType , selectStoryTools)
+    storyName = None
+    while storyName == None:
+        _,_,storyName = prepare_message(iprompt, inputType , selectStoryTools)
+
     #the function called should be the name of the story
     return storyName
 
@@ -48,11 +53,13 @@ def chooseStoryType(inputType):
     iprompt = []
     assert1={"role": "system", "content": "You are an audio book app"}
     assert2={"role": "assistant", "content": "You are attempting to find out whether the user would like a story randomly generated or an existing story"}
-    iprompt,_,storyType = prepare_message(iprompt, inputType , storyTypeSelect)
+    storyType = None
+    while storyType == None:
+        iprompt,_,storyType = prepare_message(iprompt, inputType , storyTypeSelect)
     return storyType
 
 def generateRandomStory(inputType):
-    message = "Could you give me a few words that I can use to make the story"
+    message = "Could you give me a few words that I can use to make the story?"
     print(message)
     ttsPlay(message)
 
@@ -84,11 +91,13 @@ def storyMode(inputType):
         randomStory_thread.join()
     if storyType == "defaultStory":
         storyName = chooseStory(inputType)
-        audio_file = "storyModeAudios/"+storyName+".mp3"
+        audio_file = "Modes/storyModeAudios/"+storyName+".mp3"
         play_thread = threading.Thread(target=play_audio, args=(audio_file,))
         play_thread.start()
         play_thread.join()
 
+
+    
     #stop_thread = threading.Thread(target=listen_for_stop)
     #stop_thread.start()
     #stop_thread.join()

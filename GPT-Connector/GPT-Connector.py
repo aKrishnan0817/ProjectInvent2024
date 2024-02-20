@@ -1,4 +1,4 @@
-from Modes.Game20questions import play20Questions
+from Modes.gameMode import gameMode
 from Modes.storyMode import storyMode
 
 from TTS import ttsPlay
@@ -22,6 +22,6 @@ while(True):
 
 
     if functionCalled == "game":
-        play20Questions(inputType)
+        gameMode(inputType)
     if functionCalled == "story":
         storyMode(inputType)
