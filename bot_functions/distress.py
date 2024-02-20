@@ -6,16 +6,11 @@ import email
 import time
 
 import os
-current_directory = os.getcwd()
-project_invent_directory = current_directory
-os.chdir(project_invent_directory)
-
-print("dir: " + os.getcwd())
-print(os.listdir())
-
+import sys
+sys.path.append(os.getcwd())
 import sensitiveData #this is a local file that I have in my gitignore. It is in the parent directory "ProjectInvent2024". If you want this file text me (zach)
 
-'''
+
 sender_email = sensitiveData.emailAddress
 sender_password = sensitiveData.emailPassword 
 recipient_email = 'pptprojectinvent@gmail.com'
@@ -153,4 +148,3 @@ def extract_plain_text(msg):
     elif msg.get_content_type() == 'text/plain':
         # If the message is plain text, return its payload
         return msg.get_payload()
-'''
