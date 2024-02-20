@@ -9,7 +9,10 @@ sys.path.append('../')
 sys.path.append('../toolkit')
 
 print(os.getcwd())
+#storiesData = pd.read_csv("../toolkit/stories.csv")
+
 storiesData = pd.read_csv("toolkit/stories.csv")
+
 
 selectStoryTools = []
 

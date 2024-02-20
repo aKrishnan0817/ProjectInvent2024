@@ -29,7 +29,7 @@ def prepare_message(iprompt,inputType, functionCalling = tools):
 
 
   response=client.chat.completions.create(model="gpt-4",messages=iprompt,tools=functionCalling, tool_choice="auto" ) #ChatGPT dialo
-
+  #print(response)
 
   text = response.choices[0].message.content
   try:
@@ -37,7 +37,9 @@ def prepare_message(iprompt,inputType, functionCalling = tools):
       #response=client.chat.completions.create(model="gpt-4",messages=iprompt)
   except:
       functionCalled = None
-      ttsPlay(text)
+      print(text)
+
+      #ttsPlay(text)
 
   return iprompt, text, functionCalled
 

@@ -5,6 +5,8 @@ import sys
 sys.path.append('../')
 
 from toolkit.storyTools import selectStoryTools, storyTypeSelect
+from toolkit.noTools import noTools
+
 
 from gptMessagePrepare import prepare_message
 from TTS import ttsPlay
@@ -61,22 +63,34 @@ def chooseStoryType(inputType):
 def generateRandomStory(inputType):
     message = "Could you give me a few words that I can use to make the story?"
     print(message)
-    ttsPlay(message)
+    #ttsPlay(message)
 
     if inputType:
         print("Type your words and press enter:")
         words = input("")
+        print(words)
     else:
         words = speech_to_text()
 
-    words = "Kitten Hate Witch"
+
 
     iprompt = []
     assert1={"role": "system", "content": "You are an audio book app"}
-    assert2={"role": "assistant", "content": "You are to generate a short story appropaite for a 9 year old based on these random words: "+ words}
-    iprompt.append({"role": "user", "content": "Please tell me a story based on the words I specified : " + words})
-    _,text,storyType = prepare_message(iprompt, 2 )
-    print(text)
+    assert2={"role": "assistant", "content": "You  MUST generate a short story appropaite for a 9 year old based on these random words: "+ words}
+    iprompt.append({"role": "user", "content": "Please tell me a short story based on the words I specified  : " + words})
+    text = None
+    _,text,storyType = prepare_message(iprompt, 2 ,noTools )
+    while text == None:
+        message = "I apologize the request didn't work. Could you give me another set of words?"
+        print(message)
+        #ttsPlay(message)
+        if inputType:
+            print("Type your words and press enter:")
+            words = input("")
+            print(words)
+        else:
+            words = speech_to_text()
+        _,text,storyType = prepare_message(iprompt, 2 , noTools )
 
 
 def storyMode(inputType):
@@ -97,7 +111,7 @@ def storyMode(inputType):
         play_thread.join()
 
 
-    
+
     #stop_thread = threading.Thread(target=listen_for_stop)
     #stop_thread.start()
     #stop_thread.join()
@@ -105,4 +119,4 @@ def storyMode(inputType):
 
 
 if __name__ == "__main__":
-    storyMode(1)
+    generateRandomStory(1)
