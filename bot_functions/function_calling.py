@@ -1,5 +1,5 @@
 import requests
-import other_functions.distress
+import distress
 import games.adventure_game_test
 import sys
 
@@ -11,7 +11,7 @@ apiKey = sensitiveData.apiKey
 
 
 def distress():
-    other_functions.distress.main()
+    distress.main()
 
 
 def game():

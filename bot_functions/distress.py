@@ -1,12 +1,21 @@
 import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
-import sensitiveData #this is a local file that I have in my gitignore. It is in the parent directory "ProjectInvent2024". If you want this file text me (zach)
 import imaplib
 import email
 import time
 
+import os
+current_directory = os.getcwd()
+project_invent_directory = current_directory
+os.chdir(project_invent_directory)
 
+print("dir: " + os.getcwd())
+print(os.listdir())
+
+import sensitiveData #this is a local file that I have in my gitignore. It is in the parent directory "ProjectInvent2024". If you want this file text me (zach)
+
+'''
 sender_email = sensitiveData.emailAddress
 sender_password = sensitiveData.emailPassword 
 recipient_email = 'pptprojectinvent@gmail.com'
@@ -49,8 +58,8 @@ def main():
 
 
 '''
-this is for checking the email inbox for a confirmation from hope before returning to the GPT connector. So I think what we need to do is actually have the chatGPT set up in this 
-file so that it can operate as a standalone companion without returning to GPTConnector
+#this is for checking the email inbox for a confirmation from hope before returning to the GPT connector. So I think what we need to do is actually have the chatGPT set up in this 
+#file so that it can operate as a standalone companion without returning to GPTConnector
 '''
 
 # Function to check email inbox for confirmation
@@ -144,3 +153,4 @@ def extract_plain_text(msg):
     elif msg.get_content_type() == 'text/plain':
         # If the message is plain text, return its payload
         return msg.get_payload()
+'''
