@@ -23,5 +23,6 @@ while(True):
 
     if functionCalled == "game":
         gameMode(inputType)
+
     if functionCalled == "story":
         storyMode(inputType)

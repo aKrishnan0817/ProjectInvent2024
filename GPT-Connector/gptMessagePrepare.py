@@ -39,7 +39,7 @@ def prepare_message(iprompt,inputType, functionCalling = tools):
       functionCalled = None
       print(text)
 
-      #ttsPlay(text)
+      ttsPlay(text)
 
   return iprompt, text, functionCalled
 
