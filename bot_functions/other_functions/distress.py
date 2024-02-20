@@ -52,9 +52,6 @@ def main():
 this is for checking the email inbox for a confirmation from hope before returning to the GPT connector. So I think what we need to do is actually have the chatGPT set up in this 
 file so that it can operate as a standalone companion without returning to GPTConnector
 '''
-import imaplib
-import email
-import time
 
 # Function to check email inbox for confirmation
 def check_inbox(username, password, keyword, sender):
