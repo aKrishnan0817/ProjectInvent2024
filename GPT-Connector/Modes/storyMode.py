@@ -39,6 +39,8 @@ def chooseStory(inputType):
     iprompt = []
     assert1={"role": "system", "content": "You are an audio book app"}
     assert2={"role": "assistant", "content": "You are attempting to find out what story the user would like to listen to based on the name and description"}
+    iprompt.append(assert1)
+    iprompt.append(assert2)
     storyName = None
     while storyName == None:
         _,_,storyName = prepare_message(iprompt, inputType , selectStoryTools)
@@ -55,6 +57,8 @@ def chooseStoryType(inputType):
     iprompt = []
     assert1={"role": "system", "content": "You are an audio book app"}
     assert2={"role": "assistant", "content": "You are attempting to find out whether the user would like a story randomly generated or an existing story"}
+    iprompt.append(assert1)
+    iprompt.append(assert2)
     storyType = None
     while storyType == None:
         iprompt,_,storyType = prepare_message(iprompt, inputType , storyTypeSelect)
@@ -78,6 +82,8 @@ def generateRandomStory(inputType):
     assert1={"role": "system", "content": "You are an audio book app"}
     assert2={"role": "assistant", "content": "You  MUST generate a short story appropaite for a 9 year old based on these random words: "+ words}
     iprompt.append({"role": "user", "content": "Please tell me a short story based on the words I specified  : " + words})
+    iprompt.append(assert1)
+    iprompt.append(assert2)
     text = None
     _,text,storyType = prepare_message(iprompt, 2 ,noTools )
     while text == None:

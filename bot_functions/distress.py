@@ -12,7 +12,7 @@ import sensitiveData #this is a local file that I have in my gitignore. It is in
 
 
 sender_email = sensitiveData.emailAddress
-sender_password = sensitiveData.emailPassword 
+sender_password = sensitiveData.emailPassword
 recipient_email = 'pptprojectinvent@gmail.com'
 
 smtp_server = "smtp.gmail.com"
@@ -53,7 +53,7 @@ def main():
 
 
 '''
-#this is for checking the email inbox for a confirmation from hope before returning to the GPT connector. So I think what we need to do is actually have the chatGPT set up in this 
+#this is for checking the email inbox for a confirmation from hope before returning to the GPT connector. So I think what we need to do is actually have the chatGPT set up in this
 #file so that it can operate as a standalone companion without returning to GPTConnector
 '''
 
@@ -124,7 +124,7 @@ def check_inbox(username, password, keyword, sender):
 
             email_str = raw_email.decode('utf-8')
             message = email.message_from_string(email_str)
-           
+
             # Check if the email is from the expected sender and contains the confirmation keyword
             if sender in sender_email and keyword in extract_plain_text(message):
                 print("Confirmation received from", sender_email)

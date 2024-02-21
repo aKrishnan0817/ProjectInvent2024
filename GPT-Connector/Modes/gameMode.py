@@ -14,7 +14,6 @@ from toolkit.noTools import noTools
 
 def gameMode(inputType):
     game = chooseGame(inputType)
-    ()
     if game == "twentyQuestions":
         play20Questions(inputType)
     if game =="movieTrivia":
@@ -31,6 +30,8 @@ def chooseGame(inputType):
     iprompt = []
     assert1={"role": "system", "content": "You are an ai friend of a child"}
     assert2={"role": "assistant", "content": "You are attempting to find out whether a child wants to play 20 questions, movie Trivia or geogrpahy trivia."}
+    iprompt.append(assert1)
+    iprompt.append(assert2)
     game = None
     while game == None:
         _,_,game = prepare_message(iprompt, inputType , selectGameTools)
