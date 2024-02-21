@@ -35,7 +35,6 @@ def chooseGame(inputType):
     while game == None:
         _,_,game = prepare_message(iprompt, inputType , selectGameTools)
 
-    #the function called should be the name of the story
     return game
 
 def playGeoTrivia(inputType):

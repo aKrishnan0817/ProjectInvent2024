@@ -37,7 +37,7 @@ def prepare_message(iprompt,inputType, functionCalling = tools):
       #response=client.chat.completions.create(model="gpt-4",messages=iprompt)
   except:
       functionCalled = None
-      print(text)
+      #print(text)
 
       ttsPlay(text)
 
