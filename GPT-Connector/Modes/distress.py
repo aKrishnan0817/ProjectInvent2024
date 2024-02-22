@@ -94,7 +94,7 @@ def checkTextConfirmation(text):
     return False
 
 def distressMode(email, password, gaurdianEmail):
-    message = "Hi Hope, this is a notification that Jonah may be in a nervous state right now. Please check in on him as soon as you can."
+    message = "Hi Hope, this is a notification that Jonah may be in a distressed state right now. Please check in on him as soon as you can."
     subject = 'AI Companion: Notification for Jonah'
     send_email(email,password,gaurdianEmail,subject, message)
 
