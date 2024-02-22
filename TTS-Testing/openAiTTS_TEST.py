@@ -1,12 +1,20 @@
-import pygame
-import os
-import sys
 from openai import OpenAI
+import sys
 sys.path.append('../')
+import pygame
 import sensitiveData
+import warnings
+warnings.filterwarnings("ignore", category=DeprecationWarning)
 
 API_KEY = sensitiveData.apiKey
 client = OpenAI(api_key=API_KEY)
+
+response = client.audio.speech.create(
+    model="tts-1",
+    voice="alloy",
+    input="Atuls First Open ai TEst",
+)
+response.stream_to_file("output.mp3")
 
 def play_audio(audio_file):
     # Initialize pygame
@@ -19,14 +27,7 @@ def play_audio(audio_file):
     while pygame.mixer.music.get_busy():
         continue
 
-def ttsPlay(text):
+    print("--finished")
 
-
-    response = client.audio.speech.create(
-        model="tts-1",
-        voice="alloy",
-        input=text,
-    )
-    response.stream_to_file("gptOutput.mp3")
-
-    play_audio("gptOutput.mp3")
+if __name__ == "__main__":
+    play_audio("output.mp3")
