@@ -37,7 +37,7 @@ def send_email(sender_email, sender_password, recipient_email, subject, body):
         print(f"Error: {e}")
 
 def extract_plain_text(raw_msg):
-    #raw_msg = str(raw_msg)
+    raw_msg = str(raw_msg)
     msg = raw_msg[raw_msg.find("<td>")+len("<td>") : raw_msg.find("</td>")].replace(" ", "")
     print(msg)
 

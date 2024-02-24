@@ -6,6 +6,7 @@ sys.path.append('../')
 
 from toolkit.storyTools import selectStoryTools, storyTypeSelect
 from toolkit.noTools import noTools
+from speech_to_text import speech_to_text
 
 
 from gptMessagePrepare import prepare_message
@@ -67,7 +68,7 @@ def chooseStoryType(inputType):
 def generateRandomStory(inputType):
     message = "Could you give me a few words that I can use to make the story?"
     print(message)
-    #ttsPlay(message)
+    ttsPlay(message)
 
     if inputType:
         print("Type your words and press enter:")

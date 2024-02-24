@@ -26,19 +26,21 @@ def speech_to_text():
                         audio = recognizer.listen(source, timeout=10)# Record audio for up to 10 seconds
                         break
                     except:
-                        print("coudlnt listen")
+                        print("couldnt listen")
                 else:
                     GPIO.output(4,GPIO.LOW)
                     #break
         else:
             audio = recognizer.listen(source, timeout=10)
-
-    try:
-        print("Transcribing...")
-        text = recognizer.recognize_google(audio)
-        print("You said:", text)
-        return text
-    except sr.UnknownValueError:
-        print("Could not understand audio.")
-    except sr.RequestError as e:
-        print(f"Error connecting to Google API: {e}")
+    text = None
+    while text == None:
+        try:
+            print("Transcribing...")
+            text = recognizer.recognize_google(audio)
+            print("You said:", text)
+            return text
+        except sr.UnknownValueError:
+            print("Could not understand audio. Try Again")
+        except sr.RequestError as e:
+            print(f"Error connecting to Google API: {e}")
+            break
