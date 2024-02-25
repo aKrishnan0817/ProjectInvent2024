@@ -8,20 +8,21 @@ sys.path.append('../')
 from TTS import ttsPlay
 from gptMessagePrepare import prepare_message
 
-from toolkit.gameTools import selectGameTools
+from toolkit.gameTools import selectGameTools, triviaTools
 from toolkit.noTools import noTools
 
 
 def gameMode(inputType):
     game = chooseGame(inputType)
     if game == "twentyQuestions":
-        play20Questions(inputType)
+        return play20Questions(inputType)
     if game =="movieTrivia":
-        playMovieTrivia(inputType)
+        return playMovieTrivia(inputType)
     if game == "geoTrivia":
-        playGeoTrivia(inputType)
+        return playGeoTrivia(inputType)
 
-
+    if game in ["story","stop","distress","coping"]:
+        return game
 
 def chooseGame(inputType):
     message = "What game would you like to play? We can play 20 questions, movie Trivia or geography trivia."
@@ -51,12 +52,12 @@ def playGeoTrivia(inputType):
     iprompt.append(assert2)
 
     while True:
-        iprompt,text,functionCalled=prepare_message(iprompt,inputType,noTools) #preparing the messages for ChatGPT
+        iprompt,text,functionCalled=prepare_message(iprompt,inputType,triviaTools) #preparing the messages for ChatGPT
         print("Function called:", functionCalled)
         print("ChatGPT response:",text)
 
-        if functionCalled == "stop":
-            break
+        if functionCalled in ["story","stop","distress","coping"]:
+            return functionCalled
 def playMovieTrivia(inputType):
     iprompt = []
     assert1={"role": "system", "content": "You are an ai friend to a child"}
@@ -70,12 +71,13 @@ def playMovieTrivia(inputType):
     iprompt.append(assert2)
 
     while True:
-        iprompt,text,functionCalled=prepare_message(iprompt,inputType,noTools) #preparing the messages for ChatGPT
+        iprompt,text,functionCalled=prepare_message(iprompt,inputType,triviaTools) #preparing the messages for ChatGPT
         print("Function called:", functionCalled)
         print("ChatGPT response:",text)
 
-        if functionCalled == "stop":
-            break
+        print("functionCalled")
+        if functionCalled in ["story","stop","distress","coping"]:
+            return functionCalled
 
 def play20Questions(inputType):
     secretObjectType = random.choice(["animal", "plant", "inanimate object", "historical person"])
@@ -94,9 +96,9 @@ def play20Questions(inputType):
     iprompt.append(assert2)
 
     while True:
-        iprompt,text,functionCalled=prepare_message(iprompt,inputType,noTools) #preparing the messages for ChatGPT
+        iprompt,text,functionCalled=prepare_message(iprompt,inputType,triviaTools) #preparing the messages for ChatGPT
         print("Function called:", functionCalled)
         print("ChatGPT response:",text)
 
-        if functionCalled == "stop":
-            break
+        if functionCalled in ["story","stop","distress","coping"]:
+            return functionCalled

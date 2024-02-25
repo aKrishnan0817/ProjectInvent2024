@@ -1,3 +1,6 @@
+from toolkit.tools import tools
+
+
 selectGameTools = [
       {
           "type": "function",
@@ -48,3 +51,11 @@ selectGameTools = [
           }
       }
   ]
+selectGameTools.append(tools[0])
+selectGameTools.append(tools[1])
+selectGameTools.append(tools[3])
+
+triviaTools = []
+triviaTools.append(tools[0])
+triviaTools.append(tools[1])
+triviaTools.append(tools[3])

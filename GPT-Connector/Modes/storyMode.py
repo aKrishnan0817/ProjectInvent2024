@@ -45,7 +45,7 @@ def chooseStory(inputType):
     storyName = None
     while storyName == None:
         _,_,storyName = prepare_message(iprompt, inputType , selectStoryTools)
-
+        print(storyName)
     #the function called should be the name of the story
     return storyName
 
@@ -102,7 +102,9 @@ def generateRandomStory(inputType):
 
 def storyMode(inputType):
     storyType = chooseStoryType(inputType)
-
+    print(storyType)
+    if storyType in ["game","stop","distress","coping"]:
+        return storyType
 
 
     if storyType == "randomStory":
@@ -112,13 +114,15 @@ def storyMode(inputType):
         randomStory_thread.join()
     if storyType == "defaultStory":
         storyName = chooseStory(inputType)
+        if storyName in ["game","stop","distress","coping"]:
+            return storyName
         audio_file = "Modes/storyModeAudios/"+storyName+".mp3"
         play_thread = threading.Thread(target=play_audio, args=(audio_file,))
         play_thread.start()
         play_thread.join()
 
 
-
+    return None
     #stop_thread = threading.Thread(target=listen_for_stop)
     #stop_thread.start()
     #stop_thread.join()

@@ -12,6 +12,7 @@ print(os.getcwd())
 #storiesData = pd.read_csv("../toolkit/stories.csv")
 
 storiesData = pd.read_csv("toolkit/stories.csv")
+from toolkit.tools import tools
 
 
 selectStoryTools = []
@@ -39,7 +40,9 @@ for i in range(len(storiesData)):
             },
         }
     })
-
+selectStoryTools.append(tools[0])
+selectStoryTools.append(tools[2])
+selectStoryTools.append(tools[3])
 storyTypeSelect = [
       {
           "type": "function",
@@ -77,6 +80,11 @@ storyTypeSelect = [
           }
       }
   ]
+storyTypeSelect.append(tools[0])
+storyTypeSelect.append(tools[2])
+storyTypeSelect.append(tools[3])
+
+
 
 
 

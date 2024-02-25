@@ -15,25 +15,30 @@ iprompt.append(assert1)
 iprompt.append(assert2)
 
 #1 for typing 0 for speaking
-inputType = 0
+inputType = 1
 
 #-----CONFIG FOR DISTRESS MODE------
 email = sensitiveData.emailAddress
 password = sensitiveData.emailPassword
 gaurdianEmail = sensitiveData.userContactAddress #put this in sensitiveData as to not expose anyones private number
 #---------------------------------------------
-
+mainFuncCall = None
+functionCalled = None
 while(True):
 
-    iprompt,text,functionCalled=prepare_message(iprompt,inputType) #preparing the messages for ChatGPT
-    print("Function called:", functionCalled)
-    print("ChatGPT response:",text)
+    if mainFuncCall == functionCalled:
+        iprompt,text,functionCalled=prepare_message(iprompt,inputType) #preparing the messages for ChatGPT
+        print("Function called:", functionCalled)
+        print("ChatGPT response:",text)
+
+    mainFuncCall = functionCalled
+
 
     if functionCalled == "distress":
         distressMode(email,password,gaurdianEmail)
 
     if functionCalled == "game":
-        gameMode(inputType)
+        functionCalled=gameMode(inputType)
 
     if functionCalled == "story":
-        storyMode(inputType)
+        functionCalled= storyMode(inputType)
