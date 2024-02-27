@@ -43,10 +43,13 @@ def main():
 
     # Game Loop
     while True:
-        if player_data["location"] == "start":
-            print("Start")
+        if not game_map[player_data['location']]['visited']:
+            print(game_map[player_data['location']]['initial_description'])
+            game_map[player_data['location']]['visited'] = True
+        else:
+            print(game_map[player_data['location']]['description'])
 
-        input()
+
 
 
 if __name__ == "__main__":
