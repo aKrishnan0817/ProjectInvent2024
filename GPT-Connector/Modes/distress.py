@@ -83,7 +83,7 @@ def check_inbox(username, password, sender):
 
 def checkTextConfirmation(text):
     iprompt = []
-    assert1={"role": "system", "content": "You are a robot looking for conifromation"}
+    assert1={"role": "system", "content": "You are a robot looking for confirmation"}
     assert2={"role": "assistant", "content": "You are attempting to check if the user is confirming a text message"}
     iprompt.append(assert1)
     iprompt.append(assert2)
@@ -103,6 +103,6 @@ def distressMode(email, password, gaurdianEmail):
 
         if text!= None:
             if checkTextConfirmation(text):
-                print("Recieved Confirmation")
+                print("Received Confirmation")
                 break
         time.sleep(20)

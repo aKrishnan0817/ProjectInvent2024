@@ -81,7 +81,8 @@ def generateRandomStory(inputType):
 
     iprompt = []
     assert1={"role": "system", "content": "You are an audio book app"}
-    assert2={"role": "assistant", "content": "You  MUST generate a short story appropaite for a 9 year old based on these random words: "+ words}
+    assert2={"role": "assistant", "content": "You  MUST generate a short story appropriate for a 9 year old based on "
+                                             "these random words: " + words}
     iprompt.append({"role": "user", "content": "Please tell me a short story based on the words I specified  : " + words})
     iprompt.append(assert1)
     iprompt.append(assert2)
