@@ -17,6 +17,7 @@ def gameMode(inputType):
     if game == "twentyQuestions":
         return play20Questions(inputType)
     if game =="superheroTrivia":
+        #print("----playing super hero trivia----")
         return playSuperheroTrivia(inputType)
     if game == "geoTrivia":
         return playGeoTrivia(inputType)
@@ -26,7 +27,7 @@ def gameMode(inputType):
 
 def chooseGame(inputType):
     message = "What game would you like to play? We can play 20 questions, Superhero Trivia or geography trivia."
-    print(message)
+    print("ChatGPT response:",message)
     ttsPlay(message)
     iprompt = []
     assert1={"role": "system", "content": "You are an ai friend of a child"}
@@ -53,8 +54,6 @@ def playGeoTrivia(inputType):
 
     while True:
         iprompt,text,functionCalled=prepare_message(iprompt,inputType,triviaTools) #preparing the messages for ChatGPT
-        print("Function called:", functionCalled)
-        print("ChatGPT response:",text)
 
         if functionCalled in ["story","stop","distress","coping"]:
             return functionCalled
@@ -82,8 +81,6 @@ def playSuperheroTrivia(inputType):
         iprompt[1] = assert2
 
         iprompt,text,functionCalled=prepare_message(iprompt,inputType,triviaTools) #preparing the messages for ChatGPT
-        print("Function called:", functionCalled)
-        print("ChatGPT response:",text)
 
         if functionCalled in ["story","stop","distress","coping"]:
             return functionCalled
@@ -98,7 +95,7 @@ def play20Questions(inputType):
     assert2={"role": "assistant", "content": secretObjectQuestion}
 
     firstMessage = "Lets play 20 questions. I've thought of a word and you need to guess it."
-    print(firstMessage)
+    print("ChatGPT response:",firstMessage)
     ttsPlay(firstMessage)
 
     iprompt.append(assert1)
@@ -106,8 +103,6 @@ def play20Questions(inputType):
 
     while True:
         iprompt,text,functionCalled=prepare_message(iprompt,inputType,triviaTools) #preparing the messages for ChatGPT
-        print("Function called:", functionCalled)
-        print("ChatGPT response:",text)
 
         if functionCalled in ["story","stop","distress","coping"]:
             return functionCalled

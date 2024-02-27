@@ -28,8 +28,6 @@ while(True):
 
     if mainFuncCall == functionCalled:
         iprompt,text,functionCalled=prepare_message(iprompt,inputType) #preparing the messages for ChatGPT
-        print("Function called:", functionCalled)
-        print("ChatGPT response:",text)
 
     mainFuncCall = functionCalled
 

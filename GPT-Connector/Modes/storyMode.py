@@ -35,7 +35,7 @@ def listen_for_stop():
 
 def chooseStory(inputType):
     message = "What is the name or type of story you'd like to listen to?"
-    print(message)
+    print("ChatGPT response:",message)
     ttsPlay(message)
     iprompt = []
     assert1={"role": "system", "content": "You are an audio book app"}
@@ -53,7 +53,7 @@ def chooseStory(inputType):
 #if the user wants a randomly generated story or pre recorded
 def chooseStoryType(inputType):
     firstMessage = "Would you like to listen to a story from my large collection? Or I can create a story based on a few random words you give me!"
-    print(firstMessage)
+    print("ChatGPT response:",firstMessage)
     ttsPlay(firstMessage)
     iprompt = []
     assert1={"role": "system", "content": "You are an audio book app"}
@@ -67,17 +67,14 @@ def chooseStoryType(inputType):
 
 def generateRandomStory(inputType):
     message = "Could you give me a few words that I can use to make the story?"
-    print(message)
+    print("ChatGPT response:",message)
     ttsPlay(message)
 
     if inputType:
         print("Type your words and press enter:")
         words = input("")
-        print(words)
     else:
         words = speech_to_text()
-
-
 
     iprompt = []
     assert1={"role": "system", "content": "You are an audio book app"}
@@ -90,12 +87,11 @@ def generateRandomStory(inputType):
     _,text,storyType = prepare_message(iprompt, 2 ,noTools )
     while text == None:
         message = "I apologize the request didn't work. Could you give me another set of words?"
-        print(message)
+        print("ChatGPT response:",message)
         #ttsPlay(message)
         if inputType:
             print("Type your words and press enter:")
             words = input("")
-            print(words)
         else:
             words = speech_to_text()
         _,text,storyType = prepare_message(iprompt, 2 , noTools )
@@ -109,7 +105,6 @@ def storyMode(inputType):
 
 
     if storyType == "randomStory":
-        print("----random story called----")
         randomStory_thread = threading.Thread(target=generateRandomStory, args=(inputType,))
         randomStory_thread.start()
         randomStory_thread.join()

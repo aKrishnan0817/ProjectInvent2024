@@ -33,14 +33,14 @@ def prepare_message(iprompt,inputType, functionCalling = tools):
       text = response.choices[0].message.content
       contentNotFlagged = moderateMessage(text,uinput)
 
-
-
   try:
       functionCalled = response.choices[0].message.tool_calls[0].function.name
+      print("Function called:", functionCalled)
+
       #response=client.chat.completions.create(model="gpt-4",messages=iprompt)
   except:
       functionCalled = None
-      #print(text)
+      print("ChatGPT response:",text)
       iprompt.append({"role" : "assistant" , "content" : text})
       ttsPlay(text)
 

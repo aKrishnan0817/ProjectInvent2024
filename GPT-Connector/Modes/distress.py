@@ -102,11 +102,10 @@ def distressConversation(iprompt,inputType):
     assert2={"role": "assistant", "content": "You are talking to a child in distress. Logically address any concerns that he has and be conservative when making decisions."}
     iprompt[0] =assert1
     iprompt[1]=assert2
-
+    iprompt.append(iprompt[len(iprompt)-1])
+    iprompt,_,_ = prepare_message(iprompt, 2 ,noTools )
     while True:
         iprompt,text,functionCalled=prepare_message(iprompt,inputType,distressConversationTools) #preparing the messages for ChatGPT
-        print("Function called:", functionCalled)
-        print("ChatGPT response:",text)
 
         if functionCalled in ["story","stop","game","coping"]:
             funcCalled = functionCalled
