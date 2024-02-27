@@ -11,6 +11,7 @@ try:
 except:
     buttonUse= False
 
+
 def speech_to_text():
     recognizer = sr.Recognizer()
 
