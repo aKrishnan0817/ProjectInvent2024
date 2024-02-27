@@ -122,6 +122,7 @@ def refreshCheck(mail, password, gaurdianEmail):
                 break
         time.sleep(20)
 
+
 def distressMode(email, password, gaurdianEmail,iprompt,inputType):
     message = "Hi Hope, this is a notification that Jonah may be in a distressed state right now. Please check in on him as soon as you can."
     subject = 'AI Companion: Notification for Jonah'
