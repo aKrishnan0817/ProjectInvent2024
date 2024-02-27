@@ -97,6 +97,7 @@ def checkTextConfirmation(text):
 
 funcCalled = None
 def distressConversation(iprompt,inputType):
+    global funcCalled
     assert1={"role": "system", "content": "You are talking to a child in distress."}
     assert2={"role": "assistant", "content": "You are talking to a child in distress. Logically address any concerns that he has and be conservative when making decisions."}
     iprompt[0] =assert1
@@ -112,7 +113,9 @@ def distressConversation(iprompt,inputType):
             break
 confReceieved = False
 def refreshCheck(mail, password, gaurdianEmail):
-    while True:
+    global funcCalled
+    while True and funcCalled == None:
+        #print(funcCalled)
         text = check_inbox(email, password, gaurdianEmail)
 
         if text!= None:
@@ -120,20 +123,23 @@ def refreshCheck(mail, password, gaurdianEmail):
                 print("Received Confirmation")
                 confReceieved = True
                 break
-        time.sleep(20)
+        time.sleep(5)
 
 
 def distressMode(email, password, gaurdianEmail,iprompt,inputType):
+    global funcCalled
     message = "Hi Hope, this is a notification that Jonah may be in a distressed state right now. Please check in on him as soon as you can."
     subject = 'AI Companion: Notification for Jonah'
     send_email(email,password,gaurdianEmail,subject, message)
 
     conversation_thread = threading.Thread(target=distressConversation, args=(iprompt,inputType))
     conversation_thread.start()
-    conversation_thread.join()
 
     refreshCheck_thread = threading.Thread(target=refreshCheck, args=(email, password, gaurdianEmail))
     refreshCheck_thread.start()
+
+    conversation_thread.join()
     refreshCheck_thread.join()
 
+    print(funcCalled)
     return funcCalled
