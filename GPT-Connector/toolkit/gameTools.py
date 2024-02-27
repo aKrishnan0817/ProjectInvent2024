@@ -5,8 +5,8 @@ selectGameTools = [
       {
           "type": "function",
           "function": {
-              "name": "movieTrivia",
-              "description": "The user would like to play movie trivia",
+              "name": "superheroTrivia",
+              "description": "The user would like to play Superhero trivia",
               "parameters": {
                   "type": "object",
                   "properties": {

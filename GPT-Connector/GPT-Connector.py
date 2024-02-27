@@ -35,7 +35,7 @@ while(True):
 
 
     if functionCalled == "distress":
-        distressMode(email,password,gaurdianEmail)
+        functionCalled = distressMode(email,password,gaurdianEmail,iprompt,inputType)
 
     if functionCalled == "game":
         functionCalled=gameMode(inputType)

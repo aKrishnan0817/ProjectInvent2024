@@ -16,3 +16,10 @@ distressTools = [
           }
       }
   ]
+
+from toolkit.tools import tools
+
+distressConversationTools = []
+distressConversationTools.append(tools[1])
+distressConversationTools.append(tools[2])
+distressConversationTools.append(tools[3])

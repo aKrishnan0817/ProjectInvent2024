@@ -28,10 +28,11 @@ def prepare_message(iprompt,inputType, functionCalling = tools):
   contentNotFlagged = False
   while contentNotFlagged == False:
       #content not flagged is set to false defaultly, if the "moderateMessage" function returns True it means the message
-      # is clean and will end the loop. Otherwise it will keeep generating new messages 
+      # is clean and will end the loop. Otherwise it will keeep generating new messages
       response=client.chat.completions.create(model="gpt-4",messages=iprompt,tools=functionCalling, tool_choice="auto" )
       text = response.choices[0].message.content
       contentNotFlagged = moderateMessage(text,uinput)
+
 
   try:
       functionCalled = response.choices[0].message.tool_calls[0].function.name
@@ -39,6 +40,7 @@ def prepare_message(iprompt,inputType, functionCalling = tools):
   except:
       functionCalled = None
       #print(text)
+      iprompt.append({"role" : "assistant" , "content" : text})
       ttsPlay(text)
 
   return iprompt, text, functionCalled
