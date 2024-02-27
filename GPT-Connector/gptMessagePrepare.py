@@ -34,6 +34,7 @@ def prepare_message(iprompt,inputType, functionCalling = tools):
       contentNotFlagged = moderateMessage(text,uinput)
 
 
+
   try:
       functionCalled = response.choices[0].message.tool_calls[0].function.name
       #response=client.chat.completions.create(model="gpt-4",messages=iprompt)
