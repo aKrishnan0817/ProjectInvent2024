@@ -16,7 +16,7 @@ def main():
             "choices":
                 {
                     "left": "crossroads",
-                    "right": "house"
+                    "right": "house",
                 }
         },
 
@@ -45,7 +45,7 @@ def main():
     while True:
         if player_data["location"] == "start":
             print("Start")
-            print('hello')
+
         input()
 
 

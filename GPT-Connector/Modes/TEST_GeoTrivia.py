@@ -13,15 +13,19 @@ from toolkit.noTools import noTools
 def playGeoTrivia(inputType):
     iprompt = []
     assert1={"role": "system", "content": "You are an ai friend to a child"}
-    assert2={"role": "assistant", "content": "Generate unique geogrpahy trivia questions. You are to play geogrpahy trivia with a 9 year old child so dont make the question too hard. You are the only one to ask questions. Once one quesitons is answered provided another question. Eachtime provide a completly seperate and unique questions not based off previosius responses."}
+    assert2={"role": "assistant", "content": "Generate unique geography trivia questions. You are to play geography "
+                                             "trivia with a 9 year old child so dont make the question too hard. You "
+                                             "are the only one to ask questions. Once one question is answered "
+                                             "provided another question. Each time provide a completely separate and "
+                                             "unique questions not based off previous responses."}
 
-    firstMessage = "Lets do some georgaphy trivia! Try to answer all the questions as well as you can!"
+    firstMessage = "Lets do some geography trivia! Try to answer all the questions as well as you can!"
     print(firstMessage)
     #ttsPlay(firstMessage)
 
     iprompt.append(assert1)
     iprompt.append(assert2)
-    iprompt.append({"role": "user", "content": "Please ask me a question and remeber to only ask me questions!"})
+    iprompt.append({"role": "user", "content": "Please ask me a question and remember to only ask me questions!"})
     iprompt,text,functionCalled=prepare_message(iprompt,2,noTools)
     while True:
         iprompt,text,functionCalled=prepare_message(iprompt,inputType,noTools) #preparing the messages for ChatGPT

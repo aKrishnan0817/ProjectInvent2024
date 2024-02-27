@@ -1,6 +1,6 @@
 import requests
 import distress
-import games.adventure_game_test
+import games.adventure_game
 import sys
 
 sys.path.append('/')
