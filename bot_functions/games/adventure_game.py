@@ -10,8 +10,8 @@ def main():
 
     game_map = {
         "start": {
-            "initial_description": "You find yourself at the start, and will only see this message once",
-            "description": "You are back at the start",
+            "initial_description": "You are standing in an open field. There's nothing worth noticing here. There are, however, two roads. The right road leading into a house, the other into a forest.",
+            "description": "You are back at the field. You can go right into the house, and left into forest.",
             "visited": False,
             "choices":
                 {
@@ -43,12 +43,20 @@ def main():
 
     # Game Loop
     while True:
-        if not game_map[player_data['location']]['visited']:
-            print(game_map[player_data['location']]['initial_description'])
-            game_map[player_data['location']]['visited'] = True
-        else:
-            print(game_map[player_data['location']]['description'])
+        # movement + search + help
+        game_room = game_map[player_data['location']]
+        valid_moves = list(game_room['choices'].keys()) + ['search', 'help']
 
+        if not game_room['visited']:
+            print(game_room['initial_description'])
+            game_room['visited'] = True
+        else:
+            print(game_room['description'])
+
+        print("Please enter a move: ", end='')
+        player_move = input()
+        while player_move not in valid_moves:
+            print('That is not a valid move. The moves you can make right now are:', ', '.join(valid_moves))
 
 
 
