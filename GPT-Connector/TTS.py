@@ -4,6 +4,7 @@ import sys
 from openai import OpenAI
 sys.path.append('../')
 import sensitiveData
+import warnings
 
 API_KEY = sensitiveData.apiKey
 client = OpenAI(api_key=API_KEY)
@@ -20,7 +21,7 @@ def play_audio(audio_file):
         continue
 
 def ttsPlay(text):
-
+    warnings.filterwarnings("ignore", category=DeprecationWarning)
 
     response = client.audio.speech.create(
         model="tts-1",

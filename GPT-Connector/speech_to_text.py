@@ -1,16 +1,14 @@
 import speech_recognition as sr
 
-buttonUse = True
-try:
-    from gpiozero import Button
-    import RPi.GPIO as GPIO
-    import time
-    GPIO.setmode(GPIO.BCM)
-    GPIO.setup(4,GPIO.OUT)
-    button = Button(2)
-except:
-    buttonUse= False
+import sys
+from openai import OpenAI
 
+
+sys.path.append('../')
+import sensitiveData
+API_KEY = sensitiveData.apiKey
+client = OpenAI(api_key=API_KEY)
+buttonUse = False
 
 def speech_to_text():
     recognizer = sr.Recognizer()
@@ -24,7 +22,7 @@ def speech_to_text():
                     print("Listening")
                     GPIO.output(4,GPIO.HIGH)
                     try:
-                        audio = recognizer.listen(source, timeout=10)# Record audio for up to 10 seconds
+                        audio = recognizer.listen(source, timeout=4)# Record audio for up to 10 seconds
                         break
                     except:
                         print("couldnt listen")
@@ -32,12 +30,21 @@ def speech_to_text():
                     GPIO.output(4,GPIO.LOW)
                     #break
         else:
-            audio = recognizer.listen(source, timeout=10)
+            audio = recognizer.listen(source, timeout=4)
+
+    with open("audio_file.wav", "wb") as file:
+        file.write(audio.get_wav_data())
+
     text = None
     while text == None:
         try:
             print("Transcribing...")
-            text = recognizer.recognize_google(audio)
+            audio_file = open("audio_file.wav", "rb")
+            transcription = client.audio.transcriptions.create(
+              model="whisper-1",
+              file=audio_file
+            )
+            text=transcription.text
             print("You said:", text)
             return text
         except sr.UnknownValueError:
