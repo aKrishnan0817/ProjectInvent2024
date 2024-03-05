@@ -1,9 +1,8 @@
 from Modes.gameMode import gameMode
 from Modes.storyMode import storyMode
 from Modes.distress import distressMode
+from Modes.copingSkillsMode import copingSkills
 
-from TTS import ttsPlay
-from speech_to_text import speech_to_text
 from gptMessagePrepare import prepare_message
 
 import sensitiveData
@@ -15,7 +14,7 @@ iprompt.append(assert1)
 iprompt.append(assert2)
 
 #1 for typing 0 for speaking
-inputType = 0
+inputType = 1
 
 #-----CONFIG FOR DISTRESS MODE------
 email = sensitiveData.emailAddress
@@ -40,3 +39,6 @@ while(True):
 
     if functionCalled == "story":
         functionCalled= storyMode(inputType)
+
+    if functionCalled == "coping":
+        functionCalled= copingSkills(inputType,iprompt)

@@ -68,5 +68,21 @@ tools = [
                   },
               },
           }
+      },
+      {
+          "type": "function",
+          "function": {
+              "name": "coping",
+              "description": "the user would like to practice coping skills such as meditation or breathing excerises",
+              "parameters": {
+                  "type": "object",
+                  "properties": {
+                      "location": {
+                          "type": "string",
+                          "description": "Example return",
+                      },
+                  },
+              },
+          }
       }
   ]
