@@ -2,7 +2,7 @@ import speech_recognition as sr
 
 import sys
 from openai import OpenAI
-
+import os
 
 sys.path.append('../')
 import sensitiveData
@@ -46,9 +46,12 @@ def speech_to_text():
             )
             text=transcription.text
             print("You said:", text)
+            os.remove("audio_file.wav")
             return text
         except sr.UnknownValueError:
             print("Could not understand audio. Try Again")
+            os.remove("audio_file.wav")
         except sr.RequestError as e:
             print(f"Error connecting to Google API: {e}")
+            os.remove("audio_file.wav")
             break

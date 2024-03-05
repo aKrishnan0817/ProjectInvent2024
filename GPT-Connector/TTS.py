@@ -31,3 +31,5 @@ def ttsPlay(text):
     response.stream_to_file("gptOutput.mp3")
 
     play_audio("gptOutput.mp3")
+
+    os.remove("gptOutput.mp3")
