@@ -25,7 +25,7 @@ def send_email(sender_email, sender_password, recipient_email, subject, body):
     message = MIMEMultipart()
     message["From"] = sender_email
     message["To"] = recipient_email
-    message["Subject"] = subject
+    #message["Subject"] = subject
     message.attach(MIMEText(body, "plain"))
 
     try:
@@ -52,24 +52,30 @@ def check_inbox(username, password, sender):
         mail = imaplib.IMAP4_SSL('imap.gmail.com')
         mail.login(username, password)
         mail.select('inbox')
+        print("---1")
 
         # Search for unseen emails
         result, data = mail.search(None, 'UNSEEN')
         ids = data[0].split()
+        print("---2")
 
         for email_id in ids:
             result, data = mail.fetch(email_id, '(RFC822)')
             raw_email = data[0][1]
             msg = email.message_from_bytes(raw_email)
+            print("---3")
 
             # Extract sender's email address
             sender_email = msg['From']
+            print("---4")
 
             email_str = raw_email.decode('utf-8')
             message = email.message_from_string(email_str)
+            print("---5")
+
 
             # Check if the email is from the expected sender and contains the confirmation keyword
-            #print(message)
+            print(message)
             text = extract_plain_text(message)
             if sender in sender_email :
                 #print("Confirmation received from", sender_email)
@@ -115,31 +121,40 @@ confReceieved = False
 def refreshCheck(mail, password, gaurdianEmail):
     global funcCalled
     while True and funcCalled == None:
-        #print(funcCalled)
+        print("checking inbox")
         text = check_inbox(email, password, gaurdianEmail)
-
         if text!= None:
             if checkTextConfirmation(text):
                 print("Received Confirmation")
                 confReceieved = True
                 break
-        time.sleep(5)
+        time.sleep(20)
 
 
 def distressMode(email, password, gaurdianEmail,iprompt,inputType):
     global funcCalled
     message = "Hi Hope, this is a notification that Jonah may be in a distressed state right now. Please check in on him as soon as you can."
     subject = 'AI Companion: Notification for Jonah'
-    send_email(email,password,gaurdianEmail,subject, message)
+    send_email(email,password,gaurdianEmail,"", message)
 
     conversation_thread = threading.Thread(target=distressConversation, args=(iprompt,inputType))
     conversation_thread.start()
 
-    refreshCheck_thread = threading.Thread(target=refreshCheck, args=(email, password, gaurdianEmail))
-    refreshCheck_thread.start()
+    #refreshCheck_thread = threading.Thread(target=refreshCheck, args=(email, password, gaurdianEmail))
+    #refreshCheck_thread.start()
 
     conversation_thread.join()
     refreshCheck_thread.join()
 
     print(funcCalled)
     return funcCalled
+if __name__ == "__main__":
+    while True:
+        print("checking inbox")
+        text = check_inbox("pptprojectinvent@gmail.com", "tnms trfx seki wukx", "2033491166@mms.att.net")
+        if text!= None:
+            if checkTextConfirmation(text):
+                print("Received Confirmation")
+                confReceieved = True
+                break
+        time.sleep(20)
