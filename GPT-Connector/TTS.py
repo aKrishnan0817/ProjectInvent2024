@@ -32,4 +32,4 @@ def ttsPlay(text):
 
     play_audio("gptOutput.mp3")
 
-    os.remove("gptOutput.mp3")
+    #os.remove("gptOutput.mp3")

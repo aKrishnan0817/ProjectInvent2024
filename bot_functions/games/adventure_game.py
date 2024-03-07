@@ -45,7 +45,7 @@ def main():
     while True:
         # movement + search + help
         game_room = game_map[player_data['location']]
-        valid_moves = list(game_room['choices'].keys()) + ['search', 'help']
+        valid_moves = list(game_room['choices'].keys()) + ['search', 'help', 'look']
 
         if not game_room['visited']:
             print(game_room['initial_description'])
@@ -53,10 +53,22 @@ def main():
         else:
             print(game_room['description'])
 
-        print("Please enter a move: ", end='')
-        player_move = input()
-        while player_move not in valid_moves:
-            print('That is not a valid move. The moves you can make right now are:', ', '.join(valid_moves))
+        while True:
+            print("Please enter a move: ", end='')
+            player_move = input()
+            while player_move not in valid_moves:
+                print('That is not a valid move. The moves you can make right now are:', ', '.join(valid_moves))
+
+            if player_move == "help":
+                print('The moves you can make right now are:', ', '.join(valid_moves))
+
+            if player_move == 'look':
+                if not game_room['visited']:
+                    print(game_room['initial_description'])
+                else:
+                    print(game_room['description'])
+                    
+        game_room['visited'] = True
 
 
 
