@@ -1,4 +1,4 @@
-from toolkit.prompts import promptList, version
+from prompts import promptList, version
 
 tools = [
       {
