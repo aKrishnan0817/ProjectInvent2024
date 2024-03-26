@@ -1,9 +1,11 @@
+from toolkit.prompts import promptList, version
+
 tools = [
       {
           "type": "function",
           "function": {
               "name": "distress",
-              "description": "the user explicity, clearly, and directly states that they are in a severe state of distress and needs urgent consoling.",
+              "description": promptList[version]["distressPrompt"],
               "parameters": {
                   "type": "object",
                   "properties": {
@@ -73,7 +75,7 @@ tools = [
           "type": "function",
           "function": {
               "name": "coping",
-              "description": "the user would like to practice coping skills such as meditation or breathing excerises",
+              "description": promptList[version]["copingPrompt"],
               "parameters": {
                   "type": "object",
                   "properties": {

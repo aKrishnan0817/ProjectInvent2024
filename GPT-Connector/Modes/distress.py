@@ -80,7 +80,7 @@ def check_inbox(username, password, sender):
 
         mail.logout()
     except Exception as e:
-        print("Error:", e)
+        #print("Error:", e)
         return None
 
 def checkTextConfirmation(text):

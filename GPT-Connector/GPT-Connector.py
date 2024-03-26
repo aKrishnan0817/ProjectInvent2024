@@ -24,7 +24,6 @@ gaurdianEmail = sensitiveData.userContactAddress #put this in sensitiveData as t
 mainFuncCall = None
 functionCalled = None
 
-
 while(True):
 
     if mainFuncCall == functionCalled:
