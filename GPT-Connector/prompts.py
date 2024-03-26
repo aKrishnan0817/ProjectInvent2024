@@ -1,5 +1,5 @@
 promptList =[0]
-latestVersion =2
+latestVersion =2 #LATEST VERSION IS HERE
 print("Enter which version you'd like to use (1,2,3,4..)")
 version = int(input(""))
 while version not in list(range(latestVersion+1)):
@@ -11,6 +11,7 @@ To use a new prompt go to an empty version(where it says distress="" and coping=
 and write a prompt between the quotations marks. Afterwards when running the code it will ask
 you what version you'd like to use and simply type the version you have recently modified.
 
+Afterwars a increment latestVersion to the version you have recently worked on.
 """
 
 
