@@ -11,14 +11,17 @@ client = OpenAI(api_key=API_KEY)
 
 def play_audio(audio_file):
     # Initialize pygame
-    pygame.init()
-    # Load the audio file
-    pygame.mixer.music.load(audio_file)
-    # Play the audio file
-    pygame.mixer.music.play()
-    # Wait until the music finishes playing
-    while pygame.mixer.music.get_busy():
-        continue
+    try:
+        pygame.init()
+        # Load the audio file
+        pygame.mixer.music.load(audio_file)
+        # Play the audio file
+        pygame.mixer.music.play()
+        # Wait until the music finishes playing
+        while pygame.mixer.music.get_busy():
+            continue
+    except:
+        print("")
 
 def ttsPlay(text):
     warnings.filterwarnings("ignore", category=DeprecationWarning)

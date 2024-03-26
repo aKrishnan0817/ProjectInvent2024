@@ -23,6 +23,8 @@ gaurdianEmail = sensitiveData.userContactAddress #put this in sensitiveData as t
 #---------------------------------------------
 mainFuncCall = None
 functionCalled = None
+
+
 while(True):
 
     if mainFuncCall == functionCalled:
@@ -42,3 +44,6 @@ while(True):
 
     if functionCalled == "coping":
         functionCalled= copingSkills(inputType,iprompt)
+
+    if functionCalled == "stop":
+        iprompt,text,functionCalled=prepare_message(iprompt,2)
