@@ -3,7 +3,7 @@ tools = [
           "type": "function",
           "function": {
               "name": "distress",
-              "description": "notify caregivers that user is distressed only if the user explicity mentions distress",
+              "description": "the user explicity, clearly, and directly states that they are in a severe state of distress and needs urgent consoling.",
               "parameters": {
                   "type": "object",
                   "properties": {

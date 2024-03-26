@@ -1,13 +1,13 @@
 import requests
 import other_functions.distress 
-import games.adventure_game_test
+import games.adventure_game
 
 
 def distress():
     distress.main()
 
 def game():
-    adventure_game_test.main()
+    adventure_game.main()
 
 def perform_calculation():
     print("Performing calculation...")

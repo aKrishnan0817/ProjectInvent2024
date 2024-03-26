@@ -15,7 +15,7 @@ def distress():
 
 
 def game():
-    games.adventure_game_test.main()
+    games.adventure_game.main()
 
 
 def perform_calculation():
