@@ -8,7 +8,16 @@ sys.path.append('../')
 import sensitiveData
 API_KEY = sensitiveData.apiKey
 client = OpenAI(api_key=API_KEY)
-buttonUse = False
+buttonUse = True
+try:
+    from gpiozero import Button
+    import RPi.GPIO as GPIO
+    import time
+    GPIO.setmode(GPIO.BCM)
+    GPIO.setup(4,GPIO.OUT)
+    button = Button(2)
+except:
+    buttonUse= False
 
 def speech_to_text():
     recognizer = sr.Recognizer()
@@ -17,6 +26,7 @@ def speech_to_text():
         print("Say something...")
         recognizer.adjust_for_ambient_noise(source)
         if buttonUse:
+            print(buttonUse)
             while True:
                 if button.is_pressed:
                     print("Listening")
@@ -31,7 +41,8 @@ def speech_to_text():
                     #break
         else:
             audio = recognizer.listen(source, timeout=4)
-
+    if buttonUse:
+        GPIO.output(4,GPIO.LOW)
     with open("audio_file.wav", "wb") as file:
         file.write(audio.get_wav_data())
 
