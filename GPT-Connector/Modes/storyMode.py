@@ -7,7 +7,7 @@ sys.path.append('../')
 from toolkit.storyTools import selectStoryTools, storyTypeSelect
 from toolkit.noTools import noTools
 from speech_to_text import speech_to_text
-
+import piComponenets
 
 from gptMessagePrepare import prepare_message
 from TTS import ttsPlay
@@ -27,9 +27,9 @@ def play_audio(audio_file):
 
 
 
-def listen_for_stop():
+def listen_for_stop(button):
 
-    input("Press Enter to stop the audio\n")  # This will block until Enter key is pressed
+    button.checkButtonPress()  # This will block until button is pressed
     pygame.mixer.music.stop()
     pygame.quit()
 
@@ -105,7 +105,7 @@ def storyMode(inputType):
 
 
     if storyType == "randomStory":
-        randomStory_thread = threading.Thread(target=generateRandomStory, args=(inputType,))
+        randomStory_thread = threading.Thread(target=generateRandomStory, args=(inputType))
         randomStory_thread.start()
         randomStory_thread.join()
     if storyType == "defaultStory":
@@ -113,15 +113,19 @@ def storyMode(inputType):
         if storyName in ["game","stop","distress","coping"]:
             return storyName
         audio_file = "Modes/storyModeAudios/"+storyName+".mp3"
-        play_thread = threading.Thread(target=play_audio, args=(audio_file,))
+        play_thread = threading.Thread(target=play_audio, args=(audio_file))
         play_thread.start()
         play_thread.join()
 
+    button = piComponenets(buttonPin=2,ledPin=4)
+
+    if buttn.getButtonUse:
+        stop_thread = threading.Thread(target=listen_for_stop, args=(button))
+        stop_thread.start()
+        stop_thread.join()
 
     return None
-    #stop_thread = threading.Thread(target=listen_for_stop)
-    #stop_thread.start()
-    #stop_thread.join()
+
 
 
 
