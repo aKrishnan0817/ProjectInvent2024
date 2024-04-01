@@ -5,6 +5,8 @@ from toolkit.tools import tools
 from TTS import ttsPlay
 from speech_to_text import speech_to_text
 
+from piComponents import piComponents
+
 
 sys.path.append('../')
 import sensitiveData
@@ -13,7 +15,7 @@ API_KEY = sensitiveData.apiKey
 client = OpenAI(api_key=API_KEY)
 
 #inputType 1 for text, 0 for speech
-def prepare_message(iprompt,inputType, functionCalling = tools):
+def prepare_message(iprompt,inputType, functionCalling = tools,button):
   #enter the request with a microphone or type it if you wish
   if inputType == 2:
       uinput = ""
@@ -22,7 +24,7 @@ def prepare_message(iprompt,inputType, functionCalling = tools):
       uinput = input("")
       iprompt.append({"role": "user", "content": uinput})
   else:
-      uinput = speech_to_text()
+      uinput = speech_to_text(button)
       iprompt.append({"role": "user", "content": uinput})
 
   contentNotFlagged = False

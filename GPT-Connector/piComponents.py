@@ -12,16 +12,16 @@ class piComponenets:
         self.ledPin = ledPin
         try:
             GPIO.setmode(GPIO.BCM)
-            GPIO.setup(ledPin,GPIO.OUT)
-            button = Button(4)
+            GPIO.setup(self.ledPin,GPIO.OUT)
+            self.button = Button(self.buttonPin)
             self.buttonUse=True
         except:
             self.buttonUse= False
 
-    def checkButtonPress():
+    def checkButtonPress(self):
         if self.buttonUse:
             while True:
-                if button.is_pressed:
+                if self.button.is_pressed:
                     setLed(1)
                     time.sleep(1)
                     setLed(0)
@@ -32,10 +32,12 @@ class piComponenets:
         return None
 
     #0 for off - 1 for on
-    def setLed(onOff):
-        if onOff:
-            GPIO.output(self.ledPin,GPIO.HIGH)
-        GPIO.output(self.ledPin,GPIO.LOW)
+    def setLed(self,onOff):
+        if self.buttonUse:
+            GPIO.setup(self.ledPin,GPIO.OUT)
+            if onOff:
+                GPIO.output(self.ledPin,GPIO.HIGH)
+            GPIO.output(self.ledPin,GPIO.LOW)
 
-    def getButtonUse():
+    def getButtonUse(self):
         return self.buttonUse

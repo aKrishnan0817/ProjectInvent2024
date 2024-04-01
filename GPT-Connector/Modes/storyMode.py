@@ -7,10 +7,12 @@ sys.path.append('../')
 from toolkit.storyTools import selectStoryTools, storyTypeSelect
 from toolkit.noTools import noTools
 from speech_to_text import speech_to_text
-import piComponenets
 
 from gptMessagePrepare import prepare_message
 from TTS import ttsPlay
+
+from piComponents import piComponents
+
 
 def play_audio(audio_file):
     # Initialize pygame
@@ -97,7 +99,7 @@ def generateRandomStory(inputType):
         _,text,storyType = prepare_message(iprompt, 2 , noTools )
 
 
-def storyMode(inputType):
+def storyMode(inputType , button):
     storyType = chooseStoryType(inputType)
     print(storyType)
     if storyType in ["game","stop","distress","coping"]:
@@ -117,9 +119,7 @@ def storyMode(inputType):
         play_thread.start()
         play_thread.join()
 
-    button = piComponenets(buttonPin=2,ledPin=4)
-
-    if buttn.getButtonUse:
+    if button.getButtonUse:
         stop_thread = threading.Thread(target=listen_for_stop, args=(button))
         stop_thread.start()
         stop_thread.join()

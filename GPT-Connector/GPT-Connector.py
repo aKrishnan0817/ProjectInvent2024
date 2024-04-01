@@ -6,6 +6,8 @@ from Modes.copingSkillsMode import copingSkills
 from gptMessagePrepare import prepare_message
 
 import sensitiveData
+from piComponents import piComponents
+
 
 iprompt = []
 assert1={"role": "system", "content": "You are a frined of a nine year old boy"}
@@ -24,10 +26,12 @@ gaurdianEmail = sensitiveData.userContactAddress #put this in sensitiveData as t
 mainFuncCall = None
 functionCalled = None
 
+button = piComponents(buttonPin=2,ledPin=4)
+
 while(True):
 
     if mainFuncCall == functionCalled:
-        iprompt,text,functionCalled=prepare_message(iprompt,inputType) #preparing the messages for ChatGPT
+        iprompt,text,functionCalled=prepare_message(iprompt,inputType,button) #preparing the messages for ChatGPT
 
     mainFuncCall = functionCalled
 
@@ -39,10 +43,10 @@ while(True):
         functionCalled=gameMode(inputType)
 
     if functionCalled == "story":
-        functionCalled= storyMode(inputType)
+        functionCalled= storyMode(inputType,button)
 
     if functionCalled == "coping":
         functionCalled= copingSkills(inputType,iprompt)
 
     if functionCalled == "stop":
-        iprompt,text,functionCalled=prepare_message(iprompt,2)
+        iprompt,text,functionCalled=prepare_message(iprompt,2,button)

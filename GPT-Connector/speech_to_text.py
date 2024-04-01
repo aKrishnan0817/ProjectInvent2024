@@ -3,45 +3,38 @@ import speech_recognition as sr
 import sys
 from openai import OpenAI
 import os
-
+import time
 sys.path.append('../')
 import sensitiveData
 API_KEY = sensitiveData.apiKey
 client = OpenAI(api_key=API_KEY)
-buttonUse = True
+
+from piComponents import piComponents
+
 try:
     from gpiozero import Button
     import RPi.GPIO as GPIO
-    import time
-    GPIO.setmode(GPIO.BCM)
-    GPIO.setup(4,GPIO.OUT)
-    button = Button(2)
 except:
-    buttonUse= False
+    print("")
 
-def speech_to_text():
+def speech_to_text(button):
     recognizer = sr.Recognizer()
 
     with sr.Microphone() as source:
         print("Say something...")
         recognizer.adjust_for_ambient_noise(source)
-        if buttonUse:
-            print(buttonUse)
-            while True:
-                if button.is_pressed:
-                    print("Listening")
-                    GPIO.output(4,GPIO.HIGH)
-                    try:
-                        audio = recognizer.listen(source, timeout=4)# Record audio for up to 10 seconds
-                        break
-                    except:
-                        print("couldnt listen")
-                else:
-                    GPIO.output(4,GPIO.LOW)
-                    #break
+        if button.getButtonUse():
+            if button.checkButtonPress():
+                try:
+                    audio = recognizer.listen(source, timeout=4)# Record audio for up to 4 seconds
+                    break
+                except:
+                    print("couldnt listen")
+            else:
+                GPIO.output(4,GPIO.LOW)
         else:
             audio = recognizer.listen(source, timeout=4)
-    if buttonUse:
+    if button.getButtonUse():
         GPIO.output(4,GPIO.LOW)
     with open("audio_file.wav", "wb") as file:
         file.write(audio.get_wav_data())
