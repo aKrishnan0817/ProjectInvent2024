@@ -23,7 +23,7 @@ def read_file_and_tokenize(file_name):
     except FileNotFoundError:
         print("File not found!")
 
-def gameMode(inputType):
+def gameMode(inputType,button=None):
     game = chooseGame(inputType)
     if game == "twentyQuestions":
         return play20Questions(inputType)
@@ -36,7 +36,7 @@ def gameMode(inputType):
     if game in ["story","stop","distress","coping"]:
         return game
 
-def chooseGame(inputType):
+def chooseGame(inputType,button=None):
     message = "What game would you like to play? We can play 20 questions, Superhero Trivia or geography trivia."
     print("ChatGPT response:",message)
     ttsPlay(message)
@@ -47,13 +47,13 @@ def chooseGame(inputType):
     iprompt.append(assert2)
     game = None
     while game == None:
-        _,_,game = prepare_message(iprompt, inputType , selectGameTools)
+        _,_,game = prepare_message(iprompt, inputType , selectGameTools,button=button)
 
     return game
 
-def playGeoTrivia(inputType):
+def playGeoTrivia(inputType,button=None):
     geoTopicList = read_file_and_tokenize("Modes/gameModeTopics.txt")
-    
+
     iprompt = []
     assert1={"role": "system", "content": "You are an ai friend to a child"}
     randomGeoTopic = random.choice(geoTopicList)
@@ -74,11 +74,11 @@ def playGeoTrivia(inputType):
         assert2={"role": "assistant", "content": content}
         iprompt[1] = assert2
 
-        iprompt,text,functionCalled=prepare_message(iprompt,inputType,triviaTools) #preparing the messages for ChatGPT
+        iprompt,text,functionCalled=prepare_message(iprompt,inputType,triviaTools,button=button) #preparing the messages for ChatGPT
 
         if functionCalled in ["story","stop","distress","coping"]:
             return functionCalled
-def playSuperheroTrivia(inputType):
+def playSuperheroTrivia(inputType,button=None):
     listOfSuperheroes = ["Superman", "Spiderman", "Iron Man", "Wonder Woman","Batman","Aquaman","Captain America","Incredible Hulk","Thor","Ant-Man","Wolverine"]
 
     iprompt = []
@@ -101,12 +101,12 @@ def playSuperheroTrivia(inputType):
         assert2={"role": "assistant", "content": content}
         iprompt[1] = assert2
 
-        iprompt,text,functionCalled=prepare_message(iprompt,inputType,triviaTools) #preparing the messages for ChatGPT
+        iprompt,text,functionCalled=prepare_message(iprompt,inputType,triviaTools,button=button) #preparing the messages for ChatGPT
 
         if functionCalled in ["story","stop","distress","coping"]:
             return functionCalled
 
-def play20Questions(inputType):
+def play20Questions(inputType,button=None):
     secretObjectType = random.choice(["animal", "plant", "inanimate object", "historical person"])
     secretObjectLetter = random.choice("ABCDEFGHIJKLMNOPQRSTUVWXYZ")
     secretObjectQuestion = "Choose a random example of a " + secretObjectType + ". It should start with the letter: " + secretObjectLetter + ". Your response should be a single word and nothing else. Do not tell the use what the object is unless explicitly said so. Only respond yes or no."
@@ -123,7 +123,7 @@ def play20Questions(inputType):
     iprompt.append(assert2)
 
     while True:
-        iprompt,text,functionCalled=prepare_message(iprompt,inputType,triviaTools) #preparing the messages for ChatGPT
+        iprompt,text,functionCalled=prepare_message(iprompt,inputType,triviaTools,button=button) #preparing the messages for ChatGPT
 
         if functionCalled in ["story","stop","distress","coping"]:
             return functionCalled

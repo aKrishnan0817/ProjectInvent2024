@@ -15,7 +15,7 @@ API_KEY = sensitiveData.apiKey
 client = OpenAI(api_key=API_KEY)
 
 #inputType 1 for text, 0 for speech
-def prepare_message(iprompt,inputType, functionCalling = tools,button):
+def prepare_message(iprompt,inputType, functionCalling = tools,button= None):
   #enter the request with a microphone or type it if you wish
   if inputType == 2:
       uinput = ""

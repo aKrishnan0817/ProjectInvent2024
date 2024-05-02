@@ -5,7 +5,7 @@ try:
 except:
     print("")
 
-class piComponenets:
+class piComponents:
     #button is 2 and led is 4
     def __init__(self, buttonPin, ledPin):
         self.buttonPin = buttonPin

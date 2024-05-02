@@ -35,7 +35,7 @@ def listen_for_stop(button):
     pygame.mixer.music.stop()
     pygame.quit()
 
-def chooseStory(inputType):
+def chooseStory(inputType,button):
     message = "What is the name or type of story you'd like to listen to?"
     print("ChatGPT response:",message)
     ttsPlay(message)
@@ -46,14 +46,14 @@ def chooseStory(inputType):
     iprompt.append(assert2)
     storyName = None
     while storyName == None:
-        _,_,storyName = prepare_message(iprompt, inputType , selectStoryTools)
+        _,_,storyName = prepare_message(iprompt, inputType , selectStoryTools,button=button)
         print(storyName)
     #the function called should be the name of the story
     return storyName
 
 
 #if the user wants a randomly generated story or pre recorded
-def chooseStoryType(inputType):
+def chooseStoryType(inputType,button):
     firstMessage = "Would you like to listen to a story from my large collection? Or I can create a story based on a few random words you give me!"
     print("ChatGPT response:",firstMessage)
     ttsPlay(firstMessage)
@@ -64,10 +64,10 @@ def chooseStoryType(inputType):
     iprompt.append(assert2)
     storyType = None
     while storyType == None:
-        iprompt,_,storyType = prepare_message(iprompt, inputType , storyTypeSelect)
+        iprompt,_,storyType = prepare_message(iprompt, inputType , storyTypeSelect,button=button)
     return storyType
 
-def generateRandomStory(inputType):
+def generateRandomStory(inputType,button):
     message = "Could you give me a few words that I can use to make the story?"
     print("ChatGPT response:",message)
     ttsPlay(message)
@@ -96,22 +96,22 @@ def generateRandomStory(inputType):
             words = input("")
         else:
             words = speech_to_text()
-        _,text,storyType = prepare_message(iprompt, 2 , noTools )
+        _,text,storyType = prepare_message(iprompt, 2 , noTools ,button=button)
 
 
 def storyMode(inputType , button):
-    storyType = chooseStoryType(inputType)
+    storyType = chooseStoryType(inputType,button)
     print(storyType)
     if storyType in ["game","stop","distress","coping"]:
         return storyType
 
 
     if storyType == "randomStory":
-        randomStory_thread = threading.Thread(target=generateRandomStory, args=(inputType))
+        randomStory_thread = threading.Thread(target=generateRandomStory, args=(inputType,button))
         randomStory_thread.start()
         randomStory_thread.join()
     if storyType == "defaultStory":
-        storyName = chooseStory(inputType)
+        storyName = chooseStory(inputType,button)
         if storyName in ["game","stop","distress","coping"]:
             return storyName
         audio_file = "Modes/storyModeAudios/"+storyName+".mp3"

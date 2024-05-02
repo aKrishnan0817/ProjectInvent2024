@@ -27,7 +27,6 @@ def speech_to_text(button):
             if button.checkButtonPress():
                 try:
                     audio = recognizer.listen(source, timeout=4)# Record audio for up to 4 seconds
-                    break
                 except:
                     print("couldnt listen")
             else:

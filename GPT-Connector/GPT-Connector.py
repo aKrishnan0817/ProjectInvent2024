@@ -31,7 +31,7 @@ button = piComponents(buttonPin=2,ledPin=4)
 while(True):
 
     if mainFuncCall == functionCalled:
-        iprompt,text,functionCalled=prepare_message(iprompt,inputType,button) #preparing the messages for ChatGPT
+        iprompt,text,functionCalled=prepare_message(iprompt,inputType,button=button) #preparing the messages for ChatGPT
 
     mainFuncCall = functionCalled
 
@@ -40,13 +40,13 @@ while(True):
         functionCalled = distressMode(email,password,gaurdianEmail,iprompt,inputType)
 
     if functionCalled == "game":
-        functionCalled=gameMode(inputType)
+        functionCalled=gameMode(inputType,button=button)
 
     if functionCalled == "story":
         functionCalled= storyMode(inputType,button)
 
     if functionCalled == "coping":
-        functionCalled= copingSkills(inputType,iprompt)
+        functionCalled= copingSkills(inputType,iprompt,button=button)
 
     if functionCalled == "stop":
-        iprompt,text,functionCalled=prepare_message(iprompt,2,button)
+        iprompt,text,functionCalled=prepare_message(iprompt,2,button=button)

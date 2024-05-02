@@ -97,7 +97,7 @@ def checkTextConfirmation(text):
 
 
 funcCalled = None
-def distressConversation(iprompt,inputType):
+def distressConversation(iprompt,inputType,button):
     global funcCalled
     assert1={"role": "system", "content": "You are talking to a child in distress."}
     assert2={"role": "assistant", "content": "You are talking to a child in distress. Logically address any concerns that he has and be conservative when making decisions."}
@@ -106,7 +106,7 @@ def distressConversation(iprompt,inputType):
     iprompt.append(iprompt[len(iprompt)-1])
     iprompt,_,_ = prepare_message(iprompt, 2 ,noTools )
     while True:
-        iprompt,text,functionCalled=prepare_message(iprompt,inputType,distressConversationTools) #preparing the messages for ChatGPT
+        iprompt,text,functionCalled=prepare_message(iprompt,inputType,distressConversationTools,button=button) #preparing the messages for ChatGPT
 
         if functionCalled in ["story","stop","game","coping"]:
             funcCalled = functionCalled
@@ -126,13 +126,13 @@ def refreshCheck(mail, password, gaurdianEmail):
         time.sleep(5)
 
 
-def distressMode(email, password, gaurdianEmail,iprompt,inputType):
+def distressMode(email, password, gaurdianEmail,iprompt,inputType,button):
     global funcCalled
     message = "Hi Hope, this is a notification that Jonah may be in a distressed state right now. Please check in on him as soon as you can."
     subject = 'AI Companion: Notification for Jonah'
     send_email(email,password,gaurdianEmail,subject, message)
 
-    conversation_thread = threading.Thread(target=distressConversation, args=(iprompt,inputType))
+    conversation_thread = threading.Thread(target=distressConversation, args=(iprompt,inputType,button))
     conversation_thread.start()
 
     refreshCheck_thread = threading.Thread(target=refreshCheck, args=(email, password, gaurdianEmail))
