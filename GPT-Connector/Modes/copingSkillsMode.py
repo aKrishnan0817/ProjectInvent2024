@@ -15,7 +15,7 @@ from toolkit.tools import tools
 
 
 
-def copingSkills(inputType,iprompt):
+def copingSkills(inputType,iprompt, button):
     iprompt=[
         {"role": "system", "content": f"You are an AI friend to a 9 year old who needs help with coping skills. Conversation history: {iprompt}"}, #In order to properly train it I need to be able to signal where a conversation ends and where one begins. I should probably look into this later
         {"role": "assistant", "content": "Jonah, let's talk about another coping skill"}, #this shouldn't be the very start of coping mode. Perhaps I may need to see how the decision making mode is progressing in order to
@@ -42,7 +42,7 @@ def copingSkills(inputType,iprompt):
 
 
     while True:
-        iprompt,text,functionCalled=prepare_message(iprompt,inputType,copingTools) #preparing the messages for ChatGPT
+        iprompt,text,functionCalled=prepare_message(iprompt,inputType,copingTools,button=button) #preparing the messages for ChatGPT
 
-        if functionCalled in ["story","stop","distress","coping"]:
+        if functionCalled in ["story","stop","distress"]:
             return functionCalled
