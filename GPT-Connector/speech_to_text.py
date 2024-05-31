@@ -35,7 +35,12 @@ def speech_to_text(button):
             text=transcription.text
             #print(text)
             #print(detect(text))
-            if text == None or detect(text) in ["ko","zh-cn","zh-tw","ja","th","vi"]:
+            nonEn = False
+            try:
+                nonEn = detect(text) in ["ko","zh-cn","zh-tw","ja","th","vi"]
+            except:
+                print("")
+            if text == None or nonEn:
                 print("OWL response: I apologize but can you please repeat that")
                 ttsPlay("I apologize but can you please repeat that")
                 continue
