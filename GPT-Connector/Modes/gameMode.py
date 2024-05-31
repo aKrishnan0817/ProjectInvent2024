@@ -24,14 +24,14 @@ def read_file_and_tokenize(file_name):
         print("File not found!")
 
 def gameMode(inputType,button=None):
-    game = chooseGame(inputType)
+    game = chooseGame(inputType,button)
     if game == "twentyQuestions":
-        return play20Questions(inputType)
+        return play20Questions(inputType,button)
     if game =="superheroTrivia":
         #print("----playing super hero trivia----")
-        return playSuperheroTrivia(inputType)
+        return playSuperheroTrivia(inputType,button)
     if game == "geoTrivia":
-        return playGeoTrivia(inputType)
+        return playGeoTrivia(inputType,button)
 
     if game in ["story","stop","distress","coping"]:
         return game

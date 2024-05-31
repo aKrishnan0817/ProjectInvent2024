@@ -115,14 +115,15 @@ def storyMode(inputType , button):
         if storyName in ["game","stop","distress","coping"]:
             return storyName
         audio_file = "Modes/storyModeAudios/"+storyName+".mp3"
-        play_thread = threading.Thread(target=play_audio, args=(audio_file))
+        play_audio(audio_file)
+        """play_thread = threading.Thread(target=play_audio, args=(audio_file))
         play_thread.start()
         play_thread.join()
 
     if button.getButtonUse:
         stop_thread = threading.Thread(target=listen_for_stop, args=(button))
         stop_thread.start()
-        stop_thread.join()
+        stop_thread.join()"""
 
     return None
 

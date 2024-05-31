@@ -126,7 +126,7 @@ def refreshCheck(mail, password, gaurdianEmail):
         time.sleep(5)
 
 
-def distressMode(email, password, gaurdianEmail,iprompt,inputType,button):
+def distressMode(email, password, gaurdianEmail,iprompt,inputType,button=None):
     global funcCalled
     message = "Hi Hope, this is a notification that Jonah may be in a distressed state right now. Please check in on him as soon as you can."
     subject = 'AI Companion: Notification for Jonah'

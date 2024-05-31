@@ -1,4 +1,5 @@
 import speech_recognition as sr
+from langdetect import detect
 
 import sys
 from openai import OpenAI
@@ -8,6 +9,7 @@ sys.path.append('../')
 import sensitiveData
 API_KEY = sensitiveData.apiKey
 client = OpenAI(api_key=API_KEY)
+from TTS import ttsPlay
 
 from piComponents import piComponents
 
@@ -18,28 +20,11 @@ except:
     print("")
 
 def speech_to_text(button):
-    recognizer = sr.Recognizer()
-
-    with sr.Microphone() as source:
-        print("Say something...")
-        recognizer.adjust_for_ambient_noise(source)
-        if button.getButtonUse():
-            if button.checkButtonPress():
-                try:
-                    audio = recognizer.listen(source, timeout=4)# Record audio for up to 4 seconds
-                except:
-                    print("couldnt listen")
-            else:
-                GPIO.output(4,GPIO.LOW)
-        else:
-            audio = recognizer.listen(source, timeout=4)
-    if button.getButtonUse():
-        GPIO.output(4,GPIO.LOW)
-    with open("audio_file.wav", "wb") as file:
-        file.write(audio.get_wav_data())
 
     text = None
-    while text == None:
+    while text == None or detect(text)!="en":
+
+        getSpeech(button)
         try:
             print("Transcribing...")
             audio_file = open("audio_file.wav", "rb")
@@ -48,6 +33,12 @@ def speech_to_text(button):
               file=audio_file
             )
             text=transcription.text
+            #print(text)
+            #print(detect(text))
+            if text == None or detect(text) in ["ko","zh-cn","zh-tw","ja","th","vi"]:
+                print("OWL response: I apologize but can you please repeat that")
+                ttsPlay("I apologize but can you please repeat that")
+                continue
             print("You said:", text)
             os.remove("audio_file.wav")
             return text
@@ -57,4 +48,31 @@ def speech_to_text(button):
         except sr.RequestError as e:
             print(f"Error connecting to Google API: {e}")
             os.remove("audio_file.wav")
-            break
+
+
+
+
+def getSpeech(button):
+    recognizer = sr.Recognizer()
+
+    with sr.Microphone() as source:
+        print("Say something...")
+        recognizer.adjust_for_ambient_noise(source)
+        if button.getButtonUse():
+            if button.checkButtonPress():
+                try:
+                    audio = recognizer.listen(source, timeout=10)# Record audio for up to 4 seconds
+                except:
+                    print("couldnt listen")
+            else:
+                GPIO.output(4,GPIO.LOW)
+        else:
+            print("using mic with no button")
+            audio = recognizer.listen(source, timeout=10)
+    if button.getButtonUse():
+        GPIO.output(4,GPIO.LOW)
+    try:
+        with open("audio_file.wav", "wb") as file:
+            file.write(audio.get_wav_data())
+    except:
+        print("couldnt write audio file")

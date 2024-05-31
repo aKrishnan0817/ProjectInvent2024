@@ -7,6 +7,20 @@ from speech_to_text import speech_to_text
 
 from piComponents import piComponents
 
+from time import time
+
+
+def timer_func(func):
+    # This function shows the execution time of
+    # the function object passed
+    def wrap_func(*args, **kwargs):
+        t1 = time()
+        result = func(*args, **kwargs)
+        t2 = time()
+        print(f'Function {func.__name__!r} executed in {(t2-t1):.4f}s')
+        return result
+    return wrap_func
+
 
 sys.path.append('../')
 import sensitiveData
@@ -24,16 +38,20 @@ def prepare_message(iprompt,inputType, functionCalling = tools,button= None):
       uinput = input("")
       iprompt.append({"role": "user", "content": uinput})
   else:
-      uinput = speech_to_text(button)
+
+      uinput = timer_func(speech_to_text)(button)
       iprompt.append({"role": "user", "content": uinput})
 
   contentNotFlagged = False
   while contentNotFlagged == False:
       #content not flagged is set to false defaultly, if the "moderateMessage" function returns True it means the message
-      # is clean and will end the loop. Otherwise it will keeep generating new messages
-      response=client.chat.completions.create(model="gpt-4",messages=iprompt,tools=functionCalling, tool_choice="auto" )
+      # is clean and will end the loop. Otherwise it will keeep generating new messages\
+
+      response=timer_func(client.chat.completions.create)(model="gpt-4o",messages=iprompt,tools=functionCalling, tool_choice="auto")
+
       text = response.choices[0].message.content
-      contentNotFlagged = moderateMessage(text,uinput)
+
+      contentNotFlagged = timer_func(moderateMessage)(text,uinput)
 
   try:
       functionCalled = response.choices[0].message.tool_calls[0].function.name
@@ -42,9 +60,10 @@ def prepare_message(iprompt,inputType, functionCalling = tools,button= None):
       #response=client.chat.completions.create(model="gpt-4",messages=iprompt)
   except:
       functionCalled = None
-      print("ChatGPT response:",text)
+      print("OWL response:",text)
       iprompt.append({"role" : "assistant" , "content" : text})
-      ttsPlay(text)
+
+      timer_func(ttsPlay)(text)
 
   return iprompt, text, functionCalled
 
@@ -72,7 +91,7 @@ def moderateMessage(text,uinput):
 
       mod_message = [{'role': 'system', 'content': mod_role}] + [{'role': 'user', 'content': mod_prompt}]
 
-      censor_response = client.chat.completions.create(model="gpt-4", messages=mod_message)
+      censor_response = client.chat.completions.create(model="gpt-4o", messages=mod_message)
       #print(censor_response)
       censor = censor_response.choices[0].message.content
 

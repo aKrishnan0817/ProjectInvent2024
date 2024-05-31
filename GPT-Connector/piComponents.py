@@ -22,13 +22,13 @@ class piComponents:
         if self.buttonUse:
             while True:
                 if self.button.is_pressed:
-                    setLed(1)
-                    time.sleep(1)
-                    setLed(0)
+                    self.setLed(1)
+                    self.time.sleep(1)
+                    self.setLed(0)
                     return True
 
                 else:
-                    setLed(0)
+                    self.setLed(0)
         return None
 
     #0 for off - 1 for on

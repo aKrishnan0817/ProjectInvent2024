@@ -16,7 +16,7 @@ iprompt.append(assert1)
 iprompt.append(assert2)
 
 #1 for typing 0 for speaking
-inputType = 1
+inputType = 0
 
 #-----CONFIG FOR DISTRESS MODE------
 email = sensitiveData.emailAddress
@@ -37,7 +37,7 @@ while(True):
 
 
     if functionCalled == "distress":
-        functionCalled = distressMode(email,password,gaurdianEmail,iprompt,inputType)
+        functionCalled = distressMode(email,password,gaurdianEmail,iprompt,inputType,button=button)
 
     if functionCalled == "game":
         functionCalled=gameMode(inputType,button=button)
