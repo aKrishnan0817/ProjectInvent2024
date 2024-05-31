@@ -37,7 +37,7 @@ def listen_for_stop(button):
 
 def chooseStory(inputType,button):
     message = "What is the name or type of story you'd like to listen to?"
-    print("ChatGPT response:",message)
+    print("OWL response:",message)
     ttsPlay(message)
     iprompt = []
     assert1={"role": "system", "content": "You are an audio book app"}
@@ -55,7 +55,7 @@ def chooseStory(inputType,button):
 #if the user wants a randomly generated story or pre recorded
 def chooseStoryType(inputType,button):
     firstMessage = "Would you like to listen to a story from my large collection? Or I can create a story based on a few random words you give me!"
-    print("ChatGPT response:",firstMessage)
+    print("OWL response:",firstMessage)
     ttsPlay(firstMessage)
     iprompt = []
     assert1={"role": "system", "content": "You are an audio book app"}
@@ -65,18 +65,19 @@ def chooseStoryType(inputType,button):
     storyType = None
     while storyType == None:
         iprompt,_,storyType = prepare_message(iprompt, inputType , storyTypeSelect,button=button)
+        print(storyType)
     return storyType
 
 def generateRandomStory(inputType,button):
     message = "Could you give me a few words that I can use to make the story?"
-    print("ChatGPT response:",message)
+    print("OWL response:",message)
     ttsPlay(message)
 
     if inputType:
         print("Type your words and press enter:")
         words = input("")
     else:
-        words = speech_to_text()
+        words = speech_to_text(button)
 
     iprompt = []
     assert1={"role": "system", "content": "You are an audio book app"}

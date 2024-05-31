@@ -38,7 +38,7 @@ def gameMode(inputType,button=None):
 
 def chooseGame(inputType,button=None):
     message = "What game would you like to play? We can play 20 questions, Superhero Trivia or geography trivia."
-    print("ChatGPT response:",message)
+    print("OWL response:",message)
     ttsPlay(message)
     iprompt = []
     assert1={"role": "system", "content": "You are an ai friend of a child"}
@@ -116,7 +116,7 @@ def play20Questions(inputType,button=None):
     assert2={"role": "assistant", "content": secretObjectQuestion}
 
     firstMessage = "Lets play 20 questions. I've thought of a word and you need to guess it."
-    print("ChatGPT response:",firstMessage)
+    print("OWL response:",firstMessage)
     ttsPlay(firstMessage)
 
     iprompt.append(assert1)

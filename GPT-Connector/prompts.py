@@ -1,7 +1,8 @@
 promptList =[0]
 latestVersion =2 #LATEST VERSION IS HERE
-print("Enter which version you'd like to use (1,2,3,4..)")
-version = int(input(""))
+#print("Enter which version you'd like to use (1,2,3,4..)")
+#version = int(input(""))
+version = 2
 while version not in list(range(latestVersion+1)):
     print("Enter an integer value between 1 and ",latestVersion)
 

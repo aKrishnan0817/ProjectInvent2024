@@ -37,6 +37,7 @@ class piComponents:
             GPIO.setup(self.ledPin,GPIO.OUT)
             if onOff:
                 GPIO.output(self.ledPin,GPIO.HIGH)
+                print("turning led on")
             GPIO.output(self.ledPin,GPIO.LOW)
 
     def getButtonUse(self):
