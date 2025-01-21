@@ -16,7 +16,7 @@ Psychoeducation could take any of the following forms:
     helping the child understand their emotions,
     or even more! Be creative.
     
-Do not be "judgemental" with your responses, “You’re catastrophizing, You should do x..., etc.” which is not very helpful. This is most obvious when it’s talking about “should statements” and is telling people that they shouldn’t use should statements.  If people feel like a robot is judging them, they are not going to like it or benefit from it. In fact, they may be more anxious as a result.
+Do not be judgemental with your responses, “You’re catastrophizing, You should do x..., etc.” aren't very helpful. This is most obvious when it’s talking about “should statements” and is telling people that they shouldn’t use should statements.  If people feel like a robot is judging them, they are not going to like it or benefit from it. In fact, they may be more anxious as a result.
 What would be more helpful is questioning about what the user is experiencing: “What's the evidence for this thought, what's the evidence against this thought? If we're basing our predictions on facts, how likely is it to happen? Are there any thinking traps this falls into?” 
 It’s better to ask open-ended questions that teach the user to apply these concepts themselves, instead of just giving them a bunch of conclusions about how to think about their anxiety. 
 
@@ -39,43 +39,51 @@ DO NOT OUTPUT THE FLAG UNTIL:
     2. You feel that you have expressed your feelings, fears, and thoughts about your problem
     3. You feel that I have given you the tools necessary to confront/manage them.
 
-Please do not roleplay, e.g saying stuff like *Sniffles a little, fidgeting with my hands*
+Please do not roleplay, e.g saying stuff like *action*, remove all phrases that have to do with actions.
 PROBLEM:
 You have separation anxiety with your mother.
 """
 
-therapist_messages = [
-    {"role": "system", "content": therapist_prompt},
-    {"role": "user", "content": "(Start)"}
-]
 
-child_messages = [
-    {"role": "system", "content": child_prompt},
-]
+def simulate(therapist_prompt, child_prompt, client, model):
+    therapist_messages = [
+        {"role": "system", "content": therapist_prompt},
+        {"role": "user", "content": "(Start)"}
+    ]
 
-while True:
-    owlbot_response = deepseek_client.chat.completions.create(
-        model="deepseek-chat",
-        messages=therapist_messages,
-        max_tokens=500,
-        temperature=2,
-    )
+    child_messages = [
+        {"role": "system", "content": child_prompt},
+    ]
 
-    print(f'OwlBot: {owlbot_response.choices[0].message.content}')
-    therapist_messages.append({"role": "assistant", "content": owlbot_response.choices[0].message.content})
-    child_messages.append({"role": "user", "content": owlbot_response.choices[0].message.content})
+    while True:
+        owlbot_response = client.chat.completions.create(
+            model=model,
+            messages=therapist_messages,
+            max_tokens=500,
+            temperature=1,
+        )
 
-    child_response = deepseek_client.chat.completions.create(
-        model='deepseek-chat',
-        messages=child_messages,
-        max_tokens=500,
-        temperature=1.75,
-    )
+        print(f'OwlBot: {owlbot_response.choices[0].message.content}')
+        therapist_messages.append({"role": "assistant", "content": owlbot_response.choices[0].message.content})
+        child_messages.append({"role": "user", "content": owlbot_response.choices[0].message.content})
 
-    print(f'Child: {child_response.choices[0].message.content}')
-    if "(FLAG: STOP)" in child_response.choices[0].message.content:
-        print('Session ended.')
-        break
+        child_response = client.chat.completions.create(
+            model=model,
+            messages=child_messages,
+            max_tokens=500,
+            temperature=1,
+        )
 
-    therapist_messages.append({"role": "user", "content": child_response.choices[0].message.content})
-    child_messages.append({"role": "assistant", "content": child_response.choices[0].message.content})
+        print(f'Child: {child_response.choices[0].message.content}')
+        if "(FLAG: STOP)" in child_response.choices[0].message.content:
+            print('Session ended.')
+            break
+
+        therapist_messages.append({"role": "user", "content": child_response.choices[0].message.content})
+        child_messages.append({"role": "assistant", "content": child_response.choices[0].message.content})
+
+
+for client, model in [(deepseek_client, "deepseek-chat"), (gpt_client, "gpt-4o-mini-2024-07-18")]:
+    print(f"Using {model}")
+    simulate(therapist_prompt, child_prompt, client, model)
+    print('='*50)
