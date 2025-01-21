@@ -50,14 +50,15 @@ def main():
                 {
                     "backwards": "start"
                 }
-        }
+        },
+
     }
 
     # Game Loop
     while True:
         # movement + search + help
         game_room = game_map[player_data['location']]
-        valid_moves = list(game_room['choices'].keys()) + ['search', 'help', 'look', 'inspect']
+        valid_moves = list(game_room['choices'].keys()) + ['search', 'look', 'inspect', 'help']
 
         if not game_room['visited']:
             print(game_room['initial_description'])
