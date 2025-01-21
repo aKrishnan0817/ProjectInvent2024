@@ -1,7 +1,8 @@
 from openai import OpenAI
+import os
 
-gpt_key = "gpt_key"
-deepseek_key = "deepseek_key"
+gpt_key = os.getenv("GPT_KEY")
+deepseek_key = os.getenv("DEEPSEEK_KEY")
 
 deepseek_client = OpenAI(api_key=deepseek_key, base_url="https://api.deepseek.com")
 gpt_client = OpenAI(api_key=gpt_key)  # TODO: add functionality to switch between Deepseek and GPT-4
