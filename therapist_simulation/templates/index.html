@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Agent Conversation</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <span>Agent Conversation</span>
+            <span class="settings-icon" id="settingsIcon">⚙️</span>
+        </div>
+        <div class="chat-box" id="chatBox"></div>
+        <div class="footer">
+            <input type="text" id="initialMessageInput" placeholder="Enter message here...">
+            <button id="generateNextButton" style="display:none;">Generate Next Response</button>
+        </div>
+        <div class="action-buttons">
+            <button id="useChildAgentButton">Use Child Agent</button>
+            <button id="speakAsChildButton">Speak as Child</button>
+            <button id="restartButton">Restart Conversation</button>
+
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal" id="settingsModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Update Parameters</h2>
+                <span class="close" id="closeModal">&times;</span>
+            </div>
+            <form id="updateParamsForm">
+                <h3>Owlbot Parameters</h3>
+                <label>Model:</label>
+                <input type="text" name="owlbot_model" placeholder="Model">
+                <label>Max Tokens:</label>
+                <input type="number" name="owlbot_max_tokens" placeholder="Max Tokens">
+                <label>Presence Penalty:</label>
+                <input type="number" step="0.1" name="owlbot_presence_penalty" placeholder="Presence Penalty">
+                <label>Temperature:</label>
+                <input type="number" step="0.1" name="owlbot_temperature" placeholder="Temperature">
+                <label>System Prompt:</label>
+                <textarea name="owlbot_system_prompt" placeholder="System Prompt"></textarea>
+
+                <h3>Child Parameters</h3>
+                <label>Model:</label>
+                <input type="text" name="child_model" placeholder="Model">
+                <label>Max Tokens:</label>
+                <input type="number" name="child_max_tokens" placeholder="Max Tokens">
+                <label>Presence Penalty:</label>
+                <input type="number" step="0.1" name="child_presence_penalty" placeholder="Presence Penalty">
+                <label>Temperature:</label>
+                <input type="number" step="0.1" name="child_temperature" placeholder="Temperature">
+                <label>System Prompt:</label>
+                <textarea name="child_system_prompt" placeholder="System Prompt"></textarea>
+
+                <button type="submit">Update</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            const chatBox = $('#chatBox');
+
+            function addMessage(agent, message) {
+                const icons = {
+                    "User": "{{ url_for('static', filename='user.png') }}",
+                    "Owlbot": "{{ url_for('static', filename='owlbot.png') }}",
+                    "Child": "{{ url_for('static', filename='child.png') }}"
+                };
+                const messageDiv = $(`
+                    <div class="message ${agent.toLowerCase()}">
+                        <img src="${icons[agent]}" alt="${agent}">
+                        <span>${message}</span>
+                    </div>
+                `);
+                chatBox.append(messageDiv);
+                chatBox.scrollTop(chatBox.prop('scrollHeight'));
+            }
+
+            // Use Child Agent
+            $('#useChildAgentButton').on('click', function () {
+                const initialMessage = $('#initialMessageInput').val() || "I miss my mom";
+                $.post('/start_conversation', { action: 'use_child_agent', initial_message: initialMessage }, function (response) {
+                    $('#chatBox').html('');
+                    response.conversation_history.forEach(entry => {
+                        addMessage(entry.agent, entry.message);
+                    });
+                    $('#generateNextButton').show();
+                });
+                $('#initialMessageInput').val('')
+            });
+
+            // Speak as Child
+            $('#speakAsChildButton').on('click', function () {
+                const initialMessage = $('#initialMessageInput').val();
+                if (!initialMessage.trim()) {
+                    alert('Please enter a message to start the conversation.');
+                    return;
+                }
+
+                $.post('/start_conversation', { action: 'speak_as_child', initial_message: initialMessage }, function (response) {
+                    $('#chatBox').html('');
+                    response.conversation_history.forEach(entry => {
+                        addMessage(entry.agent, entry.message);
+                    });
+                    $('#generateNextButton').hide(); // Hide generate button for speak-as-child flow
+                });
+                $('#initialMessageInput').val('')
+            });
+
+            // Generate Next Response
+            $('#generateNextButton').on('click', function () {
+                $.post('/generate_next', {}, function (response) {
+                    if (response.error) {
+                        alert(response.error);
+                        return;
+                    }
+                    const lastEntry = response.conversation_history.slice(-1)[0];
+                    addMessage(lastEntry.agent, lastEntry.message);
+                });
+            });
+
+            // Settings Modal
+            const settingsModal = $('#settingsModal');
+            $('#settingsIcon').on('click', function () {
+                settingsModal.show();
+            });
+            $('#closeModal').on('click', function () {
+                settingsModal.hide();
+            });
+            $('#updateParamsForm').on('submit', function (e) {
+                e.preventDefault();
+                const formData = $(this).serialize();
+                $.post('/update_params', formData, function () {
+                    alert('Parameters updated successfully!');
+                    settingsModal.hide();
+                });
+            });
+            $('#restartButton').on('click', function () {
+                $.post('/start_conversation', { action: 'restart_conversation' }, function () {
+                    $('#chatBox').html(''); // Clear the chat box
+                });
+                $('#initialMessageInput').val('')
+            });
+        });
+    </script>
+</body>
+</html>
