@@ -95,26 +95,51 @@ def update_params():
     global owlbot_params, child_params
 
     # Update Owlbot parameters
-    owlbot_params["model"] = request.form.get("owlbot_model", owlbot_params["model"])
-    owlbot_params["max_tokens"] = int(request.form.get("owlbot_max_tokens", 100))
-    owlbot_params["presence_penalty"] = float(request.form.get("owlbot_presence_penalty", 0.3))
-    owlbot_params["temperature"] = float(request.form.get("owlbot_temperature", 0.5))
-    owlbot_params["system_prompt"] = request.form.get("owlbot_system_prompt", "")
+    if "owlbot_model" in request.form and request.form["owlbot_model"]:
+        owlbot_params["model"] = request.form["owlbot_model"]
+    if "owlbot_max_tokens" in request.form and request.form["owlbot_max_tokens"]:
+        try:
+            owlbot_params["max_tokens"] = int(request.form["owlbot_max_tokens"])
+        except ValueError:
+            pass  # Keep the current owlbot_params["max_tokens"]
+    if "owlbot_presence_penalty" in request.form and request.form["owlbot_presence_penalty"]:
+        try:
+            owlbot_params["presence_penalty"] = float(request.form["owlbot_presence_penalty"])
+        except ValueError:
+            pass  # Keep the current owlbot_params["presence_penalty"]
+    if "owlbot_temperature" in request.form and request.form["owlbot_temperature"]:
+        try:
+            owlbot_params["temperature"] = float(request.form["owlbot_temperature"])
+        except ValueError:
+            pass  # Keep the current owlbot_params["temperature"]
+    if "owlbot_system_prompt" in request.form and request.form["owlbot_system_prompt"]:
+        owlbot_params["system_prompt"] = request.form["owlbot_system_prompt"]
+
+    # Update Child parameters
+    if "child_model" in request.form and request.form["child_model"]:
+        child_params["model"] = request.form["child_model"]
+    if "child_max_tokens" in request.form and request.form["child_max_tokens"]:
+        try:
+            child_params["max_tokens"] = int(request.form["child_max_tokens"])
+        except ValueError:
+            pass  # Keep the current child_params["max_tokens"]
+    if "child_presence_penalty" in request.form and request.form["child_presence_penalty"]:
+        try:
+            child_params["presence_penalty"] = float(request.form["child_presence_penalty"])
+        except ValueError:
+            pass  # Keep the current child_params["presence_penalty"]
+    if "child_system_prompt" in request.form and request.form["child_system_prompt"]:
+        child_params["system_prompt"] = request.form["child_system_prompt"]
+
     owlbot.set_model(owlbot_params["model"])
     owlbot.set_modelParams(**{key: owlbot_params[key] for key in ["max_tokens", "presence_penalty", "temperature"]})
     owlbot.set_system_prompt(owlbot_params["system_prompt"])
+    print(owlbot_params, owlbot.get_history())
 
-    # Update Child parameters
-    child_params["model"] = request.form.get("child_model", child_params["model"])
-    child_params["max_tokens"] = int(request.form.get("child_max_tokens", 100))
-    child_params["presence_penalty"] = float(request.form.get("child_presence_penalty", 0.3))
-    child_params["temperature"] = float(request.form.get("child_temperature", 0.5))
-    child_params["system_prompt"] = request.form.get("child_system_prompt", "")
     child.set_model(child_params["model"])
     child.set_modelParams(**{key: child_params[key] for key in ["max_tokens", "presence_penalty", "temperature"]})
     child.set_system_prompt(child_params["system_prompt"])
 
     return jsonify({"owlbot_params": owlbot_params, "child_params": child_params})
-
 if __name__ == "__main__":
     app.run(debug=True)
