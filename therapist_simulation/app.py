@@ -13,18 +13,24 @@ owlbot = OwlbotAgent(model="gpt-4o-mini-2024-07-18", api_key=openAI_api_key)
 child = ChildAgent(model="gpt-4o-mini-2024-07-18", api_key=openAI_api_key)
 
 # Default model parameters
-owlbot_params = {"max_tokens": 100, "presence_penalty": 0.3, "temperature": 0.5, "system_prompt": "", "model": "gpt-4o-mini-2024-07-18"}
-child_params = {"max_tokens": 100, "presence_penalty": 0.3, "temperature": 0.5, "system_prompt": "", "model": "gpt-4o-mini-2024-07-18"}
+owlbot_params = {"max_tokens": 100, "presence_penalty": 0.3, "temperature": 0.5, "system_prompt": "",
+                 "model": "gpt-4o-mini-2024-07-18"}
+child_params = {"max_tokens": 100, "presence_penalty": 0.3, "temperature": 0.5, "system_prompt": "",
+                "model": "gpt-4o-mini-2024-07-18"}
 
-owlbot.set_modelParams(max_tokens=owlbot_params["max_tokens"], presence_penalty=owlbot_params["presence_penalty"], temperature=owlbot_params["temperature"])
-child.set_modelParams(max_tokens=child_params["max_tokens"], presence_penalty=child_params["presence_penalty"], temperature=child_params["temperature"])
+owlbot.set_modelParams(max_tokens=owlbot_params["max_tokens"], presence_penalty=owlbot_params["presence_penalty"],
+                       temperature=owlbot_params["temperature"])
+child.set_modelParams(max_tokens=child_params["max_tokens"], presence_penalty=child_params["presence_penalty"],
+                      temperature=child_params["temperature"])
 
 # Conversation history
 conversation_history = []
 
+
 @app.route('/')
 def index():
     return render_template('index.html', owlbot_params=owlbot_params, child_params=child_params)
+
 
 @app.route('/start_conversation', methods=['POST'])
 def start_conversation():
@@ -50,7 +56,7 @@ def start_conversation():
 
     elif action == "use_child_agent":
         # Use child agent
-        
+
         child.add_to_history(agent="child", input=initial_message)
         owlbot.add_to_history(agent="child", input=initial_message)
 
@@ -62,13 +68,14 @@ def start_conversation():
         conversation_history.append({"agent": "Owlbot", "message": owlbot_response})
 
         return jsonify({"conversation_history": conversation_history})
-    
+
     elif action == "restart_conversation":
         conversation_history.clear()
         return jsonify({"conversation_history": conversation_history})
 
     else:
         return jsonify({"error": "Invalid action"})
+
 
 @app.route('/generate_next', methods=['POST'])
 def generate_next():
@@ -90,6 +97,7 @@ def generate_next():
         conversation_history.append({"agent": "Owlbot", "message": owlbot_response})
 
     return jsonify({"conversation_history": conversation_history})
+
 
 @app.route('/update_params', methods=['POST'])
 def update_params():
@@ -142,5 +150,7 @@ def update_params():
     child.set_system_prompt(child_params["system_prompt"])
 
     return jsonify({"owlbot_params": owlbot_params, "child_params": child_params})
+
+
 if __name__ == "__main__":
     app.run(debug=True)

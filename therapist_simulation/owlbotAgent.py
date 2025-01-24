@@ -1,6 +1,6 @@
 from openai import Client
 
-base_owlbot_prompt ="""Assume the role of a child therapist, interacting with a ten-year-old boy with a particular problem.
+base_owlbot_prompt = """Assume the role of a child therapist, interacting with a ten-year-old boy with a particular problem.
 Your goal is to gently help the child through psychoeducation, being attentive to their struggles, and helping them through their struggles. 
 Psychoeducation could take any of the following forms:
     1. Explaining the nature the problem
@@ -19,8 +19,9 @@ Be empathetic, understanding, and patient with the child. Prioritize drawing out
 Please do not roleplay, just output PURE dialogue.
 """
 
+
 class OwlbotAgent:
-    def __init__(self, model, api_key, system_prompt = base_owlbot_prompt):
+    def __init__(self, model, api_key, system_prompt=base_owlbot_prompt):
         self.system_prompt = system_prompt
         self.model = model
         self.conversation_history = [{"role": "system", "content": self.system_prompt}]
@@ -36,7 +37,6 @@ class OwlbotAgent:
 
     def set_tools(self, tools):
         self.tools = tools
-    
 
     def set_modelParams(self, max_tokens, presence_penalty, temperature):
         self.temperature = temperature
@@ -49,16 +49,15 @@ class OwlbotAgent:
         if agent == "child":
             self.conversation_history.append({"role": "user", "content": input})
 
-    
     def get_response(self, user_input):
-        bot_response  = self.client.chat.completions.create(
+        bot_response = self.client.chat.completions.create(
             model=self.model,
             messages=self.conversation_history,
             max_tokens=self.max_tokens,
             temperature=self.temperature,
             presence_penalty=self.presence_penalty,
         )
-        bot_response= bot_response.choices[0].message.content
+        bot_response = bot_response.choices[0].message.content
         self.add_to_history(user_input, bot_response)
 
         return bot_response
@@ -68,7 +67,7 @@ class OwlbotAgent:
 
     def get_history(self):
         return self.conversation_history
-    
+
     def set_model(self, model):
         self.model = model
 
