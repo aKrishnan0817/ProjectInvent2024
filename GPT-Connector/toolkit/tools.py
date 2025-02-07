@@ -86,5 +86,22 @@ tools = [
                   },
               },
           }
+      },
+       {
+          "type": "function",
+          "function": {
+              "name": "psychoeducation",
+              "description": promptList[version]["psyschoeducationPrompt"],
+              "parameters": {
+                  "type": "object",
+                  "properties": {
+                      "location": {
+                          "type": "string",
+                          "description": "Example return",
+                      },
+                  },
+              },
+          }
       }
+      
   ]
