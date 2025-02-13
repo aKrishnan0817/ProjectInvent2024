@@ -25,8 +25,10 @@ promptList.append(V1)
 
 distressPrompt='the user explicitly states that they are in a state of distress and uses the word "distress"'
 copingPrompt="the user would like to practice coping skills such as meditation or breathing excerises"
-V2={"distressPrompt":distressPrompt,"copingPrompt":copingPrompt}
+psychoeducationPrompt = 'the user wants to learn about psychology or be psychoeducated.'
+V2={"distressPrompt":distressPrompt,"copingPrompt":copingPrompt, "psychoeducationPrompt": psychoeducationPrompt}
 promptList.append(V2)
+
 
 
 distressPrompt=""
