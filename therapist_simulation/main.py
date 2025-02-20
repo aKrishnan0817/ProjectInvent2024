@@ -1,7 +1,8 @@
-from openai import OpenAI
-import os
 import datetime
 import json
+import os
+
+from openai import OpenAI
 
 gpt_key = os.getenv("GPT_KEY")
 deepseek_key = os.getenv("DEEPSEEK_KEY")

@@ -1,17 +1,16 @@
+import os
+import sys
+
 import speech_recognition as sr
 from langdetect import detect
-
-import sys
 from openai import OpenAI
-import os
-import time
+
 sys.path.append('../')
 import sensitiveData
+
 API_KEY = sensitiveData.apiKey
 client = OpenAI(api_key=API_KEY)
 from TTS import ttsPlay
-
-from piComponents import piComponents
 
 try:
     from gpiozero import Button
@@ -19,25 +18,25 @@ try:
 except:
     print("")
 
-def speech_to_text(button):
 
+def speech_to_text(button):
     text = None
-    while text == None or detect(text)!="en":
+    while text == None or detect(text) != "en":
 
         getSpeech(button)
         try:
             print("Transcribing...")
             audio_file = open("audio_file.wav", "rb")
             transcription = client.audio.transcriptions.create(
-              model="whisper-1",
-              file=audio_file
+                model="whisper-1",
+                file=audio_file
             )
-            text=transcription.text
-            #print(text)
-            #print(detect(text))
+            text = transcription.text
+            # print(text)
+            # print(detect(text))
             nonEn = False
             try:
-                nonEn = detect(text) in ["ko","zh-cn","zh-tw","ja","th","vi"]
+                nonEn = detect(text) in ["ko", "zh-cn", "zh-tw", "ja", "th", "vi"]
             except:
                 print("")
             if text == None or nonEn:
@@ -55,8 +54,6 @@ def speech_to_text(button):
             os.remove("audio_file.wav")
 
 
-
-
 def getSpeech(button):
     recognizer = sr.Recognizer()
 
@@ -66,16 +63,16 @@ def getSpeech(button):
         if button.getButtonUse():
             if button.checkButtonPress():
                 try:
-                    audio = recognizer.listen(source, timeout=10)# Record audio for up to 4 seconds
+                    audio = recognizer.listen(source, timeout=10)  # Record audio for up to 4 seconds
                 except:
                     print("couldnt listen")
             else:
-                GPIO.output(4,GPIO.LOW)
+                GPIO.output(4, GPIO.LOW)
         else:
             print("using mic with no button")
             audio = recognizer.listen(source, timeout=10)
     if button.getButtonUse():
-        GPIO.output(4,GPIO.LOW)
+        GPIO.output(4, GPIO.LOW)
     try:
         with open("audio_file.wav", "wb") as file:
             file.write(audio.get_wav_data())

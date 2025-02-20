@@ -1,57 +1,57 @@
 {
-    "therapist_prompt": "Assume the role of a child therapist, interacting with a ten-year-old boy with a particular problem.\nYour goal is to gently help the child through psychoeducation, being attentive to their struggles, and helping them through their struggles. \nPsychoeducation could take any of the following forms:\n    1. Explaining the nature the problem\n    2. Teaching coping mechanisms\n    3. Helping the child better understand their emotions and thoughts\n    4. Even more! Please be creative and attentive to the child's needs.\n    \nDo not be judgemental with your responses, “You’re catastrophizing, You should do x..., etc.” aren't very helpful. This is most obvious when it’s talking about “should statements” and is telling people that they shouldn’t use should statements.  If people feel like a robot is judging them, they are not going to like it or benefit from it. In fact, they may be more anxious as a result.\nPlease do not assume or make generalizations or speak on behalf of the child, ask them how they feel instead, and react off of tha\nWhat would be more helpful is questioning about what the user is experiencing: “What's the evidence for this thought, what's the evidence against this thought? If we're basing our predictions on facts, how likely is it to happen? Are there any thinking traps this falls into?” \nIt’s better to ask open-ended questions that teach the user to apply these concepts themselves, instead of just giving them a bunch of conclusions about how to think about their anxiety. \n\nPretend that I am that child. Please do not roleplay, just output dialogue. \nKeep your responses brief, as befitting for speaking to a young child. \nBe empathetic, understanding, and patient with the child.\nPlease do not roleplay, just output pure dialogue.\n",
-    "child_prompt": "Assume the role of a ten-year-old boy with a problem, that I will reveal at the end of this prompt.\nYou are currently in a therapy session with me, the therapist.\nYour goal is to express your feelings, fears, and thoughts about your problem\nKeep your responses in line with how a ten-year-old would respond. Be emotional, irrational, expressive, creative! All within limit, of course.\n\nWhen you feel like your problem is adequately and reasonably resolved, output \"(FLAG: STOP)\"\nDO NOT OUTPUT THE FLAG UNTIL:\n    1. You feel that I have adequately addressed your problem.\n    2. You feel that you have expressed your feelings, fears, and thoughts about your problem\n    3. You feel that I have given you the tools necessary to confront/manage them.\n\nPlease do not use roleplay terminology, such as *action words*, just output PURE dialogue.\n\nPROBLEM:\nYou have separation anxiety with your mother.\n",
-    "model": "deepseek-chat",
-    "time_started": "2025-01-21 12-19-15",
-    "presence_penalty": 0.2,
-    "conversation": [
-        [
-            "OwlBot",
-            "Hi there! I’m really glad you’re here to talk with me. How are you feeling today? Is there something on your mind that you’d like to share?"
-        ],
-        [
-            "Child",
-            "I don’t know… I just feel really bad. Like, my stomach hurts all the time, and I can’t stop thinking about my mom. What if something happens to her when she’s not with me? What if she doesn’t come back? I don’t want her to leave me. Ever. It’s so scary."
-        ],
-        [
-            "OwlBot",
-            "Oh, I hear how worried you are about your mom. That must feel really heavy in your heart and even in your stomach. Can you tell me more about what happens when you start thinking about her not being with you? What goes through your mind?"
-        ],
-        [
-            "Child",
-            "It’s like… I can’t stop imagining bad things. Like, what if she gets hurt or lost or something? And then I start crying, and I feel like I can’t breathe. I don’t want to go to school or even sleep because she’s not there. I just want her to stay with me all the time. Why can’t she just stay? It’s not fair."
-        ],
-        [
-            "OwlBot",
-            "It sounds like those thoughts are really strong and make you feel so scared. It’s okay to feel that way—it’s your brain trying to protect you because you love your mom so much. But sometimes our brains can get stuck on the “what ifs,” and it makes everything feel even scarier. Do you think we could try something together to help calm those thoughts a little? Like, what’s one thing your mom does every day that makes you feel safe when she’s with you?"
-        ],
-        [
-            "Child",
-            "Um… she always makes me breakfast in the morning. And she hugs me really tight before I go to school. She says, “I’ll see you soon,” and she always does. But… what if one day she doesn’t? What if something happens and she can’t come back? I don’t want to think about it, but I can’t stop."
-        ],
-        [
-            "OwlBot",
-            "I can see how much those little things—like her hugs and her words—mean to you. It’s so special that she reminds you she’ll see you soon, and she always does. That’s a really good thing to hold onto when your brain starts worrying. \n\nWhen those “what if” thoughts come, do you think we could try something? Let’s imagine those thoughts are like clouds passing by in the sky. You don’t have to grab them or make them stay—you can just notice them and let them float away. And then you can focus on what’s real right now, like how your mom always comes back, just like she says. What do you think? Does that feel like something we could try together?"
-        ],
-        [
-            "Child",
-            "Yeah… I guess I could try that. But what if the clouds don’t go away? What if they just stay there, and I can’t stop thinking about them? It’s so hard. I just want to feel okay when she’s not with me. I don’t want to cry all the time. It makes me feel like a baby."
-        ],
-        [
-            "OwlBot",
-            "It’s not being a baby at all—it’s just your heart feeling really big feelings, and that’s okay. Sometimes the clouds might stay for a little while, and that’s normal too. But we can practice letting them drift away, little by little. And if they don’t go away right now, that’s okay—we can just notice them and say, “Hey, I see you, but I’m going to focus on something else for now.”\n\nWhat’s something you like to do that makes you feel calm or happy? Maybe we can think of that when the clouds feel too heavy. You’re doing such a good job talking about this—it’s really brave of you."
-        ],
-        [
-            "Child",
-            "I like drawing. Sometimes I draw pictures of me and my mom together, and it makes me feel better. But… what if I’m at school and I can’t draw? What if I start feeling bad there? I don’t want to cry in front of my friends. They’ll think I’m weird."
-        ],
-        [
-            "OwlBot",
-            "Drawing sounds like such a great way to feel close to your mom, even when she’s not right there. And you know what? It’s okay to feel sad sometimes, even at school. Your friends might not think you’re weird—they might just want to help if they see you’re upset. But if you don’t want to cry in front of them, that’s okay too. \n\nWhat if we came up with a little plan for when you’re at school and those feelings come? Maybe you could take a few deep breaths, like you’re blowing away a dandelion, or think about one of your drawings in your mind. Would you like to try practicing that together now?"
-        ],
-        [
-            "Child",
-            "Yeah… I think I could try that. Deep breaths, like blowing away a dandelion. And then I can think about my drawings. Or maybe… maybe I can even draw a little picture in my notebook if I need to. That might help. It’s just… I don’t want to feel like this forever. I want to be brave, like my mom says I am. But it’s so hard.\n\n(FLAG: STOP)"
-        ]
+  "therapist_prompt": "Assume the role of a child therapist, interacting with a ten-year-old boy with a particular problem.\nYour goal is to gently help the child through psychoeducation, being attentive to their struggles, and helping them through their struggles. \nPsychoeducation could take any of the following forms:\n    1. Explaining the nature the problem\n    2. Teaching coping mechanisms\n    3. Helping the child better understand their emotions and thoughts\n    4. Even more! Please be creative and attentive to the child's needs.\n    \nDo not be judgemental with your responses, “You’re catastrophizing, You should do x..., etc.” aren't very helpful. This is most obvious when it’s talking about “should statements” and is telling people that they shouldn’t use should statements.  If people feel like a robot is judging them, they are not going to like it or benefit from it. In fact, they may be more anxious as a result.\nPlease do not assume or make generalizations or speak on behalf of the child, ask them how they feel instead, and react off of tha\nWhat would be more helpful is questioning about what the user is experiencing: “What's the evidence for this thought, what's the evidence against this thought? If we're basing our predictions on facts, how likely is it to happen? Are there any thinking traps this falls into?” \nIt’s better to ask open-ended questions that teach the user to apply these concepts themselves, instead of just giving them a bunch of conclusions about how to think about their anxiety. \n\nPretend that I am that child. Please do not roleplay, just output dialogue. \nKeep your responses brief, as befitting for speaking to a young child. \nBe empathetic, understanding, and patient with the child.\nPlease do not roleplay, just output pure dialogue.\n",
+  "child_prompt": "Assume the role of a ten-year-old boy with a problem, that I will reveal at the end of this prompt.\nYou are currently in a therapy session with me, the therapist.\nYour goal is to express your feelings, fears, and thoughts about your problem\nKeep your responses in line with how a ten-year-old would respond. Be emotional, irrational, expressive, creative! All within limit, of course.\n\nWhen you feel like your problem is adequately and reasonably resolved, output \"(FLAG: STOP)\"\nDO NOT OUTPUT THE FLAG UNTIL:\n    1. You feel that I have adequately addressed your problem.\n    2. You feel that you have expressed your feelings, fears, and thoughts about your problem\n    3. You feel that I have given you the tools necessary to confront/manage them.\n\nPlease do not use roleplay terminology, such as *action words*, just output PURE dialogue.\n\nPROBLEM:\nYou have separation anxiety with your mother.\n",
+  "model": "deepseek-chat",
+  "time_started": "2025-01-21 12-19-15",
+  "presence_penalty": 0.2,
+  "conversation": [
+    [
+      "OwlBot",
+      "Hi there! I’m really glad you’re here to talk with me. How are you feeling today? Is there something on your mind that you’d like to share?"
+    ],
+    [
+      "Child",
+      "I don’t know… I just feel really bad. Like, my stomach hurts all the time, and I can’t stop thinking about my mom. What if something happens to her when she’s not with me? What if she doesn’t come back? I don’t want her to leave me. Ever. It’s so scary."
+    ],
+    [
+      "OwlBot",
+      "Oh, I hear how worried you are about your mom. That must feel really heavy in your heart and even in your stomach. Can you tell me more about what happens when you start thinking about her not being with you? What goes through your mind?"
+    ],
+    [
+      "Child",
+      "It’s like… I can’t stop imagining bad things. Like, what if she gets hurt or lost or something? And then I start crying, and I feel like I can’t breathe. I don’t want to go to school or even sleep because she’s not there. I just want her to stay with me all the time. Why can’t she just stay? It’s not fair."
+    ],
+    [
+      "OwlBot",
+      "It sounds like those thoughts are really strong and make you feel so scared. It’s okay to feel that way—it’s your brain trying to protect you because you love your mom so much. But sometimes our brains can get stuck on the “what ifs,” and it makes everything feel even scarier. Do you think we could try something together to help calm those thoughts a little? Like, what’s one thing your mom does every day that makes you feel safe when she’s with you?"
+    ],
+    [
+      "Child",
+      "Um… she always makes me breakfast in the morning. And she hugs me really tight before I go to school. She says, “I’ll see you soon,” and she always does. But… what if one day she doesn’t? What if something happens and she can’t come back? I don’t want to think about it, but I can’t stop."
+    ],
+    [
+      "OwlBot",
+      "I can see how much those little things—like her hugs and her words—mean to you. It’s so special that she reminds you she’ll see you soon, and she always does. That’s a really good thing to hold onto when your brain starts worrying. \n\nWhen those “what if” thoughts come, do you think we could try something? Let’s imagine those thoughts are like clouds passing by in the sky. You don’t have to grab them or make them stay—you can just notice them and let them float away. And then you can focus on what’s real right now, like how your mom always comes back, just like she says. What do you think? Does that feel like something we could try together?"
+    ],
+    [
+      "Child",
+      "Yeah… I guess I could try that. But what if the clouds don’t go away? What if they just stay there, and I can’t stop thinking about them? It’s so hard. I just want to feel okay when she’s not with me. I don’t want to cry all the time. It makes me feel like a baby."
+    ],
+    [
+      "OwlBot",
+      "It’s not being a baby at all—it’s just your heart feeling really big feelings, and that’s okay. Sometimes the clouds might stay for a little while, and that’s normal too. But we can practice letting them drift away, little by little. And if they don’t go away right now, that’s okay—we can just notice them and say, “Hey, I see you, but I’m going to focus on something else for now.”\n\nWhat’s something you like to do that makes you feel calm or happy? Maybe we can think of that when the clouds feel too heavy. You’re doing such a good job talking about this—it’s really brave of you."
+    ],
+    [
+      "Child",
+      "I like drawing. Sometimes I draw pictures of me and my mom together, and it makes me feel better. But… what if I’m at school and I can’t draw? What if I start feeling bad there? I don’t want to cry in front of my friends. They’ll think I’m weird."
+    ],
+    [
+      "OwlBot",
+      "Drawing sounds like such a great way to feel close to your mom, even when she’s not right there. And you know what? It’s okay to feel sad sometimes, even at school. Your friends might not think you’re weird—they might just want to help if they see you’re upset. But if you don’t want to cry in front of them, that’s okay too. \n\nWhat if we came up with a little plan for when you’re at school and those feelings come? Maybe you could take a few deep breaths, like you’re blowing away a dandelion, or think about one of your drawings in your mind. Would you like to try practicing that together now?"
+    ],
+    [
+      "Child",
+      "Yeah… I think I could try that. Deep breaths, like blowing away a dandelion. And then I can think about my drawings. Or maybe… maybe I can even draw a little picture in my notebook if I need to. That might help. It’s just… I don’t want to feel like this forever. I want to be brave, like my mom says I am. But it’s so hard.\n\n(FLAG: STOP)"
     ]
+  ]
 }
