@@ -23,8 +23,8 @@ def play_audio(audio_file):
         # Wait until the music finishes playing
         while pygame.mixer.music.get_busy():
             continue
-    except:
-        print("")
+    except Exception as e:
+        print(f"Error playing audio: {e}")
 
 
 def ttsPlay(text):
