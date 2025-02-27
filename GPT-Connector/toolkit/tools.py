@@ -91,7 +91,7 @@ tools = [
         "type": "function",
         "function": {
             "name": "psychoeducation",
-            "description": promptList[version]["psyschoeducationPrompt"],
+            "description": promptList[version]["psychoeducationPrompt"],
             "parameters": {
                 "type": "object",
                 "properties": {

@@ -1,12 +1,17 @@
 import sys
+
+sys.path.append('/Users/jphillips/ProjectInvent2024')
 from time import time
 
 from openai import OpenAI
+import base64
 
-from TTS import ttsPlay
-from speech_to_text import speech_to_text
+from TTS import ttsPlay, play_audio
+from speech_to_text import speech_to_text, getSpeech
 from toolkit.tools import tools
+from toolkit.noTools import noTools
 
+MODEL = "gpt-4o-audio"
 
 def timer_func(func):
     # This function shows the execution time of
@@ -30,6 +35,10 @@ client = OpenAI(api_key=API_KEY)
 
 # inputType 1 for text, 0 for speech
 def prepare_message(iprompt, inputType, functionCalling=tools, button=None):
+    text = None
+    response = None
+    functionCalled = None
+
     # enter the request with a microphone or type it if you wish
     if inputType == 2:
         uinput = ""
@@ -38,21 +47,75 @@ def prepare_message(iprompt, inputType, functionCalling=tools, button=None):
         uinput = input("")
         iprompt.append({"role": "user", "content": uinput})
     else:
-
-        uinput = timer_func(speech_to_text)(button)
-        iprompt.append({"role": "user", "content": uinput})
-
-    contentNotFlagged = False
-    while contentNotFlagged == False:
-        # content not flagged is set to false defaultly, if the "moderateMessage" function returns True it means the message
-        # is clean and will end the loop. Otherwise it will keeep generating new messages\
-
-        response = timer_func(client.chat.completions.create)(model="gpt-4o", messages=iprompt, tools=functionCalling,
+        if MODEL == "gpt-4o":
+            uinput = timer_func(speech_to_text)(button)
+            iprompt.append({"role": "user", "content": uinput})
+            response = timer_func(client.chat.completions.create)(model="gpt-4o", messages=iprompt, tools=noTools,
                                                               tool_choice="auto")
+            text = response.choices[0].message.content
+            try:
+                functionCalled = response.choices[0].message.tool_calls[0].function.name
+                print("Function called:", functionCalled)
 
-        text = response.choices[0].message.content
+                # response=client.chat.completions.create(model="gpt-4",messages=iprompt)
+            except:
+                functionCalled = None
+                print("OWL response:", text)
+                iprompt.append({"role": "assistant", "content": text})
+                timer_func(ttsPlay)(text)
+        else:
+            audio_path = timer_func(getSpeech)(button)
+            if not audio_path:
+                return iprompt, "Failed to get audio input.", None
 
-        contentNotFlagged = timer_func(moderateMessage)(text, uinput)
+            try:
+                # Open audio file in binary mode
+                with open("audio_file.wav", "rb") as audio_file:
+                    # Add audio message to the prompt
+                    iprompt.append({
+                        "role": "user",
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": "Processing audio input"
+                            },{
+                                "type": "input_audio",
+                                "input_audio": {
+                                    "data": base64.b64encode(audio_file.read()).decode('utf-8'),
+                                    "format": "wav"
+                                }
+                            }
+                        ]
+                    })
+
+                response = timer_func(client.chat.completions.create)(
+                    model="gpt-4o-audio-preview",
+                    messages=iprompt,
+                    modalities=["text", "audio"],
+                    #response_format={"type": "text"},  # Use "text" as it's supported
+                    audio={"voice": "alloy", "format": "wav"}
+                    #response_format={"type": "audio_text"}
+                    )
+
+                print(response.choices[0].message)
+                # Get text response
+                text = response.choices[0].message.content
+
+                        # If there's audio in the response
+                if hasattr(response.choices[0].message, 'audio'):
+                            wav_bytes = base64.b64decode(response.choices[0].message.audio.data)
+                            text = response.choices[0].message.audio.transcript
+                            with open("output_audio.wav", "wb") as f:
+                                f.write(wav_bytes)
+                            play_audio("output_audio.wav")
+
+            except Exception as e:
+                print(f"Error processing audio: {e}")
+                return iprompt, f"Error: {str(e)}", None
+            #wav_bytes = base64.b64decode(response.choices[0].message.audio.data)
+            #with open("output_audio.wav", "wb") as f:
+            #    f.write(wav_bytes)
+            #    play_audio(f)
 
     try:
         functionCalled = response.choices[0].message.tool_calls[0].function.name
@@ -64,7 +127,7 @@ def prepare_message(iprompt, inputType, functionCalling=tools, button=None):
         print("OWL response:", text)
         iprompt.append({"role": "assistant", "content": text})
 
-        timer_func(ttsPlay)(text)
+
 
     return iprompt, text, functionCalled
 
@@ -102,7 +165,7 @@ def moderateMessage(text, uinput):
 
 if __name__ == "__main__":
     iprompt = []
-    assert1 = {"role": "system", "content": "You are a frined of a nine year old boy"}
+    assert1 = {"role": "system", "content": "You are a friend of a nine year old boy"}
     assert2 = {"role": "assistant", "content": "You are to act and talk the way a younger child would to his friends"}
     iprompt.append(assert1)
     iprompt.append(assert2)

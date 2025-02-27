@@ -76,5 +76,7 @@ def getSpeech(button):
     try:
         with open("audio_file.wav", "wb") as file:
             file.write(audio.get_wav_data())
+        return "audio_file.wav"
     except:
         print("couldnt write audio file")
+        return None
