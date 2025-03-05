@@ -5,7 +5,7 @@ from time import time
 
 from openai import OpenAI
 import base64
-
+import copy
 from TTS import ttsPlay, play_audio
 from speech_to_text import speech_to_text, getSpeech
 from toolkit.tools import tools
@@ -88,26 +88,69 @@ def prepare_message(iprompt, inputType, functionCalling=tools, button=None):
                         ]
                     })
 
+                audio_request = "Please respond in a conversational manner and always provide an audio response when possible."
+
+                if iprompt and len(iprompt) > 0:
+                    if iprompt[0]["role"] == "system":
+                        # Check if the audio request is already included
+                        if audio_request not in iprompt[0]["content"]:
+                            iprompt[0]["content"] += " " + audio_request
+                    else:
+                        # Insert a new system prompt that includes both psychoeducation and audio request
+                        iprompt.insert(0, {"role": "system", "content": systemPsychoeducationPrompt + " " + audio_request})
+                else:
+                    # Create a new system prompt if iprompt is empty
+                    iprompt = [{"role": "system", "content": systemPsychoeducationPrompt + " " + audio_request}]
+
+
+                print("iprompt length")
+                print(len(iprompt))
                 response = timer_func(client.chat.completions.create)(
                     model="gpt-4o-audio-preview",
                     messages=iprompt,
                     modalities=["text", "audio"],
-                    #response_format={"type": "text"},  # Use "text" as it's supported
-                    audio={"voice": "alloy", "format": "wav"}
-                    #response_format={"type": "audio_text"}
+                    audio={"voice": "alloy", "format": "wav"},
+                    #response_format={"type": "json_object"}
                     )
 
-                print(response.choices[0].message)
+                message = response.choices[0].message
+
+                # Print top-level keys in the response
+                print("Top-level keys in response:", list(response.__dict__.keys()))
+
+                # Ensure there are choices before accessing
+                if response.choices and len(response.choices) > 0:
+                    print("Top-level keys in response.choices[0]:", list(response.choices[0].__dict__.keys()))
+                else:
+                    print("No choices found in response.")    
+
+                # Convert the message object to a dictionary
+                message_dict = copy.deepcopy(message.__dict__)
+
+                # If 'audio' exists, remove its 'data' field
+                if "audio" in message_dict and message_dict["audio"]:
+                    message_dict["audio"] = {
+                        "id": message_dict["audio"].id,
+                        "expires_at": message_dict["audio"].expires_at,
+                        "transcript": message_dict["audio"].transcript
+                    }
+
+                # Print the filtered message dictionary
+                print(message_dict)
                 # Get text response
                 text = response.choices[0].message.content
 
-                        # If there's audio in the response
-                if hasattr(response.choices[0].message, 'audio'):
-                            wav_bytes = base64.b64decode(response.choices[0].message.audio.data)
-                            text = response.choices[0].message.audio.transcript
-                            with open("output_audio.wav", "wb") as f:
-                                f.write(wav_bytes)
-                            play_audio("output_audio.wav")
+                if hasattr(response.choices[0].message, 'audio') and response.choices[0].message.audio:
+                    wav_bytes = base64.b64decode(response.choices[0].message.audio.data)
+                    text = response.choices[0].message.audio.transcript
+                    with open("output_audio.wav", "wb") as f:
+                        f.write(wav_bytes)
+                    play_audio("output_audio.wav")
+                else:
+                    print("No audio in response, falling back to text.")
+                    text = response.choices[0].message.content  # Ensure text is always captured
+                    timer_func(ttsPlay)(text)
+
 
             except Exception as e:
                 print(f"Error processing audio: {e}")
