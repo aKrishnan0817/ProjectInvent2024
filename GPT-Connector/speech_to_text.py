@@ -11,6 +11,7 @@ import sensitiveData
 API_KEY = sensitiveData.apiKey
 client = OpenAI(api_key=API_KEY)
 from TTS import ttsPlay
+from piComponents import piComponents
 
 try:
     from gpiozero import Button
@@ -80,3 +81,7 @@ def getSpeech(button):
     except:
         print("couldnt write audio file")
         return None
+
+if __name__ == "__main__":
+    button = piComponents(buttonPin=2, ledPin=4)
+    speech_to_text(button)

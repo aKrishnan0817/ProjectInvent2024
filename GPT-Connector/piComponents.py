@@ -44,3 +44,12 @@ class piComponents:
 
     def getButtonUse(self):
         return self.buttonUse
+
+if __name__ == "__main__":
+    button = piComponents(buttonPin=2, ledPin=4)
+    print(button.checkButtonPress())
+    print(button.getButtonUse())
+    button.setLed(1)
+    time.sleep(1)
+    button.setLed(0)
+    GPIO.cleanup()
