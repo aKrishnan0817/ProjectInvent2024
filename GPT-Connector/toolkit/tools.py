@@ -1,3 +1,6 @@
+import sys
+sys.path.append('../')
+
 from prompts import promptList, version
 
 tools = [

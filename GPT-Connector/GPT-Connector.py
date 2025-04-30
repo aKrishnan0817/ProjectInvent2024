@@ -3,14 +3,14 @@ from Modes.copingSkillsMode import copingSkills
 from Modes.distress import distressMode
 from Modes.gameMode import gameMode
 from Modes.storyMode import storyMode
-from Modes.psychoeducationMode import psychoeducationMode
 from gptMessagePrepare import prepare_message
 from piComponents import piComponents
 
 iprompt = []
-assert1 = {"role": "system", "content": "You are a friend of a nine year old boy. You are to act and talk the way a younger child would to his friends"}
+assert1 = {"role": "system", "content": "You are a frined of a nine year old boy"}
+assert2 = {"role": "assistant", "content": "You are to act and talk the way a younger child would to his friends"}
 iprompt.append(assert1)
-
+iprompt.append(assert2)
 
 # 1 for typing 0 for speaking
 inputType = 0
@@ -38,9 +38,6 @@ while (True):
 
     if functionCalled == "game":
         functionCalled = gameMode(inputType, button=button)
-
-    if functionCalled == "psychoeducation":
-        functionCalled = psychoeducationMode(inputType, iprompt, button=button)
 
     if functionCalled == "story":
         functionCalled = storyMode(inputType, button)
