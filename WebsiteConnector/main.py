@@ -4,11 +4,9 @@ import sensitiveData
 from openai import OpenAI
 from website_client import Client as WebsiteClient
 
-
 client = OpenAI(api_key=sensitiveData.apiKey)
 website_client = WebsiteClient(sensitiveData.website_credentials[0], sensitiveData.website_credentials[1])
 child = website_client.list_children()[0]
-
 
 EMOTIONS = ["Anxious", "Happy", "Angry", "Calm", "Sad"]
 SYSTEM_PROMPT = f"""
