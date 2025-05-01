@@ -41,7 +41,7 @@ functions = [
                 },
                 "context": {
                     "type": "string",
-                    "description": "A brief description of the context in the conversation."
+                    "description": "A brief description of the context of the conversation."
                 },
                 "convo": {
                     "type": "string",
