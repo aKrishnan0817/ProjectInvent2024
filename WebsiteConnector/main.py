@@ -6,28 +6,26 @@ from website_client import Client as WebsiteClient
 
 client = OpenAI(api_key=sensitiveData.apiKey)
 website_client = WebsiteClient(sensitiveData.website_credentials[0], sensitiveData.website_credentials[1])
+print(f"Logged in as {website_client.username}")
 child = website_client.list_children()[0]
+
 
 EMOTIONS = ["Anxious", "Happy", "Angry", "Calm", "Sad"]
 SYSTEM_PROMPT = f"""
-You are an empathetic, context-aware assistant.  When the user’s message expresses or implies one of these emotions:
+You are an empathetic, context-aware assistant.  
+Your client is a {child.age}-year old named {child.name}. They started therapy on {child.start_date}.
+When the user’s message expresses or implies one of these emotions:
 {EMOTIONS}
 
-You should first ask them, in a warm, sensitive way, to rate the intensity on a 1–5 scale.
-Once they reply with a number, you must call the function `record_emotion_intensity` with exactly four arguments: 
-    `emotion` (the detected emotion), 
-    `rating` (the integer 1–5), 
-    'context' (a brief description of the context in the conversation), and 
-    'convo' (your response to the user, to continue the conversation.).
-Do not return any other text after calling the function.
-If there’s no emotion, or the emotion is not present in the emotions list, just respond normally.
+You should first ask them, in a warm, sensitive way to the context of the conversation, to rate the intensity on a 1–5 scale.
 DO NOT assume the child's emotions, wait for them to report to you first. You CAN help them along by asking them what they are feeling, but do not assume anything.
 """
 
 functions = [
     {
+        "type": "function",
         "name": "record_emotion_intensity",
-        "description": "Record the user's emotion and how intense it is from 1 to 5",
+        "description": "Record the user's emotion, it's intensity, the context, and a follow-up response inside a JSON object.",
         "parameters": {
             "type": "object",
             "properties": {
@@ -68,7 +66,7 @@ def chat_with_emotion(history):
         messages=history,
         functions=functions,
         function_call="auto",  # let the model decide when to call
-        temperature=1,
+        temperature=0.7,
         max_tokens=200
     )
     msg = resp.choices[0].message
@@ -76,6 +74,7 @@ def chat_with_emotion(history):
     # If the model decided to call our function:
     if msg.function_call:
         # Parse out arguments
+        print(msg.function_call.arguments)
         args = json.loads(msg.function_call.arguments)
         emotion = args["emotion"]
         rating = args["rating"]
