@@ -15,14 +15,19 @@ class piComponents:
         self.buttonPin = buttonPin
         self.ledPin = ledPin
         try:
+            print(f"Initializing piComponents with buttonPin={self.buttonPin}, ledPin={self.ledPin}")
+            GPIO.cleanup()
+            print("Called GPIO.cleanup() to reset any previous GPIO states.")
             GPIO.setmode(GPIO.BCM)
             GPIO.setup(self.ledPin, GPIO.OUT)
+            print(f"Attempting to create Button on GPIO pin {self.buttonPin}")
             self.button = Button(self.buttonPin)
             self.buttonUse = True
         except:
             print("Exception during GPIO/Button initialization. This may mean you're not running on a Raspberry Pi or the GPIO pins are already in use.")
             import traceback
             traceback.print_exc()
+            print("Tip: r conflicting uses of the GPIO pin. You can also call GPIO.cleanup() before setup.")
 
             self.buttonUse = False
 
