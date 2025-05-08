@@ -16,10 +16,10 @@ class piComponents:
         self.ledPin = ledPin
         print(f"[piComponents] Initialized with buttonPin={self.buttonPin}, ledPin={self.ledPin}")
         try:
-            print("[piComponents] GPIO.cleanup() called to reset any previous configuration")
-            GPIO.cleanup()
             print("[piComponents] GPIO mode set to BCM")
             GPIO.setmode(GPIO.BCM)
+            print("[piComponents] GPIO.cleanup() called to reset any previous configuration")
+            GPIO.cleanup()
             GPIO.setup(self.ledPin, GPIO.OUT)
             print(f"[piComponents] LED pin {self.ledPin} set as OUTPUT")
             print(f"[piComponents] Attempting to initialize Button on GPIO pin {self.buttonPin}")
