@@ -4,7 +4,9 @@ try:
     from gpiozero import Button
     import RPi.GPIO as GPIO
 except:
-    print("")
+    print("Failed to import gpiozero or RPi.GPIO. This likely means you're running on a non-Raspberry Pi environment.")
+    import traceback
+    traceback.print_exc()
 
 
 class piComponents:
@@ -18,6 +20,10 @@ class piComponents:
             self.button = Button(self.buttonPin)
             self.buttonUse = True
         except:
+            print("Exception during GPIO/Button initialization. This may mean you're not running on a Raspberry Pi or the GPIO pins are already in use.")
+            import traceback
+            traceback.print_exc()
+
             self.buttonUse = False
 
     def checkButtonPress(self):
