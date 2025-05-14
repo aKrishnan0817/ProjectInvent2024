@@ -2,7 +2,7 @@ import sys
 sys.path.append('../')
 
 from prompts import promptList, version
-
+EMOTIONS = ["Anxious", "Happy", "Angry", "Calm", "Sad"]
 tools = [
     {
         "type": "function",
@@ -104,6 +104,36 @@ tools = [
                     },
                 },
             },
+        }
+    },
+    {
+        "type": "function",
+        "name": "record_emotion_intensity",
+        "description": "Record the user's emotion, it's intensity, the context, and a follow-up response inside a JSON object.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "emotion": {
+                    "type": "string",
+                    "enum": EMOTIONS
+                },
+                "rating": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 10,
+                    "description": "User's self-reported intensity of the emotion. If given a word to describe the emotion, convert it to a number based on the intensity of the descriptor"
+                },
+                "context": {
+                    "type": "string",
+                    "description": "A brief description of the context of the conversation."
+                },
+                "convo": {
+                    "type": "string",
+                    "description": "A response to the user to continue the conversation. "
+                }
+
+            },
+            "required": ["emotion", "rating", "context", "convo"]
         }
     }
 

@@ -11,7 +11,7 @@ from speech_to_text import speech_to_text, getSpeech
 from toolkit.tools import tools
 from toolkit.noTools import noTools
 
-MODEL = "gpt-4o-audio"
+MODEL = "gpt-4o"
 
 def timer_func(func):
     # This function shows the execution time of

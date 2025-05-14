@@ -3,6 +3,7 @@ from Modes.copingSkillsMode import copingSkills
 from Modes.distress import distressMode
 from Modes.gameMode import gameMode
 from Modes.storyMode import storyMode
+from Modes.emotionTracking import *
 from gptMessagePrepare import prepare_message
 from piComponents import piComponents
 
@@ -32,6 +33,8 @@ while (True):
                                                         button=button)  # preparing the messages for ChatGPT
 
     mainFuncCall = functionCalled
+    if functionCalled == "record_emotion_intensity":
+        functionCalled = emotionTracking(inputType, button = button)
 
     if functionCalled == "distress":
         functionCalled = distressMode(email, password, gaurdianEmail, iprompt, inputType, button=button)

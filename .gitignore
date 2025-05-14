@@ -7,3 +7,4 @@ GPT-Connector/audio_file.wav
 GPT-Connector/gptOutput.mp3
 GPT-Connector/output_audio.wav
 GPT-Connector/sensitiveData.pyc
+.env
