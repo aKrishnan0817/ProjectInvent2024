@@ -50,15 +50,41 @@ def prepare_message(iprompt, inputType, functionCalling=tools, button=None):
         if MODEL == "gpt-4o":
             uinput = timer_func(speech_to_text)(button)
             iprompt.append({"role": "user", "content": uinput})
-            response = timer_func(client.chat.completions.create)(model="gpt-4o", messages=iprompt, tools=noTools,
+            response = timer_func(client.chat.completions.create)(model="gpt-4o", messages=iprompt, tools=functionCalling,
                                                               tool_choice="auto")
             text = response.choices[0].message.content
             try:
-                functionCalled = response.choices[0].message.tool_calls[0].function.name
-                print("Function called:", functionCalled)
-
-                # response=client.chat.completions.create(model="gpt-4",messages=iprompt)
-            except:
+                if response.choices[0].message.tool_calls:
+                    functionCalled = response.choices[0].message.tool_calls[0].function.name
+                    print("Function called:", functionCalled)
+                    
+                    # Extract the function arguments as JSON string
+                    function_args = response.choices[0].message.tool_calls[0].function.arguments
+                    print("Function arguments:", function_args)
+                    
+                    # Set text to the function arguments string for further processing
+                    text = function_args
+                    
+                    # Add the assistant's response to the prompt
+                    iprompt.append({
+                        "role": "assistant", 
+                        "content": None,
+                        "tool_calls": [{
+                            "id": response.choices[0].message.tool_calls[0].id,
+                            "type": "function",
+                            "function": {
+                                "name": functionCalled,
+                                "arguments": function_args
+                            }
+                        }]
+                    })
+                else:
+                    functionCalled = None
+                    print("OWL response:", text)
+                    iprompt.append({"role": "assistant", "content": text})
+                    timer_func(ttsPlay)(text)
+            except Exception as e:
+                print(f"Error processing function call: {e}")
                 functionCalled = None
                 print("OWL response:", text)
                 iprompt.append({"role": "assistant", "content": text})
@@ -161,14 +187,42 @@ def prepare_message(iprompt, inputType, functionCalling=tools, button=None):
             #    play_audio(f)
 
     try:
-        functionCalled = response.choices[0].message.tool_calls[0].function.name
-        print("Function called:", functionCalled)
-
-        # response=client.chat.completions.create(model="gpt-4",messages=iprompt)
-    except:
+        if response and response.choices and response.choices[0].message.tool_calls:
+            functionCalled = response.choices[0].message.tool_calls[0].function.name
+            print("Function called:", functionCalled)
+            
+            # Extract the function arguments as JSON string
+            function_args = response.choices[0].message.tool_calls[0].function.arguments
+            print("Function arguments:", function_args)
+            
+            # Set text to the function arguments string for further processing
+            text = function_args
+            
+            # Add the assistant's response to the prompt if not already added
+            if len(iprompt) == 0 or iprompt[-1]["role"] != "assistant":
+                iprompt.append({
+                    "role": "assistant", 
+                    "content": None,
+                    "tool_calls": [{
+                        "id": response.choices[0].message.tool_calls[0].id,
+                        "type": "function",
+                        "function": {
+                            "name": functionCalled,
+                            "arguments": function_args
+                        }
+                    }]
+                })
+        else:
+            functionCalled = None
+            print("OWL response:", text)
+            if text and (len(iprompt) == 0 or iprompt[-1]["role"] != "assistant"):
+                iprompt.append({"role": "assistant", "content": text})
+    except Exception as e:
+        print(f"Error processing function call: {e}")
         functionCalled = None
         print("OWL response:", text)
-        iprompt.append({"role": "assistant", "content": text})
+        if text and (len(iprompt) == 0 or iprompt[-1]["role"] != "assistant"):
+            iprompt.append({"role": "assistant", "content": text})
 
 
 

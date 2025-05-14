@@ -26,5 +26,33 @@ def emotionTracking(inputType, button = None):
         iprompt, emotion, func = prepare_message(iprompt, inputType, emotionTools.emotionTool, button=button)
         print(emotion)
         print(func)
+        
+        # Process the emotion data if the record_emotion_intensity function was called
+        if func == "record_emotion_intensity" and emotion:
+            try:
+                import json
+                print("Raw emotion data:", emotion)
+                # Try to parse the emotion data
+                emotion_data = json.loads(emotion)
+                print("Parsed emotion data:", emotion_data)
+                
+                if "emotion" in emotion_data and "rating" in emotion_data:
+                    # Log the emotion to the website
+                    context_note = emotion_data.get("context", "Self Reported During Session")
+                    child.log_emotion(emotion_data["emotion"], emotion_data["rating"], context_note)
+                    print(f"Logged emotion: {emotion_data['emotion']} with intensity {emotion_data['rating']} to website")
+                    
+                    # Respond to the user
+                    response = emotion_data.get("convo", "Thank you for sharing how you feel.")
+                    print("OWL response:", response)
+                    ttsPlay(response)
+                else:
+                    print("Missing required fields in emotion data.")
+                    print("Available keys:", list(emotion_data.keys()))
+            except Exception as e:
+                print(f"Error processing emotion data: {e}")
+                print(f"Type of emotion data: {type(emotion)}")
+                print(f"Raw emotion data: {emotion}")
+                
         if func in ["story", "stop", "distress", "coping", "game"]:
             return func

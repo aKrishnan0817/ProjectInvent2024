@@ -22,7 +22,7 @@ password = sensitiveData.emailPassword
 gaurdianEmail = sensitiveData.userContactAddress  # put this in sensitiveData as to not expose anyones private number
 # ---------------------------------------------
 mainFuncCall = None
-functionCalled = None
+functionCalled = "record_emotion_intensity"
 
 button = piComponents(buttonPin=2, ledPin=4)
 
