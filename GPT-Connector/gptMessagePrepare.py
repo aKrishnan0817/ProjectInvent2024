@@ -10,6 +10,7 @@ from TTS import ttsPlay, play_audio
 from speech_to_text import speech_to_text, getSpeech
 from toolkit.tools import tools
 from toolkit.noTools import noTools
+import json
 
 MODEL = "gpt-4o"
 
@@ -62,22 +63,52 @@ def prepare_message(iprompt, inputType, functionCalling=tools, button=None):
                     function_args = response.choices[0].message.tool_calls[0].function.arguments
                     print("Function arguments:", function_args)
                     
-                    # Set text to the function arguments string for further processing
-                    text = function_args
-                    
-                    # Add the assistant's response to the prompt
+                    # Set up assistant message with tool call
+                    tool_call = response.choices[0].message.tool_calls[0]
+                    tool_call_id = tool_call.id
+                    function_name = tool_call.function.name
+                    function_args = json.loads(tool_call.function.arguments)
+
                     iprompt.append({
-                        "role": "assistant", 
+                        "role": "assistant",
                         "content": None,
                         "tool_calls": [{
-                            "id": response.choices[0].message.tool_calls[0].id,
+                            "id": tool_call_id,
                             "type": "function",
                             "function": {
-                                "name": functionCalled,
-                                "arguments": function_args
+                                "name": function_name,
+                                "arguments": json.dumps(function_args)
                             }
                         }]
                     })
+
+                    # Run the corresponding tool function
+                    if functionCalling and function_name in functionCalling:
+                        try:
+                            tool_func = functionCalling[function_name]
+                            tool_result = tool_func(**function_args)
+                            tool_response = json.dumps(tool_result) if not isinstance(tool_result, str) else tool_result
+                        except Exception as e:
+                            tool_response = f"Error executing tool: {str(e)}"
+                    else:
+                        tool_response = f"No such tool: {function_name}"
+
+                    # Add tool response message
+                    iprompt.append({
+                        "role": "tool",
+                        "tool_call_id": tool_call_id,
+                        "content": tool_response
+                    })
+
+                    # Make second call to get final assistant message
+                    response2 = timer_func(client.chat.completions.create)(
+                        model=MODEL,
+                        messages=iprompt
+                    )
+
+                    final_reply = response2.choices[0].message.content
+                    iprompt.append({"role": "assistant", "content": final_reply})
+                    text = final_reply
                 else:
                     functionCalled = None
                     print("OWL response:", text)
