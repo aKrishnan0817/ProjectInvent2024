@@ -71,7 +71,7 @@ def getSpeech(button):
             # Button is now pressed, LED is on
             try:
                 print("4. Listening...")
-                recognizer.adjust_for_ambient_noise(source)
+                #recognizer.adjust_for_ambient_noise(source)
                 # Set a timeout that's longer than expected button press
                 audio = recognizer.listen(source, timeout=30)
             except:
