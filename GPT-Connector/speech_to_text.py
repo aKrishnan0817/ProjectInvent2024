@@ -20,8 +20,8 @@ try:
 except:
     print("")
 
-recognizer = sr.Recognizer()  # tweak once for your room
-microphone = sr.Microphone(device_index=1)
+recognizer = sr.Recognizer()
+microphone = sr.Microphone(device_index=2)
 CALIBRATION_TIME = 1
 print("Calibrating mic for", CALIBRATION_TIME, "s …")
 with microphone as source:
@@ -70,15 +70,13 @@ def getSpeech(button):
     print("Say something...")
     if button.getButtonUse():
         print("Waiting for button press …")
-        button.button.wait_for_press()   # debounced, blocking
+        button.button.wait_for_press()
         button.setLed(1)
 
         try:
-            with microphone as source:
-                print("4. Listening...")
-                #recognizer.adjust_for_ambient_noise(source)
-                # Set a timeout that's longer than expected button press
-                audio = recognizer.listen(microphone, timeout=15)
+            print("4. Listening...")
+            # Set a timeout that's longer than expected button press
+            audio = recognizer.listen(microphone, timeout=15)
         except sr.WaitTimeoutError:
             print("Nothing heard within 15 s")
             audio = None
