@@ -34,8 +34,8 @@ print("Calibrating mic for ", CALIBRATION_TIME, "s…", sep='')
 recognizer.adjust_for_ambient_noise(live_source, duration=CALIBRATION_TIME)
 print("Energy threshold set at", recognizer.energy_threshold, "but will dynamically change")
 recognizer.dynamic_energy_threshold = True
-recognizer.pause_threshold = 1.5
-recognizer.non_speaking_duration = 0.3
+#recognizer.pause_threshold = 1.5
+#recognizer.non_speaking_duration = 0.3
 
 
 
