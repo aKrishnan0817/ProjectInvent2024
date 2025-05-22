@@ -3,7 +3,6 @@ import time
 try:
     from gpiozero import Button
     import RPi.GPIO as GPIO
-
     from gpiozero.pins.lgpio import LGPIOFactory
     from gpiozero import Button
 
@@ -17,11 +16,13 @@ class piComponents:
     def __init__(self, buttonPin, ledPin):
         self.buttonPin = buttonPin
         self.ledPin = ledPin
+        print("1. Check that we're connected to Raspberry PI and not computer")
         try:
             GPIO.setmode(GPIO.BCM)
             GPIO.setup(self.ledPin, GPIO.OUT)
             self.button = Button(self.buttonPin)
             print("Button initialized on pin", self.buttonPin)
+            print("LED initialized on pin", self.ledPin)
             self.buttonUse = True
         except Exception as e:
             print("Error initializing GPIO:", e)
@@ -30,6 +31,7 @@ class piComponents:
     def checkButtonPress(self):
         if self.buttonUse:
             if self.button.is_pressed:
+                print("3. Button pressed")
                 self.setLed(1)
                 return True
             else:

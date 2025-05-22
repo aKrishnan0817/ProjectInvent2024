@@ -63,11 +63,12 @@ def getSpeech(button):
         recognizer.adjust_for_ambient_noise(source)
         if button.getButtonUse():
             # Wait for button press
+            print('2. Waiting for button press...')
             while not button.checkButtonPress():
                 time.sleep(0.1)  # Small delay to avoid CPU hogging
             # Button is now pressed, LED is on
             try:
-                print("Listening...")
+                print("4. Listening...")
                 # Set a timeout that's longer than expected button press
                 audio = recognizer.listen(source, timeout=30)
             except:
