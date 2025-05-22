@@ -62,7 +62,6 @@ def getSpeech(button):
     print("?2 Is the microphone listening now?")
     with sr.Microphone() as source:
         print("Say something...")
-        recognizer.adjust_for_ambient_noise(source)
         print("?3 Is the microphone listening now?")
         if button.getButtonUse():
             # Wait for button press
@@ -72,6 +71,7 @@ def getSpeech(button):
             # Button is now pressed, LED is on
             try:
                 print("4. Listening...")
+                recognizer.adjust_for_ambient_noise(source)
                 # Set a timeout that's longer than expected button press
                 audio = recognizer.listen(source, timeout=30)
             except:
