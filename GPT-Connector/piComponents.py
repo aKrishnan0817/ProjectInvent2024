@@ -3,8 +3,13 @@ import time
 try:
     from gpiozero import Button
     import RPi.GPIO as GPIO
-except:
-    print("")
+
+    from gpiozero.pins.lgpio import LGPIOFactory
+    from gpiozero import Button
+
+    Button.pin_factory = LGPIOFactory()  # force gpiozero to use lgpio
+except Exception as e:
+    print("GPIO libraries not available. Running in non-GPIO mode. Error:", e)
 
 
 class piComponents:
@@ -39,11 +44,8 @@ class piComponents:
     # 0 for off - 1 for on
     def setLed(self, onOff):
         if self.buttonUse:
-            GPIO.setup(self.ledPin, GPIO.OUT)
-            if onOff:
-                GPIO.output(self.ledPin, GPIO.HIGH)
-                print("turning led on")
-            GPIO.output(self.ledPin, GPIO.LOW)
+            GPIO.output(self.ledPin, GPIO.HIGH if onOff else GPIO.LOW)
+            print("turning led on" if onOff else "turning led off")
 
     def getButtonUse(self):
         return self.buttonUse
