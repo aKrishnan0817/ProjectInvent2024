@@ -16,8 +16,10 @@ class piComponents:
             GPIO.setmode(GPIO.BCM)
             GPIO.setup(self.ledPin, GPIO.OUT)
             self.button = Button(self.buttonPin)
+            print("Button initialized on pin", self.buttonPin)
             self.buttonUse = True
-        except:
+        except Exception as e:
+            print("Error initializing GPIO:", e)
             self.buttonUse = False
 
     def checkButtonPress(self):

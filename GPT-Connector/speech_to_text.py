@@ -1,5 +1,6 @@
 import os
 import sys
+import time
 
 import speech_recognition as sr
 from langdetect import detect
@@ -23,7 +24,6 @@ except:
 def speech_to_text(button):
     text = None
     while text == None or detect(text) != "en":
-
         getSpeech(button)
         try:
             print("Transcribing...")
