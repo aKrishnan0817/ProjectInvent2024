@@ -58,18 +58,19 @@ def speech_to_text(button):
 
 def getSpeech(button):
     print("?1 Is the microphone listening now?")
-    recognizer = sr.Recognizer()
-    print("?2 Is the microphone listening now?")
-    with sr.Microphone() as source:
-        print("Say something...")
-        print("?3 Is the microphone listening now?")
-        if button.getButtonUse():
-            # Wait for button press
-            print('2. Waiting for button press...')
-            while not button.checkButtonPress():
-                time.sleep(0.1)  # Small delay to avoid CPU hogging
-            # Button is now pressed, LED is on
+    #with sr.Microphone() as source:
+    print("Say something...")
+    print("?3 Is the microphone listening now?")
+    if button.getButtonUse():
+        # Wait for button press
+        print('2. Waiting for button press...')
+        while not button.checkButtonPress():
+            time.sleep(0.1)  # Small delay to avoid CPU hogging
+        # Button is now pressed, LED is on
+        with sr.Microphone() as source:
             try:
+                print("?2 Is the microphone listening now?")
+                recognizer = sr.Recognizer()
                 print("4. Listening...")
                 #recognizer.adjust_for_ambient_noise(source)
                 # Set a timeout that's longer than expected button press
@@ -78,11 +79,11 @@ def getSpeech(button):
                 print("couldn't listen")
                 button.setLed(0)  # Ensure LED is off
                 return None
-            # Turn off LED when done
-            button.setLed(0)
-        else:
-            print("using mic with no button")
-            audio = recognizer.listen(source, timeout=10)
+        # Turn off LED when done
+        button.setLed(0)
+    else:
+        print("using mic with no button")
+        #audio = recognizer.listen(source, timeout=10)
     try:
         with open("audio_file.wav", "wb") as file:
             file.write(audio.get_wav_data())
