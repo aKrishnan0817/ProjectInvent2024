@@ -7,7 +7,6 @@ from openai import OpenAI
 
 sys.path.append('../')
 import sensitiveData
-import time
 
 API_KEY = sensitiveData.apiKey
 client = OpenAI(api_key=API_KEY)
@@ -80,6 +79,13 @@ def getSpeech(button):
         else:
             print("using mic with no button")
             audio = recognizer.listen(source, timeout=10)
+    try:
+        with open("audio_file.wav", "wb") as file:
+            file.write(audio.get_wav_data())
+        return "audio_file.wav"
+    except:
+        print("couldnt write audio file")
+        return None
 
 if __name__ == "__main__":
     button = piComponents(buttonPin=2, ledPin=4)
