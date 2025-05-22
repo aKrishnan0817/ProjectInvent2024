@@ -22,16 +22,17 @@ class piComponents:
 
     def checkButtonPress(self):
         if self.buttonUse:
-            while True:
-                if self.button.is_pressed:
-                    self.setLed(1)
-                    time.sleep(1)
-                    self.setLed(0)
-                    return True
+            if self.button.is_pressed:
+                self.setLed(1)
+                return True
+            else:
+                self.setLed(0)
+        return False
 
-                else:
-                    self.setLed(0)
-        return None
+    def isButtonPressed(self):
+        if self.buttonUse:
+            return self.button.is_pressed
+        return False
 
     # 0 for off - 1 for on
     def setLed(self, onOff):

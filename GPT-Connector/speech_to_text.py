@@ -7,6 +7,7 @@ from openai import OpenAI
 
 sys.path.append('../')
 import sensitiveData
+import time
 
 API_KEY = sensitiveData.apiKey
 client = OpenAI(api_key=API_KEY)
@@ -53,34 +54,32 @@ def speech_to_text(button):
         except sr.RequestError as e:
             print(f"Error connecting to Google API: {e}")
             os.remove("audio_file.wav")
+    return None
 
 
 def getSpeech(button):
     recognizer = sr.Recognizer()
-
     with sr.Microphone() as source:
         print("Say something...")
         recognizer.adjust_for_ambient_noise(source)
         if button.getButtonUse():
-            if button.checkButtonPress():
-                try:
-                    audio = recognizer.listen(source, timeout=10)  # Record audio for up to 4 seconds
-                except:
-                    print("couldnt listen")
-            else:
-                GPIO.output(4, GPIO.LOW)
+            # Wait for button press
+            while not button.checkButtonPress():
+                time.sleep(0.1)  # Small delay to avoid CPU hogging
+            # Button is now pressed, LED is on
+            try:
+                print("Listening...")
+                # Set a timeout that's longer than expected button press
+                audio = recognizer.listen(source, timeout=30)
+            except:
+                print("couldn't listen")
+                button.setLed(0)  # Ensure LED is off
+                return None
+            # Turn off LED when done
+            button.setLed(0)
         else:
             print("using mic with no button")
             audio = recognizer.listen(source, timeout=10)
-    if button.getButtonUse():
-        GPIO.output(4, GPIO.LOW)
-    try:
-        with open("audio_file.wav", "wb") as file:
-            file.write(audio.get_wav_data())
-        return "audio_file.wav"
-    except:
-        print("couldnt write audio file")
-        return None
 
 if __name__ == "__main__":
     button = piComponents(buttonPin=2, ledPin=4)
