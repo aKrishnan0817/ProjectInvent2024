@@ -1,7 +1,6 @@
+import atexit
 import os
 import sys
-import time
-import atexit
 
 import speech_recognition as sr
 from langdetect import detect
@@ -35,6 +34,8 @@ print("Calibrating mic for", CALIBRATION_TIME, "s …")
 recognizer.adjust_for_ambient_noise(live_source, duration=CALIBRATION_TIME)
 recognizer.dynamic_energy_threshold = False
 print("Energy threshold locked at", recognizer.energy_threshold)
+recognizer.pause_threshold       = 1.5
+recognizer.non_speaking_duration = 0.3
 
 
 
@@ -74,7 +75,7 @@ def speech_to_text(button):
 
 
 def getSpeech(button):
-    print("?1 Is the microphone listening now?")
+    #print("?1 Is the microphone listening now?")
     print("Say something...")
     if button.getButtonUse():
         print("Waiting for button press …")
@@ -83,7 +84,7 @@ def getSpeech(button):
         try:
             print("Listening...")
             button.setLed(1)
-            audio = recognizer.listen(live_source, timeout=15)
+            audio = recognizer.listen(live_source, timeout=15, phrase_time_limit=None)
         except sr.WaitTimeoutError:
             print("Nothing heard within 15 s")
             audio = None
@@ -94,7 +95,7 @@ def getSpeech(button):
             return None
     else:
         print("using mic with no button")
-        audio = recognizer.listen(live_source, timeout=15)
+        audio = recognizer.listen(live_source, timeout=15, phrase_time_limit=None)
 
     try:
         with open("audio_file.wav", "wb") as file:

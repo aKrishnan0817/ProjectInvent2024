@@ -1,22 +1,27 @@
 print("Starting GPT-Connector...")
-print("Destroying ALSA error handler...")
-from ctypes import c_char_p, c_int, CFUNCTYPE, cdll
+import ctypes
+from ctypes import c_char_p, c_int, CFUNCTYPE
 
-# STEP 1: build a C callback that does nothing
-ERROR_HANDLER_FUNC = CFUNCTYPE(None,     # return type
-                               c_char_p, # file
-                               c_int,    # line
-                               c_char_p, # function
-                               c_int,    # err
-                               c_char_p) # fmt
-def _py_alsa_err_handler(file, line, func, err, fmt):
-    pass
-c_error_handler = ERROR_HANDLER_FUNC(_py_alsa_err_handler)
 
-# STEP 2: load libasound and register the handler
-asound = cdll.LoadLibrary("libasound.so")
-asound.snd_lib_error_set_handler(c_error_handler)
+print("Loading ALSA library...")
+try:
+    _libasound = ctypes.cdll.LoadLibrary("libasound.so")
+    ALSA_ERR_FUNC = CFUNCTYPE(None, c_char_p, c_int, c_char_p, c_int, c_char_p)
+    def _alsa_err_handler(file, line, func, err, fmt):  # noqa: U100
+        pass
+    _alsa_silencer = ALSA_ERR_FUNC(_alsa_err_handler)
+    _libasound.snd_lib_error_set_handler(_alsa_silencer)
+except Exception as e:
+    print("Error loading ALSA library:", e)
 
+print("Loading JACK library...")
+try:
+    _libjack = ctypes.cdll.LoadLibrary("libjack.so.0")   # .so may vary
+    JACK_ERR_FUNC = CFUNCTYPE(None, c_char_p)
+    _jack_silencer = JACK_ERR_FUNC(lambda msg: None)
+    _libjack.jack_set_error_function(_jack_silencer)
+except Exception as e:
+    print("Error loading JACK library:", e)
 
 
 
