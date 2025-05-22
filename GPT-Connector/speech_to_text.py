@@ -71,7 +71,7 @@ def getSpeech(button):
     if button.getButtonUse():
         print("Waiting for button press …")
         button.button.wait_for_press()   # debounced, blocking
-        button.led_on()
+        button.setLed(1)
 
         try:
             with microphone as source:
@@ -83,7 +83,7 @@ def getSpeech(button):
             print("Nothing heard within 15 s")
             audio = None
         finally:
-            button.led_off()
+            button.setLed(0)
 
         if not audio:
             return None
