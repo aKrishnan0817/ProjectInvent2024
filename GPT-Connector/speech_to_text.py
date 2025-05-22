@@ -26,6 +26,7 @@ recognizer = sr.Recognizer()
 microphone = sr.Microphone(device_index=1)
 
 # ---- permanently open the PortAudio stream ----
+print("Binding PortAudio stream to microphone...")
 live_source = microphone.__enter__()
 atexit.register(microphone.__exit__, None, None, None)
 
