@@ -57,10 +57,13 @@ def speech_to_text(button):
 
 
 def getSpeech(button):
+    print("?1 Is the microphone listening now?")
     recognizer = sr.Recognizer()
+    print("?2 Is the microphone listening now?")
     with sr.Microphone() as source:
         print("Say something...")
         recognizer.adjust_for_ambient_noise(source)
+        print("?3 Is the microphone listening now?")
         if button.getButtonUse():
             # Wait for button press
             print('2. Waiting for button press...')
