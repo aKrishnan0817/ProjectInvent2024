@@ -29,12 +29,12 @@ print("Binding PortAudio stream to microphone...")
 live_source = microphone.__enter__()
 atexit.register(microphone.__exit__, None, None, None)
 
-CALIBRATION_TIME = 1
-print("Calibrating mic for", CALIBRATION_TIME, "s …")
+CALIBRATION_TIME = 2
+print("Calibrating mic for ", CALIBRATION_TIME, "s…", sep='')
 recognizer.adjust_for_ambient_noise(live_source, duration=CALIBRATION_TIME)
-recognizer.dynamic_energy_threshold = False
-print("Energy threshold locked at", recognizer.energy_threshold)
-recognizer.pause_threshold       = 1.5
+print("Energy threshold set at", recognizer.energy_threshold, "but will dynamically change")
+recognizer.dynamic_energy_threshold = True
+recognizer.pause_threshold = 1.5
 recognizer.non_speaking_duration = 0.3
 
 
@@ -84,7 +84,7 @@ def getSpeech(button):
         try:
             print("Listening...")
             button.setLed(1)
-            audio = recognizer.listen(live_source, timeout=15, phrase_time_limit=None)
+            audio = recognizer.listen(live_source, timeout=15)
         except sr.WaitTimeoutError:
             print("Nothing heard within 15 s")
             audio = None
@@ -95,7 +95,7 @@ def getSpeech(button):
             return None
     else:
         print("using mic with no button")
-        audio = recognizer.listen(live_source, timeout=15, phrase_time_limit=None)
+        audio = recognizer.listen(live_source, timeout=15)
 
     try:
         with open("audio_file.wav", "wb") as file:
