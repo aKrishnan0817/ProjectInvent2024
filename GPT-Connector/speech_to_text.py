@@ -20,6 +20,15 @@ try:
 except:
     print("")
 
+recognizer = sr.Recognizer()  # tweak once for your room
+microphone = sr.Microphone(device_index=1)
+CALIBRATION_TIME = 1
+print("Calibrating mic for", CALIBRATION_TIME, "s …")
+with microphone as source:
+    recognizer.adjust_for_ambient_noise(source, duration=CALIBRATION_TIME)
+recognizer.dynamic_energy_threshold = False
+print("Energy threshold locked at", recognizer.energy_threshold)
+
 
 def speech_to_text(button):
     text = None
@@ -58,32 +67,30 @@ def speech_to_text(button):
 
 def getSpeech(button):
     print("?1 Is the microphone listening now?")
-    #with sr.Microphone() as source:
     print("Say something...")
-    print("?3 Is the microphone listening now?")
     if button.getButtonUse():
-        # Wait for button press
-        print('2. Waiting for button press...')
-        while not button.checkButtonPress():
-            time.sleep(0.1)  # Small delay to avoid CPU hogging
-        # Button is now pressed, LED is on
-        with sr.Microphone() as source:
-            try:
-                print("?2 Is the microphone listening now?")
-                recognizer = sr.Recognizer()
+        print("Waiting for button press …")
+        button.button.wait_for_press()   # debounced, blocking
+        button.led_on()
+
+        try:
+            with microphone as source:
                 print("4. Listening...")
                 #recognizer.adjust_for_ambient_noise(source)
                 # Set a timeout that's longer than expected button press
-                audio = recognizer.listen(source, timeout=30)
-            except:
-                print("couldn't listen")
-                button.setLed(0)  # Ensure LED is off
-                return None
-        # Turn off LED when done
-        button.setLed(0)
+                audio = recognizer.listen(microphone, timeout=15)
+        except sr.WaitTimeoutError:
+            print("Nothing heard within 15 s")
+            audio = None
+        finally:
+            button.led_off()
+
+        if not audio:
+            return None
     else:
         print("using mic with no button")
-        #audio = recognizer.listen(source, timeout=10)
+        audio = recognizer.listen(microphone, timeout=10)
+
     try:
         with open("audio_file.wav", "wb") as file:
             file.write(audio.get_wav_data())
@@ -91,6 +98,7 @@ def getSpeech(button):
     except:
         print("couldnt write audio file")
         return None
+
 
 if __name__ == "__main__":
     button = piComponents(buttonPin=2, ledPin=4)
