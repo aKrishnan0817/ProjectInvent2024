@@ -18,8 +18,8 @@ from piComponents import piComponents
 try:
     from gpiozero import Button
     import RPi.GPIO as GPIO
-except:
-    print("")
+except Exception as e:
+    raise Exception("GPIO libraries not available: " + str(e))
 
 
 recognizer = sr.Recognizer()
@@ -81,8 +81,7 @@ def getSpeech(button):
         button.button.wait_for_press()
 
         try:
-            print("4. Listening...")
-            # Set a timeout that's longer than expected button press
+            print("Listening...")
             button.setLed(1)
             audio = recognizer.listen(live_source, timeout=15)
         except sr.WaitTimeoutError:
@@ -95,7 +94,7 @@ def getSpeech(button):
             return None
     else:
         print("using mic with no button")
-        audio = recognizer.listen(live_source, timeout=10)
+        audio = recognizer.listen(live_source, timeout=15)
 
     try:
         with open("audio_file.wav", "wb") as file:

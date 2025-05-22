@@ -1,3 +1,25 @@
+print("Starting GPT-Connector...")
+print("Destroying ALSA error handler...")
+from ctypes import c_char_p, c_int, CFUNCTYPE, cdll
+
+# STEP 1: build a C callback that does nothing
+ERROR_HANDLER_FUNC = CFUNCTYPE(None,     # return type
+                               c_char_p, # file
+                               c_int,    # line
+                               c_char_p, # function
+                               c_int,    # err
+                               c_char_p) # fmt
+def _py_alsa_err_handler(file, line, func, err, fmt):
+    pass
+c_error_handler = ERROR_HANDLER_FUNC(_py_alsa_err_handler)
+
+# STEP 2: load libasound and register the handler
+asound = cdll.LoadLibrary("libasound.so")
+asound.snd_lib_error_set_handler(c_error_handler)
+
+
+
+
 import sensitiveData
 from Modes.copingSkillsMode import copingSkills
 from Modes.distress import distressMode
